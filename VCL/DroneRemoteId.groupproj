@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{216FF8BA-F95A-4F50-8F13-4E08C73E21EB}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Delphi\DroneRemoteIdDelphi.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CBuilder\DroneRemoteIdCBuilder.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DroneRemoteIdDelphi">
+        <MSBuild Projects="Delphi\DroneRemoteIdDelphi.dproj"/>
+    </Target>
+    <Target Name="DroneRemoteIdDelphi:Clean">
+        <MSBuild Projects="Delphi\DroneRemoteIdDelphi.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DroneRemoteIdDelphi:Make">
+        <MSBuild Projects="Delphi\DroneRemoteIdDelphi.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DroneRemoteIdCBuilder">
+        <MSBuild Projects="CBuilder\DroneRemoteIdCBuilder.cbproj"/>
+    </Target>
+    <Target Name="DroneRemoteIdCBuilder:Clean">
+        <MSBuild Projects="CBuilder\DroneRemoteIdCBuilder.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DroneRemoteIdCBuilder:Make">
+        <MSBuild Projects="CBuilder\DroneRemoteIdCBuilder.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DroneRemoteIdDelphi;DroneRemoteIdCBuilder"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DroneRemoteIdDelphi:Clean;DroneRemoteIdCBuilder:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DroneRemoteIdDelphi:Make;DroneRemoteIdCBuilder:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

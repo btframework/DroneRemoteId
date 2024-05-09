@@ -1,0 +1,12 @@
+/**/bin
+/**/obj
+/**/build
+/**/__history
+
+*.db
+*.suo
+*.local
+*.txt
+*.stat
+*.identcache
+*.user
