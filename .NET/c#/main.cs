@@ -468,6 +468,17 @@ namespace DroneRemoteIdCSharp
                     return "Raw value: 0x" + ((Byte)UavType).ToString("X2");
             }
         }
+
+        private String VendorToText(wclWiFiDriMessage Message)
+        {
+            switch (Message.Vendor)
+            {
+                case wclWiFiDriVendor.driAsd:
+                    return "ASD";
+                default:
+                    return "UKNOWN";
+            }
+        }
         
         private void ShowAsdLocationMessage(wclWiFiDriAsdLocationMessage Message)
         {
@@ -612,6 +623,9 @@ namespace DroneRemoteIdCSharp
             ListViewItem Item = lvDetails.Items.Add("SSID");
             Item.SubItems.Add(Ssid);
 
+            Item = lvDetails.Items.Add("Vendor");
+            Item.SubItems.Add(VendorToText(Message));
+            
             Item = lvDetails.Items.Add("");
             Item.SubItems.Add("");
 

@@ -618,6 +618,17 @@ String __fastcall TfmMain::AsdUavTypeToText(TwclWiFiDriAsdUavType UavType)
 	}
 }
 //---------------------------------------------------------------------------
+String __fastcall TfmMain::VendorToText(TwclWiFiDriMessage* Message)
+{
+	switch (Message->Vendor)
+	{
+		case driAsd:
+			return "ASD";
+		default:
+			return "UKNOWN";
+	}
+}
+//---------------------------------------------------------------------------
 void __fastcall TfmMain::ShowAsdLocationMessage(
 	TwclWiFiDriAsdLocationMessage* Message)
 {
@@ -807,6 +818,10 @@ void __fastcall TfmMain::UpdateAsdMessageDetails(String Ssid,
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "SSID";
 	Item->SubItems->Add(Ssid);
+
+	Item = lvDetails->Items->Add();
+	Item->Caption = "Vendor";
+	Item->SubItems->Add(VendorToText(Message));
 
 	Item = lvDetails->Items->Add();
 	Item->Caption = "";

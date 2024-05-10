@@ -399,6 +399,15 @@
         End Select
     End Function
 
+    Private Function VendorToText(Message As wclWiFiDriMessage) As String
+        Select Case Message.Vendor
+            Case wclWiFiDriVendor.driAsd
+                Return "ASD"
+            Case Else
+                Return "UKNOWN"
+        End Select
+    End Function
+
     Private Sub ShowAsdLocationMessage(Message As wclWiFiDriAsdLocationMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("Baro Altitude")
         Item.SubItems.Add(AsdAltitudeToText(Message.BaroAltitude))
@@ -535,6 +544,9 @@
         Dim Item As ListViewItem = lvDetails.Items.Add("SSID")
         Item.SubItems.Add(Ssid)
 
+        Item = lvDetails.Items.Add("Vendor")
+        Item.SubItems.Add(VendorToText(Message))
+
         Item = lvDetails.Items.Add("")
         Item.SubItems.Add("")
 
@@ -670,7 +682,6 @@
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         WiFiClient = New wclWiFiClient()
-
         WiFiEvents = New wclWiFiEvents()
 
         FParser = New wclWiFiDriParser()

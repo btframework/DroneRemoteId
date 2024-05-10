@@ -89,6 +89,7 @@ private:
 	CString AsdEuUavClassToText(const wclWiDiDriAsdUavEuClass UavClass) const;
 	CString AsdIdTypeToText(const wclWiFiDriAsdIdType IdType) const;
 	CString AsdUavTypeToText(const wclWiFiDriAsdUavType UavType) const;
+	CString VendorToText(const CwclWiFiDriMessage* const Message) const;
 
 	void ShowAsdLocationMessage(const CwclWiFiDriAsdLocationMessage* const Message);
 	void ShowAsdSelfIdMessage(const CwclWiFiDriAsdSelfIdMessage* const Message);

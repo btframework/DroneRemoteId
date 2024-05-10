@@ -82,6 +82,7 @@ type
       const UavClass: TwclWiDiDriAsdUavEuClass): string;
     function AsdIdTypeToText(const IdType: TwclWiFiDriAsdIdType): string;
     function AsdUavTypeToText(const UavType: TwclWiFiDriAsdUavType): string;
+    function VendorToText(const Message: TwclWiFiDriMessage): string;
 
     procedure ShowAsdLocationMessage(
       const Message: TwclWiFiDriAsdLocationMessage);
@@ -906,6 +907,10 @@ begin
   Item.SubItems.Add(Ssid);
 
   Item := lvDetails.Items.Add;
+  Item.Caption := 'Vendor';
+  Item.SubItems.Add(VendorToText(Message));
+
+  Item := lvDetails.Items.Add;
   Item.Caption := '';
   Item.SubItems.Add('');
 
@@ -982,6 +987,16 @@ begin
   if DroneNode <> nil then begin
     UpdateDroneMessages(DroneNode, Messages);
     DroneNode.Expand(True);
+  end;
+end;
+
+function TfmMain.VendorToText(const Message: TwclWiFiDriMessage): string;
+begin
+  case Message.Vendor of
+    driAsd:
+      Result := 'ASD';
+    else
+      Result := 'UKNOWN';
   end;
 end;
 

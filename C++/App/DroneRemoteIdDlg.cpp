@@ -655,6 +655,17 @@ CString CDroneRemoteIdDlg::AsdUavTypeToText(const wclWiFiDriAsdUavType UavType) 
 	}
 }
 
+CString CDroneRemoteIdDlg::VendorToText(const CwclWiFiDriMessage* const Message) const
+{
+	switch (Message->Vendor)
+	{
+		case driAsd:
+			return _T("ASD");
+		default:
+			return _T("UKNOWN");
+	}
+}
+
 void CDroneRemoteIdDlg::ShowAsdLocationMessage(
 	const CwclWiFiDriAsdLocationMessage* const Message)
 {
@@ -840,6 +851,10 @@ void CDroneRemoteIdDlg::UpdateAsdMessageDetails(const CString& Ssid,
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("SSID"));
 	lvDetails.SetItemText(Item, 1, Ssid);
+	Item++;
+
+	lvDetails.InsertItem(Item, _T("Vendor"));
+	lvDetails.SetItemText(Item, 1, VendorToText(Message));
 	Item++;
 
 	lvDetails.InsertItem(Item, _T(""));

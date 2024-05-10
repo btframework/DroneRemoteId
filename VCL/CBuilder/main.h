@@ -88,6 +88,7 @@ private:	// User declarations
 	String __fastcall AsdEuUavClassToText(TwclWiDiDriAsdUavEuClass UavClass);
 	String __fastcall AsdIdTypeToText(TwclWiFiDriAsdIdType IdType);
 	String __fastcall AsdUavTypeToText(TwclWiFiDriAsdUavType UavType);
+	String __fastcall VendorToText(TwclWiFiDriMessage* Message);
 
 	void __fastcall ShowAsdLocationMessage(
 		TwclWiFiDriAsdLocationMessage* Message);
