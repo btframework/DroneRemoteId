@@ -468,7 +468,7 @@ namespace DroneRemoteIdCSharp
                     return "Raw value: 0x" + ((Byte)UavType).ToString("X2");
             }
         }
-
+        
         private void ShowAsdLocationMessage(wclWiFiDriAsdLocationMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("Baro Altitude");
@@ -825,7 +825,7 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void WiFiEventsMsmRadioStateChange(Object Sender, Guid IfaceId, wclWiFiPhyRadioState State)
+        private void WiFiEventsMsmRadioStateChange(Object sender, Guid IfaceId, wclWiFiPhyRadioState State)
         {
             if (FId == Guid.Empty)
                 EnumInterfaces();
@@ -843,7 +843,7 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void WiFiEventsBeforeClose(object sender, EventArgs e)
+        private void WiFiEventsBeforeClose(Object sender, EventArgs e)
         {
             Trace("WiFi Events closed");
         }
@@ -853,7 +853,7 @@ namespace DroneRemoteIdCSharp
             Trace("WiFi Events opened");
         }
 
-        private void WiFiEventsAcmScanFail(Object Sender, Guid IfaceId, int Reason)
+        private void WiFiEventsAcmScanFail(Object sender, Guid IfaceId, Int32 Reason)
         {
             if (FScanActive && FId == IfaceId)
             {
@@ -863,7 +863,7 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void WiFiEventsAcmScanComplete(Object Sender, Guid IfaceId)
+        private void WiFiEventsAcmScanComplete(Object sender, Guid IfaceId)
         {
             if (FScanActive && FId == IfaceId)
             {
@@ -873,7 +873,7 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void WiFiEventsAcmInterfaceRemoval(Object Sender, Guid IfaceId)
+        private void WiFiEventsAcmInterfaceRemoval(Object sender, Guid IfaceId)
         {
             if (FId == IfaceId)
             {
@@ -883,7 +883,7 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void WiFiEventsAcmInterfaceArrival(Object Sender, Guid IfaceId)
+        private void WiFiEventsAcmInterfaceArrival(Object sender, Guid IfaceId)
         {
             if (FId == Guid.Empty)
                 EnumInterfaces();
