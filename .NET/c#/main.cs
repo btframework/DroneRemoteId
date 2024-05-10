@@ -127,171 +127,171 @@ namespace DroneRemoteIdCSharp
             return Result;
         }
 
-        private String MessageTypeToText(wclWiFiDriAsdMessage Message)
+        private String MessageTypeToText(wclDriAsdMessage Message)
         {
             switch (Message.MessageType)
             {
-                case wclWiFiDriAsdMessageType.mtBasicId:
+                case wclDriAsdMessageType.mtBasicId:
                     return "BASIC ID";
-                case wclWiFiDriAsdMessageType.mtLocation:
+                case wclDriAsdMessageType.mtLocation:
                     return "LOCATION";
-                case wclWiFiDriAsdMessageType.mtAuth:
+                case wclDriAsdMessageType.mtAuth:
                     return "AUTH";
-                case wclWiFiDriAsdMessageType.mtSelfId:
+                case wclDriAsdMessageType.mtSelfId:
                     return "SELF ID";
-                case wclWiFiDriAsdMessageType.mtSystem:
+                case wclDriAsdMessageType.mtSystem:
                     return "SYSTEM";
-                case wclWiFiDriAsdMessageType.mtOperatorId:
+                case wclDriAsdMessageType.mtOperatorId:
                     return "OPERATOR ID";
                 default:
                     return "UNKNOWN";
             }
         }
 
-        private String AsdVerticalAccuracyToText(wclWiFiDriAsdUavVerticalAccuracy Accuracy)
+        private String AsdVerticalAccuracyToText(wclDriAsdUavVerticalAccuracy Accuracy)
         {
             switch (Accuracy)
             {
-                case wclWiFiDriAsdUavVerticalAccuracy.vaUnknown:
+                case wclDriAsdUavVerticalAccuracy.vaUnknown:
                     return "Unknow";
-                case wclWiFiDriAsdUavVerticalAccuracy.va150M:
+                case wclDriAsdUavVerticalAccuracy.va150M:
                     return "150 m";
-                case wclWiFiDriAsdUavVerticalAccuracy.va45M:
+                case wclDriAsdUavVerticalAccuracy.va45M:
                     return "45 m";
-                case wclWiFiDriAsdUavVerticalAccuracy.va25M:
+                case wclDriAsdUavVerticalAccuracy.va25M:
                     return "25 m";
-                case wclWiFiDriAsdUavVerticalAccuracy.va10M:
+                case wclDriAsdUavVerticalAccuracy.va10M:
                     return "10 m";
-                case wclWiFiDriAsdUavVerticalAccuracy.va3M:
+                case wclDriAsdUavVerticalAccuracy.va3M:
                     return "3 m";
-                case wclWiFiDriAsdUavVerticalAccuracy.va1M:
+                case wclDriAsdUavVerticalAccuracy.va1M:
                     return "1 m";
                 default:
                     return "Raw value: 0x" + ((Byte)Accuracy).ToString("X2");
             }
         }
 
-        private String AsdHeightReferenceToText(wclWiFiDriAsdUavHeightReference Reference)
+        private String AsdHeightReferenceToText(wclDriAsdUavHeightReference Reference)
         {
             switch (Reference)
             {
-                case wclWiFiDriAsdUavHeightReference.hrTakeOff:
+                case wclDriAsdUavHeightReference.hrTakeOff:
                     return "Take off";
-                case wclWiFiDriAsdUavHeightReference.hrGround:
+                case wclDriAsdUavHeightReference.hrGround:
                     return "Ground";
                 default:
                     return "Raw value: 0x" + ((Byte)Reference).ToString("X2");
             }
         }
 
-        private String AsdHorizontalAccuracyToText(wclWiFiDriAsdUavHorizontalAccuracy Accuracy)
+        private String AsdHorizontalAccuracyToText(wclDriAsdUavHorizontalAccuracy Accuracy)
         {
             switch (Accuracy)
             {
-                case wclWiFiDriAsdUavHorizontalAccuracy.haUnknown:
+                case wclDriAsdUavHorizontalAccuracy.haUnknown:
                     return "Unknown";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha10Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha10Nm:
                     return "10 miles";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha4Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha4Nm:
                     return "4 miles";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha2Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha2Nm:
                     return "2 miles";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha1Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha1Nm:
                     return "1 mile";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha05Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha05Nm:
                     return "0.5 mile";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha03Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha03Nm:
                     return "0.3 mile";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha01Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha01Nm:
                     return "0.1 mile";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha005Nm:
+                case wclDriAsdUavHorizontalAccuracy.ha005Nm:
                     return "0.05 mile";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha30M:
+                case wclDriAsdUavHorizontalAccuracy.ha30M:
                     return "30 meters";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha10M:
+                case wclDriAsdUavHorizontalAccuracy.ha10M:
                     return "10 meters";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha3M:
+                case wclDriAsdUavHorizontalAccuracy.ha3M:
                     return "3 meters";
-                case wclWiFiDriAsdUavHorizontalAccuracy.ha1M:
+                case wclDriAsdUavHorizontalAccuracy.ha1M:
                     return "1 meter";
                 default:
                     return "Raw value: 0x" + ((Byte)Accuracy).ToString("X2");
             }
         }
 
-        private String AsdSpeedAccuracyToText(wclWiFiDriAsdUavSpeedAccuracy Accuracy)
+        private String AsdSpeedAccuracyToText(wclDriAsdUavSpeedAccuracy Accuracy)
         {
             switch (Accuracy)
             {
-                case wclWiFiDriAsdUavSpeedAccuracy.saUnknown:
+                case wclDriAsdUavSpeedAccuracy.saUnknown:
                     return "Unknown";
-                case wclWiFiDriAsdUavSpeedAccuracy.sa10MS:
+                case wclDriAsdUavSpeedAccuracy.sa10MS:
                     return "10 m/s";
-                case wclWiFiDriAsdUavSpeedAccuracy.sa3MS:
+                case wclDriAsdUavSpeedAccuracy.sa3MS:
                     return "3 m/s";
-                case wclWiFiDriAsdUavSpeedAccuracy.sa1Ms:
+                case wclDriAsdUavSpeedAccuracy.sa1Ms:
                     return "1 m/s";
-                case wclWiFiDriAsdUavSpeedAccuracy.sa03Ms:
+                case wclDriAsdUavSpeedAccuracy.sa03Ms:
                     return "0.3 m/s";
                 default:
                     return "Raw value: 0x" + ((Byte)Accuracy).ToString("X2");
             }
         }
 
-        private String AsdStatusToText(wclWiFiDriAsdUavStatus Status)
+        private String AsdStatusToText(wclDriAsdUavStatus Status)
         {
             switch (Status)
             {
-                case wclWiFiDriAsdUavStatus.usUndeclared:
+                case wclDriAsdUavStatus.usUndeclared:
                     return "Undeclared";
-                case wclWiFiDriAsdUavStatus.usGround:
+                case wclDriAsdUavStatus.usGround:
                     return "Ground";
-                case wclWiFiDriAsdUavStatus.usAirborne:
+                case wclDriAsdUavStatus.usAirborne:
                     return "Airborne";
-                case wclWiFiDriAsdUavStatus.usEmergency:
+                case wclDriAsdUavStatus.usEmergency:
                     return "Emergency";
-                case wclWiFiDriAsdUavStatus.usFailure:
+                case wclDriAsdUavStatus.usFailure:
                     return "Failure";
                 default:
                     return "Raw value: 0x" + ((Byte)Status).ToString("X2");
             }
         }
 
-        private String AsdTimestampAccuracyToText(wclWiFiDriAsdUavTimestampAccuracy Accuracy)
+        private String AsdTimestampAccuracyToText(wclDriAsdUavTimestampAccuracy Accuracy)
         {
             switch (Accuracy)
             {
-                case wclWiFiDriAsdUavTimestampAccuracy.taUnknown:
+                case wclDriAsdUavTimestampAccuracy.taUnknown:
                     return "Unknown";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta01s:
+                case wclDriAsdUavTimestampAccuracy.ta01s:
                     return "0.1 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta02s:
+                case wclDriAsdUavTimestampAccuracy.ta02s:
                     return "0.2 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta03s:
+                case wclDriAsdUavTimestampAccuracy.ta03s:
                     return "0.3 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta04s:
+                case wclDriAsdUavTimestampAccuracy.ta04s:
                     return "0.4 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta05s:
+                case wclDriAsdUavTimestampAccuracy.ta05s:
                     return "0.5 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta06s:
+                case wclDriAsdUavTimestampAccuracy.ta06s:
                     return "0.6 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta07s:
+                case wclDriAsdUavTimestampAccuracy.ta07s:
                     return "0.7 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta08s:
+                case wclDriAsdUavTimestampAccuracy.ta08s:
                     return "0.8 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta09s:
+                case wclDriAsdUavTimestampAccuracy.ta09s:
                     return "0.9 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta1s:
+                case wclDriAsdUavTimestampAccuracy.ta1s:
                     return "1 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta11s:
+                case wclDriAsdUavTimestampAccuracy.ta11s:
                     return "1.1 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta12s:
+                case wclDriAsdUavTimestampAccuracy.ta12s:
                     return "1.2 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta13s:
+                case wclDriAsdUavTimestampAccuracy.ta13s:
                     return "1.3 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta14s:
+                case wclDriAsdUavTimestampAccuracy.ta14s:
                     return "1.4 second";
-                case wclWiFiDriAsdUavTimestampAccuracy.ta15s:
+                case wclDriAsdUavTimestampAccuracy.ta15s:
                     return "1.5 second";
                 default:
                     return "Raw value: 0x" + ((Byte)Accuracy).ToString("X2");
@@ -305,15 +305,15 @@ namespace DroneRemoteIdCSharp
             return Altitude.ToString();
         }
 
-        private String AsdDescriptionTypeToText(wclWiFiDriAsdDescriptionType DescriptionType)
+        private String AsdDescriptionTypeToText(wclDriAsdDescriptionType DescriptionType)
         {
             switch (DescriptionType)
             {
-                case wclWiFiDriAsdDescriptionType.dtText:
+                case wclDriAsdDescriptionType.dtText:
                     return "Text";
-                case wclWiFiDriAsdDescriptionType.dtEmergency:
+                case wclDriAsdDescriptionType.dtEmergency:
                     return "Emergency";
-                case wclWiFiDriAsdDescriptionType.dtExtended:
+                case wclDriAsdDescriptionType.dtExtended:
                     return "Extended";
                 default:
                     return "Raw value: 0x" + ((Byte)DescriptionType).ToString("X2");
@@ -341,146 +341,146 @@ namespace DroneRemoteIdCSharp
             return LatLon.ToString();
         }
 
-        private String AsdOperatorClassificationToText(wclWiDiDriAsdOperatorClassification Classification)
+        private String AsdOperatorClassificationToText(wclDriAsdOperatorClassification Classification)
         {
             switch (Classification)
             {
-                case wclWiDiDriAsdOperatorClassification.ocUndeclared:
+                case wclDriAsdOperatorClassification.ocUndeclared:
                     return "Undeclared";
-                case wclWiDiDriAsdOperatorClassification.ocEu:
+                case wclDriAsdOperatorClassification.ocEu:
                     return "EU";
                 default:
                     return "Raw value: 0x" + ((Byte)Classification).ToString("X2");
             }
         }
 
-        private String AsdLocationTypeToText(wclWiDiDriAsdOperatorLocationType Location)
+        private String AsdLocationTypeToText(wclDriAsdOperatorLocationType Location)
         {
             switch (Location)
             {
-                case wclWiDiDriAsdOperatorLocationType.ltTakeOff:
+                case wclDriAsdOperatorLocationType.ltTakeOff:
                     return "Take off";
-                case wclWiDiDriAsdOperatorLocationType.ltLiveGnss:
+                case wclDriAsdOperatorLocationType.ltLiveGnss:
                     return "Live GNSS";
-                case wclWiDiDriAsdOperatorLocationType.ltFixed:
+                case wclDriAsdOperatorLocationType.ltFixed:
                     return "Fixed";
                 default:
                     return "Raw value: 0x" + ((Byte)Location).ToString("X2");
             }
         }
 
-        private String AsdEuUavCategoryToText(wclWiDiDriAsdUavEuCategory Category)
+        private String AsdEuUavCategoryToText(wclDriAsdUavEuCategory Category)
         {
             switch (Category)
             {
-                case wclWiDiDriAsdUavEuCategory.ucUndeclared:
+                case wclDriAsdUavEuCategory.ucUndeclared:
                     return "Undeclared";
-                case wclWiDiDriAsdUavEuCategory.ucOpen:
+                case wclDriAsdUavEuCategory.ucOpen:
                     return "Open";
-                case wclWiDiDriAsdUavEuCategory.ucSpecific:
+                case wclDriAsdUavEuCategory.ucSpecific:
                     return "Specific";
-                case wclWiDiDriAsdUavEuCategory.ucCertified:
+                case wclDriAsdUavEuCategory.ucCertified:
                     return "Certified";
                 default:
                     return "Raw value: 0x" + ((Byte)Category).ToString("X2");
             }
         }
 
-        private String AsdEuUavClassToText(wclWiDiDriAsdUavEuClass UavClass)
+        private String AsdEuUavClassToText(wclDriAsdUavEuClass UavClass)
         {
             switch (UavClass)
             {
-                case wclWiDiDriAsdUavEuClass.ucUnspecified:
+                case wclDriAsdUavEuClass.ucUnspecified:
                     return "Unspecified";
-                case wclWiDiDriAsdUavEuClass.ucClass0:
+                case wclDriAsdUavEuClass.ucClass0:
                     return "Class 0";
-                case wclWiDiDriAsdUavEuClass.ucClass1:
+                case wclDriAsdUavEuClass.ucClass1:
                     return "Class 1";
-                case wclWiDiDriAsdUavEuClass.ucClass2:
+                case wclDriAsdUavEuClass.ucClass2:
                     return "Class 2";
-                case wclWiDiDriAsdUavEuClass.ucClass3:
+                case wclDriAsdUavEuClass.ucClass3:
                     return "Class 3";
-                case wclWiDiDriAsdUavEuClass.ucClass4:
+                case wclDriAsdUavEuClass.ucClass4:
                     return "Class 4";
-                case wclWiDiDriAsdUavEuClass.ucClass5:
+                case wclDriAsdUavEuClass.ucClass5:
                     return "Class 5";
-                case wclWiDiDriAsdUavEuClass.ucClass6:
+                case wclDriAsdUavEuClass.ucClass6:
                     return "Class 6";
                 default:
                     return "Raw value: 0x" + ((Byte)UavClass).ToString("X2");
             }
         }
 
-        private String AsdIdTypeToText(wclWiFiDriAsdIdType IdType)
+        private String AsdIdTypeToText(wclDriAsdIdType IdType)
         {
             switch (IdType)
             {
-                case wclWiFiDriAsdIdType.itNone:
+                case wclDriAsdIdType.itNone:
                     return "None";
-                case wclWiFiDriAsdIdType.itSerialNumber:
+                case wclDriAsdIdType.itSerialNumber:
                     return "Serial number";
-                case wclWiFiDriAsdIdType.itCaaRegistrationId:
+                case wclDriAsdIdType.itCaaRegistrationId:
                     return "CAA registration ID";
-                case wclWiFiDriAsdIdType.itUtmAssignedUuid:
+                case wclDriAsdIdType.itUtmAssignedUuid:
                     return "UTM assigned UUID";
-                case wclWiFiDriAsdIdType.itSpecificSessionId:
+                case wclDriAsdIdType.itSpecificSessionId:
                     return "Specific session ID";
                 default:
                     return "Raw value: 0x" + ((Byte)IdType).ToString("X2");
             }
         }
 
-        private String AsdUavTypeToText(wclWiFiDriAsdUavType UavType)
+        private String AsdUavTypeToText(wclDriAsdUavType UavType)
         {
             switch (UavType)
             {
-                case wclWiFiDriAsdUavType.utNone:
+                case wclDriAsdUavType.utNone:
                     return "None";
-                case wclWiFiDriAsdUavType.utAeroplane:
+                case wclDriAsdUavType.utAeroplane:
                     return "Aeroplane";
-                case wclWiFiDriAsdUavType.utCopter:
+                case wclDriAsdUavType.utCopter:
                     return "Copter";
-                case wclWiFiDriAsdUavType.utGyroplane:
+                case wclDriAsdUavType.utGyroplane:
                     return "Gyroplane";
-                case wclWiFiDriAsdUavType.utHybridLift:
+                case wclDriAsdUavType.utHybridLift:
                     return "Hybrid";
-                case wclWiFiDriAsdUavType.utOrnithopter:
+                case wclDriAsdUavType.utOrnithopter:
                     return "Ornithopter";
-                case wclWiFiDriAsdUavType.utGlider:
+                case wclDriAsdUavType.utGlider:
                     return "Glider";
-                case wclWiFiDriAsdUavType.utKite:
+                case wclDriAsdUavType.utKite:
                     return "Kite";
-                case wclWiFiDriAsdUavType.utFreeBalloon:
+                case wclDriAsdUavType.utFreeBalloon:
                     return "Free balloon";
-                case wclWiFiDriAsdUavType.utCaptiveBalloon:
+                case wclDriAsdUavType.utCaptiveBalloon:
                     return "Captive balloon";
-                case wclWiFiDriAsdUavType.utAirship:
+                case wclDriAsdUavType.utAirship:
                     return "Airship";
-                case wclWiFiDriAsdUavType.utFreeFallParachute:
+                case wclDriAsdUavType.utFreeFallParachute:
                     return "Free fall parachute";
-                case wclWiFiDriAsdUavType.utRocket:
+                case wclDriAsdUavType.utRocket:
                     return "Rocket";
-                case wclWiFiDriAsdUavType.utTetheredPoweredAircraft:
+                case wclDriAsdUavType.utTetheredPoweredAircraft:
                     return "Tethered powered aircraft";
-                case wclWiFiDriAsdUavType.utGroundObstacle:
+                case wclDriAsdUavType.utGroundObstacle:
                     return "Ground obstacle";
                 default:
                     return "Raw value: 0x" + ((Byte)UavType).ToString("X2");
             }
         }
 
-        private String VendorToText(wclWiFiDriMessage Message)
+        private String VendorToText(wclDriMessage Message)
         {
             switch (Message.Vendor)
             {
-                case wclWiFiDriVendor.driAsd:
+                case wclDriVendor.driAsd:
                     return "ASD";
                 default:
                     return "UKNOWN";
             }
         }
         
-        private void ShowAsdLocationMessage(wclWiFiDriAsdLocationMessage Message)
+        private void ShowAsdLocationMessage(wclDriAsdLocationMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("Baro Altitude");
             Item.SubItems.Add(AsdAltitudeToText(Message.BaroAltitude));
@@ -531,7 +531,7 @@ namespace DroneRemoteIdCSharp
             Item.SubItems.Add(Message.VerticalSpeed.ToString());
         }
 
-        private void ShowAsdSelfIdMessage(wclWiFiDriAsdSelfIdMessage Message)
+        private void ShowAsdSelfIdMessage(wclDriAsdSelfIdMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("Description");
             Item.SubItems.Add(Message.Description);
@@ -540,7 +540,7 @@ namespace DroneRemoteIdCSharp
             Item.SubItems.Add(AsdDescriptionTypeToText(Message.DescriptionType));
         }
 
-        private void ShowAsdOperatorIdMessage(wclWiFiDriAsdOperatorIdMessage Message)
+        private void ShowAsdOperatorIdMessage(wclDriAsdOperatorIdMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("ID");
             Item.SubItems.Add(Encoding.ASCII.GetString(Message.Id));
@@ -549,7 +549,7 @@ namespace DroneRemoteIdCSharp
             Item.SubItems.Add("0x" + Message.IdType.ToString("X2"));
         }
 
-        private void ShowAsdSystemMessage(wclWiFiDriAsdSystemMessage Message)
+        private void ShowAsdSystemMessage(wclDriAsdSystemMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("Area ceiling");
             Item.SubItems.Add(AsdAltitudeToText(Message.AreaCeiling));
@@ -591,7 +591,7 @@ namespace DroneRemoteIdCSharp
             Item.SubItems.Add(AsdEuUavClassToText(Message.UavEuClass));
         }
 
-        private void ShowAsdBassicIdMessage(wclWiFiDriAsdBasicIdMessage Message)
+        private void ShowAsdBassicIdMessage(wclDriAsdBasicIdMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("ID");
             Item.SubItems.Add(Encoding.ASCII.GetString(Message.Id));
@@ -603,7 +603,7 @@ namespace DroneRemoteIdCSharp
             Item.SubItems.Add(AsdUavTypeToText(Message.UavType));
         }
 
-        private void ShowUnknownAsdMessage(wclWiFiDriAsdMessage Message)
+        private void ShowUnknownAsdMessage(wclDriAsdMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("Message type");
             Item.SubItems.Add(((Byte)Message.MessageType).ToString("X2"));
@@ -618,7 +618,7 @@ namespace DroneRemoteIdCSharp
             Item.SubItems.Add(Str);
         }
 
-        private void UpdateAsdMessageDetails(String Ssid, wclWiFiDriAsdMessage Message)
+        private void UpdateAsdMessageDetails(String Ssid, wclDriAsdMessage Message)
         {
             ListViewItem Item = lvDetails.Items.Add("SSID");
             Item.SubItems.Add(Ssid);
@@ -631,23 +631,23 @@ namespace DroneRemoteIdCSharp
 
             switch (Message.MessageType)
             {
-                case wclWiFiDriAsdMessageType.mtBasicId:
-                    ShowAsdBassicIdMessage((wclWiFiDriAsdBasicIdMessage)Message);
+                case wclDriAsdMessageType.mtBasicId:
+                    ShowAsdBassicIdMessage((wclDriAsdBasicIdMessage)Message);
                     break;
-                case wclWiFiDriAsdMessageType.mtLocation:
-                    ShowAsdLocationMessage((wclWiFiDriAsdLocationMessage)Message);
+                case wclDriAsdMessageType.mtLocation:
+                    ShowAsdLocationMessage((wclDriAsdLocationMessage)Message);
                     break;
-                case wclWiFiDriAsdMessageType.mtAuth:
+                case wclDriAsdMessageType.mtAuth:
                     ShowUnknownAsdMessage(Message);
                     break;
-                case wclWiFiDriAsdMessageType.mtSelfId:
-                    ShowAsdSelfIdMessage((wclWiFiDriAsdSelfIdMessage)Message);
+                case wclDriAsdMessageType.mtSelfId:
+                    ShowAsdSelfIdMessage((wclDriAsdSelfIdMessage)Message);
                     break;
-                case wclWiFiDriAsdMessageType.mtSystem:
-                    ShowAsdSystemMessage((wclWiFiDriAsdSystemMessage)Message);
+                case wclDriAsdMessageType.mtSystem:
+                    ShowAsdSystemMessage((wclDriAsdSystemMessage)Message);
                     break;
-                case wclWiFiDriAsdMessageType.mtOperatorId:
-                    ShowAsdOperatorIdMessage((wclWiFiDriAsdOperatorIdMessage)Message);
+                case wclDriAsdMessageType.mtOperatorId:
+                    ShowAsdOperatorIdMessage((wclDriAsdOperatorIdMessage)Message);
                     break;
                 default:
                     ShowUnknownAsdMessage(Message);
@@ -655,13 +655,13 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void UpdateDroneMessages(TreeNode Node, List<wclWiFiDriMessage> Messages)
+        private void UpdateDroneMessages(TreeNode Node, List<wclDriMessage> Messages)
         {
-            foreach (wclWiFiDriMessage Message in Messages)
+            foreach (wclDriMessage Message in Messages)
             {
-                if (Message.Vendor == wclWiFiDriVendor.driAsd)
+                if (Message.Vendor == wclDriVendor.driAsd)
                 {
-                    wclWiFiDriAsdMessage AsdMessage = (wclWiFiDriAsdMessage)Message;
+                    wclDriAsdMessage AsdMessage = (wclDriAsdMessage)Message;
                     String MessageType = MessageTypeToText(AsdMessage);
 
                     TreeNode MessageNode = null;
@@ -688,15 +688,15 @@ namespace DroneRemoteIdCSharp
             }
         }
 
-        private void UpdateMessageDetails(String Ssid, wclWiFiDriMessage Message)
+        private void UpdateMessageDetails(String Ssid, wclDriMessage Message)
         {
             ClearMessageDetails();
 
-            if (Message.Vendor == wclWiFiDriVendor.driAsd)
-                UpdateAsdMessageDetails(Ssid, (wclWiFiDriAsdMessage)Message);
+            if (Message.Vendor == wclDriVendor.driAsd)
+                UpdateAsdMessageDetails(Ssid, (wclDriAsdMessage)Message);
         }
 
-        private void UpdateMessages(String Ssid, List<wclWiFiDriMessage> Messages)
+        private void UpdateMessages(String Ssid, List<wclDriMessage> Messages)
         {
             TreeNode DroneNode = FindDrone(Ssid);
             if (DroneNode != null)
@@ -716,7 +716,7 @@ namespace DroneRemoteIdCSharp
             {
                 if (BssList != null && BssList.Length > 0)
                 {
-                    List<wclWiFiDriMessage> Messages = new List<wclWiFiDriMessage>();
+                    List<wclDriMessage> Messages = new List<wclDriMessage>();
                     foreach (wclWiFiBss Bss in BssList)
                     {
                         if (Bss.IeRaw != null && Bss.IeRaw.Length > 0)
@@ -799,7 +799,7 @@ namespace DroneRemoteIdCSharp
                 if (tvDrones.SelectedNode.Tag != null)
                 {
                     UpdateMessageDetails(tvDrones.SelectedNode.Parent.Text,
-                        (wclWiFiDriMessage)tvDrones.SelectedNode.Tag);
+                        (wclDriMessage)tvDrones.SelectedNode.Tag);
                 }
             }
         }

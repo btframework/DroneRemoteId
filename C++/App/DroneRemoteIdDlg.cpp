@@ -137,7 +137,7 @@ void CDroneRemoteIdDlg::OnTvnSelchangedTreeDrones(NMHDR *pNMHDR, LRESULT *pResul
 		if (tvDrones.GetItemData(tvDrones.GetSelectedItem()) != NULL)
 		{
 			UpdateMessageDetails(tvDrones.GetItemText(tvDrones.GetParentItem(tvDrones.GetSelectedItem())),
-				(CwclWiFiDriMessage*)tvDrones.GetItemData(tvDrones.GetSelectedItem()));
+				(CwclDriMessage*)tvDrones.GetItemData(tvDrones.GetSelectedItem()));
 		}
 	}
 
@@ -147,14 +147,14 @@ void CDroneRemoteIdDlg::OnTvnSelchangedTreeDrones(NMHDR *pNMHDR, LRESULT *pResul
 CString CDroneRemoteIdDlg::IntToHex(const int Val) const
 {
 	CString s;
-	s.Format(_T(".8X"), Val);
+	s.Format(_T("%.8X"), Val);
 	return s;
 }
 
 CString CDroneRemoteIdDlg::IntToHex(const unsigned char Val) const
 {
 	CString s;
-	s.Format(_T(".2X"), Val);
+	s.Format(_T("%.2X"), Val);
 	return s;
 }
 
@@ -304,7 +304,7 @@ HTREEITEM CDroneRemoteIdDlg::FindDrone(const CString& Ssid)
 	return Result;
 }
 
-CString CDroneRemoteIdDlg::MessageTypeToText(const CwclWiFiDriAsdMessage* const Message) const
+CString CDroneRemoteIdDlg::MessageTypeToText(const CwclDriAsdMessage* const Message) const
 {
 	switch (Message->MessageType)
 	{
@@ -326,7 +326,7 @@ CString CDroneRemoteIdDlg::MessageTypeToText(const CwclWiFiDriAsdMessage* const 
 }
 
 CString CDroneRemoteIdDlg::AsdVerticalAccuracyToText(
-	const wclWiFiDriAsdUavVerticalAccuracy Accuracy) const
+	const wclDriAsdUavVerticalAccuracy Accuracy) const
 {
 	switch (Accuracy)
 	{
@@ -350,7 +350,7 @@ CString CDroneRemoteIdDlg::AsdVerticalAccuracyToText(
 }
 
 CString CDroneRemoteIdDlg::AsdHeightReferenceToText(
-	const wclWiFiDriAsdUavHeightReference Reference) const
+	const wclDriAsdUavHeightReference Reference) const
 {
 	switch (Reference)
 	{
@@ -364,7 +364,7 @@ CString CDroneRemoteIdDlg::AsdHeightReferenceToText(
 }
 
 CString CDroneRemoteIdDlg::AsdHorizontalAccuracyToText(
-	const wclWiFiDriAsdUavHorizontalAccuracy Accuracy) const
+	const wclDriAsdUavHorizontalAccuracy Accuracy) const
 {
 	switch (Accuracy)
 	{
@@ -400,7 +400,7 @@ CString CDroneRemoteIdDlg::AsdHorizontalAccuracyToText(
 }
 
 CString CDroneRemoteIdDlg::AsdSpeedAccuracyToText(
-	const wclWiFiDriAsdUavSpeedAccuracy Accuracy) const
+	const wclDriAsdUavSpeedAccuracy Accuracy) const
 {
 	switch (Accuracy)
 	{
@@ -419,7 +419,7 @@ CString CDroneRemoteIdDlg::AsdSpeedAccuracyToText(
 	}
 }
 
-CString CDroneRemoteIdDlg::AsdStatusToText(const wclWiFiDriAsdUavStatus Status) const
+CString CDroneRemoteIdDlg::AsdStatusToText(const wclDriAsdUavStatus Status) const
 {
 	switch (Status)
 	{
@@ -439,7 +439,7 @@ CString CDroneRemoteIdDlg::AsdStatusToText(const wclWiFiDriAsdUavStatus Status) 
 }
 
 CString CDroneRemoteIdDlg::AsdTimestampAccuracyToText(
-	const wclWiFiDriAsdUavTimestampAccuracy Accuracy) const
+	const wclDriAsdUavTimestampAccuracy Accuracy) const
 {
 	switch (Accuracy)
 	{
@@ -488,7 +488,7 @@ CString CDroneRemoteIdDlg::AsdAltitudeToText(const float Altitude) const
 }
 
 CString CDroneRemoteIdDlg::AsdDescriptionTypeToText(
-	const wclWiFiDriAsdDescriptionType DescriptionType) const
+	const wclDriAsdDescriptionType DescriptionType) const
 {
 	switch (DescriptionType)
 	{
@@ -525,7 +525,7 @@ CString CDroneRemoteIdDlg::AsdLatLonToText(const double LatLon) const
 }
 
 CString CDroneRemoteIdDlg::AsdOperatorClassificationToText(
-	const wclWiDiDriAsdOperatorClassification Classification) const
+	const wclDriAsdOperatorClassification Classification) const
 {
 	switch (Classification)
 	{
@@ -539,7 +539,7 @@ CString CDroneRemoteIdDlg::AsdOperatorClassificationToText(
 }
 
 CString CDroneRemoteIdDlg::AsdLocationTypeToText(
-	const wclWiDiDriAsdOperatorLocationType Location) const
+	const wclDriAsdOperatorLocationType Location) const
 {
 	switch (Location)
 	{
@@ -555,7 +555,7 @@ CString CDroneRemoteIdDlg::AsdLocationTypeToText(
 }
 
 CString CDroneRemoteIdDlg::AsdEuUavCategoryToText(
-	const wclWiDiDriAsdUavEuCategory Category) const
+	const wclDriAsdUavEuCategory Category) const
 {
 	switch (Category)
 	{
@@ -572,7 +572,7 @@ CString CDroneRemoteIdDlg::AsdEuUavCategoryToText(
 	}
 }
 
-CString CDroneRemoteIdDlg::AsdEuUavClassToText(const wclWiDiDriAsdUavEuClass UavClass) const
+CString CDroneRemoteIdDlg::AsdEuUavClassToText(const wclDriAsdUavEuClass UavClass) const
 {
 	switch (UavClass)
 	{
@@ -597,7 +597,7 @@ CString CDroneRemoteIdDlg::AsdEuUavClassToText(const wclWiDiDriAsdUavEuClass Uav
 	}
 }
 
-CString CDroneRemoteIdDlg::AsdIdTypeToText(const wclWiFiDriAsdIdType IdType) const
+CString CDroneRemoteIdDlg::AsdIdTypeToText(const wclDriAsdIdType IdType) const
 {
 	switch (IdType)
 	{
@@ -616,7 +616,7 @@ CString CDroneRemoteIdDlg::AsdIdTypeToText(const wclWiFiDriAsdIdType IdType) con
 	}
 }
 
-CString CDroneRemoteIdDlg::AsdUavTypeToText(const wclWiFiDriAsdUavType UavType) const
+CString CDroneRemoteIdDlg::AsdUavTypeToText(const wclDriAsdUavType UavType) const
 {
 	switch (UavType)
 	{
@@ -655,7 +655,7 @@ CString CDroneRemoteIdDlg::AsdUavTypeToText(const wclWiFiDriAsdUavType UavType) 
 	}
 }
 
-CString CDroneRemoteIdDlg::VendorToText(const CwclWiFiDriMessage* const Message) const
+CString CDroneRemoteIdDlg::VendorToText(const CwclDriMessage* const Message) const
 {
 	switch (Message->Vendor)
 	{
@@ -667,7 +667,7 @@ CString CDroneRemoteIdDlg::VendorToText(const CwclWiFiDriMessage* const Message)
 }
 
 void CDroneRemoteIdDlg::ShowAsdLocationMessage(
-	const CwclWiFiDriAsdLocationMessage* const Message)
+	const CwclDriAsdLocationMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("Baro Altitude"));
@@ -734,7 +734,7 @@ void CDroneRemoteIdDlg::ShowAsdLocationMessage(
 	lvDetails.SetItemText(Item, 1, FloatToStr(Message->VerticalSpeed));
 }
 
-void CDroneRemoteIdDlg::ShowAsdSelfIdMessage(const CwclWiFiDriAsdSelfIdMessage* const Message)
+void CDroneRemoteIdDlg::ShowAsdSelfIdMessage(const CwclDriAsdSelfIdMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("Description"));
@@ -747,7 +747,7 @@ void CDroneRemoteIdDlg::ShowAsdSelfIdMessage(const CwclWiFiDriAsdSelfIdMessage* 
 }
 
 void CDroneRemoteIdDlg::ShowAsdOperatorIdMessage(
-	const CwclWiFiDriAsdOperatorIdMessage* const Message)
+	const CwclDriAsdOperatorIdMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("ID"));
@@ -758,7 +758,7 @@ void CDroneRemoteIdDlg::ShowAsdOperatorIdMessage(
 	lvDetails.SetItemText(Item, 1, _T("0x") + IntToHex(Message->IdType));
 }
 
-void CDroneRemoteIdDlg::ShowAsdSystemMessage(const CwclWiFiDriAsdSystemMessage* const Message)
+void CDroneRemoteIdDlg::ShowAsdSystemMessage(const CwclDriAsdSystemMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("Area ceiling"));
@@ -813,7 +813,7 @@ void CDroneRemoteIdDlg::ShowAsdSystemMessage(const CwclWiFiDriAsdSystemMessage* 
 	lvDetails.SetItemText(Item, 1, AsdEuUavClassToText(Message->UavEuClass));
 }
 
-void CDroneRemoteIdDlg::ShowAsdBassicIdMessage(const CwclWiFiDriAsdBasicIdMessage* const Message)
+void CDroneRemoteIdDlg::ShowAsdBassicIdMessage(const CwclDriAsdBasicIdMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("ID"));
@@ -828,7 +828,7 @@ void CDroneRemoteIdDlg::ShowAsdBassicIdMessage(const CwclWiFiDriAsdBasicIdMessag
 	lvDetails.SetItemText(Item, 1, AsdUavTypeToText(Message->UavType));
 }
 
-void CDroneRemoteIdDlg::ShowUnknownAsdMessage(const CwclWiFiDriAsdMessage* const Message)
+void CDroneRemoteIdDlg::ShowUnknownAsdMessage(const CwclDriAsdMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("Message type"));
@@ -846,7 +846,7 @@ void CDroneRemoteIdDlg::ShowUnknownAsdMessage(const CwclWiFiDriAsdMessage* const
 }
 
 void CDroneRemoteIdDlg::UpdateAsdMessageDetails(const CString& Ssid,
-	const CwclWiFiDriAsdMessage* const Message)
+	const CwclDriAsdMessage* const Message)
 {
 	int Item = lvDetails.GetItemCount();
 	lvDetails.InsertItem(Item, _T("SSID"));
@@ -863,22 +863,22 @@ void CDroneRemoteIdDlg::UpdateAsdMessageDetails(const CString& Ssid,
 	switch (Message->MessageType)
 	{
 		case mtBasicId:
-			ShowAsdBassicIdMessage((CwclWiFiDriAsdBasicIdMessage*)Message);
+			ShowAsdBassicIdMessage((CwclDriAsdBasicIdMessage*)Message);
 			break;
 		case mtLocation:
-			ShowAsdLocationMessage((CwclWiFiDriAsdLocationMessage*)Message);
+			ShowAsdLocationMessage((CwclDriAsdLocationMessage*)Message);
 			break;
 		case mtAuth:
 			ShowUnknownAsdMessage(Message);
 			break;
 		case mtSelfId:
-			ShowAsdSelfIdMessage((CwclWiFiDriAsdSelfIdMessage*)Message);
+			ShowAsdSelfIdMessage((CwclDriAsdSelfIdMessage*)Message);
 			break;
 		case mtSystem:
-			ShowAsdSystemMessage((CwclWiFiDriAsdSystemMessage*)Message);
+			ShowAsdSystemMessage((CwclDriAsdSystemMessage*)Message);
 			break;
 		case mtOperatorId:
-			ShowAsdOperatorIdMessage((CwclWiFiDriAsdOperatorIdMessage*)Message);
+			ShowAsdOperatorIdMessage((CwclDriAsdOperatorIdMessage*)Message);
 			break;
 		default:
 			ShowUnknownAsdMessage(Message);
@@ -887,15 +887,15 @@ void CDroneRemoteIdDlg::UpdateAsdMessageDetails(const CString& Ssid,
 }
 
 void CDroneRemoteIdDlg::UpdateDroneMessages(const HTREEITEM Node,
-	wclWiFiDriMessages& Messages)
+	wclDriMessages& Messages)
 {
-	for (wclWiFiDriMessages::iterator Message = Messages.begin(); Message != Messages.end(); Message++)
+	for (wclDriMessages::iterator Message = Messages.begin(); Message != Messages.end(); Message++)
 	{
 		if ((*Message)->Vendor != driAsd)
 			delete (*Message);
 		else
 		{
-			CwclWiFiDriAsdMessage* AsdMessage = (CwclWiFiDriAsdMessage*)(*Message);
+			CwclDriAsdMessage* AsdMessage = (CwclDriAsdMessage*)(*Message);
 			CString MessageType = MessageTypeToText(AsdMessage);
 
 			HTREEITEM MessageNode = tvDrones.GetChildItem(Node);
@@ -903,7 +903,7 @@ void CDroneRemoteIdDlg::UpdateDroneMessages(const HTREEITEM Node,
 			{
 				if (tvDrones.GetItemText(MessageNode) == MessageType)
 				{
-					delete (CwclWiFiDriMessage*)tvDrones.GetItemData(MessageNode);
+					delete (CwclDriMessage*)tvDrones.GetItemData(MessageNode);
 					tvDrones.SetItemData(MessageNode, NULL);
 					break;
 				}
@@ -920,15 +920,15 @@ void CDroneRemoteIdDlg::UpdateDroneMessages(const HTREEITEM Node,
 	}
 }
 
-void CDroneRemoteIdDlg::UpdateMessageDetails(const CString& Ssid, const CwclWiFiDriMessage* const Message)
+void CDroneRemoteIdDlg::UpdateMessageDetails(const CString& Ssid, const CwclDriMessage* const Message)
 {
 	ClearMessageDetails();
 
 	if (Message->Vendor == driAsd)
-		UpdateAsdMessageDetails(Ssid, (CwclWiFiDriAsdMessage*)Message);
+		UpdateAsdMessageDetails(Ssid, (CwclDriAsdMessage*)Message);
 }
 
-void CDroneRemoteIdDlg::UpdateMessages(const CString& Ssid, wclWiFiDriMessages& Messages)
+void CDroneRemoteIdDlg::UpdateMessages(const CString& Ssid, wclDriMessages& Messages)
 {
 	HTREEITEM DroneNode = FindDrone(Ssid);
 	if (DroneNode != NULL)
@@ -948,7 +948,7 @@ void CDroneRemoteIdDlg::GetDriInfo()
 	{
 		if (BssList.size() > 0)
 		{
-			wclWiFiDriMessages Messages;
+			wclDriMessages Messages;
 			for (wclWiFiBssArray::iterator Bss = BssList.begin(); Bss != BssList.end(); Bss++)
 			{
 				if (Bss->IeRaw.size() > 0)

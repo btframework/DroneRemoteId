@@ -93,157 +93,157 @@
         Return Result
     End Function
 
-    Private Function MessageTypeToText(Message As wclWiFiDriAsdMessage) As String
+    Private Function MessageTypeToText(Message As wclDriAsdMessage) As String
         Select Case Message.MessageType
-            Case wclWiFiDriAsdMessageType.mtBasicId
+            Case wclDriAsdMessageType.mtBasicId
                 Return "BASIC ID"
-            Case wclWiFiDriAsdMessageType.mtLocation
+            Case wclDriAsdMessageType.mtLocation
                 Return "LOCATION"
-            Case wclWiFiDriAsdMessageType.mtAuth
+            Case wclDriAsdMessageType.mtAuth
                 Return "AUTH"
-            Case wclWiFiDriAsdMessageType.mtSelfId
+            Case wclDriAsdMessageType.mtSelfId
                 Return "SELF ID"
-            Case wclWiFiDriAsdMessageType.mtSystem
+            Case wclDriAsdMessageType.mtSystem
                 Return "SYSTEM"
-            Case wclWiFiDriAsdMessageType.mtOperatorId
+            Case wclDriAsdMessageType.mtOperatorId
                 Return "OPERATOR ID"
             Case Else
                 Return "UNKNOWN"
         End Select
     End Function
 
-    Private Function AsdVerticalAccuracyToText(Accuracy As wclWiFiDriAsdUavVerticalAccuracy) As String
+    Private Function AsdVerticalAccuracyToText(Accuracy As wclDriAsdUavVerticalAccuracy) As String
         Select Case Accuracy
-            Case wclWiFiDriAsdUavVerticalAccuracy.vaUnknown
+            Case wclDriAsdUavVerticalAccuracy.vaUnknown
                 Return "Unknow"
-            Case wclWiFiDriAsdUavVerticalAccuracy.va150M
+            Case wclDriAsdUavVerticalAccuracy.va150M
                 Return "150 m"
-            Case wclWiFiDriAsdUavVerticalAccuracy.va45M
+            Case wclDriAsdUavVerticalAccuracy.va45M
                 Return "45 m"
-            Case wclWiFiDriAsdUavVerticalAccuracy.va25M
+            Case wclDriAsdUavVerticalAccuracy.va25M
                 Return "25 m"
-            Case wclWiFiDriAsdUavVerticalAccuracy.va10M
+            Case wclDriAsdUavVerticalAccuracy.va10M
                 Return "10 m"
-            Case wclWiFiDriAsdUavVerticalAccuracy.va3M
+            Case wclDriAsdUavVerticalAccuracy.va3M
                 Return "3 m"
-            Case wclWiFiDriAsdUavVerticalAccuracy.va1M
+            Case wclDriAsdUavVerticalAccuracy.va1M
                 Return "1 m"
             Case Else
                 Return "Raw value: 0x" + CType(Accuracy, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdHeightReferenceToText(Reference As wclWiFiDriAsdUavHeightReference) As String
+    Private Function AsdHeightReferenceToText(Reference As wclDriAsdUavHeightReference) As String
         Select Case Reference
-            Case wclWiFiDriAsdUavHeightReference.hrTakeOff
+            Case wclDriAsdUavHeightReference.hrTakeOff
                 Return "Take off"
-            Case wclWiFiDriAsdUavHeightReference.hrGround
+            Case wclDriAsdUavHeightReference.hrGround
                 Return "Ground"
             Case Else
                 Return "Raw value: 0x" + CType(Reference, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdHorizontalAccuracyToText(Accuracy As wclWiFiDriAsdUavHorizontalAccuracy) As String
+    Private Function AsdHorizontalAccuracyToText(Accuracy As wclDriAsdUavHorizontalAccuracy) As String
         Select Case Accuracy
-            Case wclWiFiDriAsdUavHorizontalAccuracy.haUnknown
+            Case wclDriAsdUavHorizontalAccuracy.haUnknown
                 Return "Unknown"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha10Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha10Nm
                 Return "10 miles"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha4Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha4Nm
                 Return "4 miles"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha2Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha2Nm
                 Return "2 miles"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha1Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha1Nm
                 Return "1 mile"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha05Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha05Nm
                 Return "0.5 mile"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha03Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha03Nm
                 Return "0.3 mile"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha01Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha01Nm
                 Return "0.1 mile"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha005Nm
+            Case wclDriAsdUavHorizontalAccuracy.ha005Nm
                 Return "0.05 mile"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha30M
+            Case wclDriAsdUavHorizontalAccuracy.ha30M
                 Return "30 meters"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha10M
+            Case wclDriAsdUavHorizontalAccuracy.ha10M
                 Return "10 meters"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha3M
+            Case wclDriAsdUavHorizontalAccuracy.ha3M
                 Return "3 meters"
-            Case wclWiFiDriAsdUavHorizontalAccuracy.ha1M
+            Case wclDriAsdUavHorizontalAccuracy.ha1M
                 Return "1 meter"
             Case Else
                 Return "Raw value: 0x" + CType(Accuracy, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdSpeedAccuracyToText(Accuracy As wclWiFiDriAsdUavSpeedAccuracy) As String
+    Private Function AsdSpeedAccuracyToText(Accuracy As wclDriAsdUavSpeedAccuracy) As String
         Select Case Accuracy
-            Case wclWiFiDriAsdUavSpeedAccuracy.saUnknown
+            Case wclDriAsdUavSpeedAccuracy.saUnknown
                 Return "Unknown"
-            Case wclWiFiDriAsdUavSpeedAccuracy.sa10MS
+            Case wclDriAsdUavSpeedAccuracy.sa10MS
                 Return "10 m/s"
-            Case wclWiFiDriAsdUavSpeedAccuracy.sa3MS
+            Case wclDriAsdUavSpeedAccuracy.sa3MS
                 Return "3 m/s"
-            Case wclWiFiDriAsdUavSpeedAccuracy.sa1Ms
+            Case wclDriAsdUavSpeedAccuracy.sa1Ms
                 Return "1 m/s"
-            Case wclWiFiDriAsdUavSpeedAccuracy.sa03Ms
+            Case wclDriAsdUavSpeedAccuracy.sa03Ms
                 Return "0.3 m/s"
             Case Else
                 Return "Raw value: 0x" + CType(Accuracy, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdStatusToText(Status As wclWiFiDriAsdUavStatus) As String
+    Private Function AsdStatusToText(Status As wclDriAsdUavStatus) As String
         Select Case Status
-            Case wclWiFiDriAsdUavStatus.usUndeclared
+            Case wclDriAsdUavStatus.usUndeclared
                 Return "Undeclared"
-            Case wclWiFiDriAsdUavStatus.usGround
+            Case wclDriAsdUavStatus.usGround
                 Return "Ground"
-            Case wclWiFiDriAsdUavStatus.usAirborne
+            Case wclDriAsdUavStatus.usAirborne
                 Return "Airborne"
-            Case wclWiFiDriAsdUavStatus.usEmergency
+            Case wclDriAsdUavStatus.usEmergency
                 Return "Emergency"
-            Case wclWiFiDriAsdUavStatus.usFailure
+            Case wclDriAsdUavStatus.usFailure
                 Return "Failure"
             Case Else
                 Return "Raw value: 0x" + CType(Status, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdTimestampAccuracyToText(Accuracy As wclWiFiDriAsdUavTimestampAccuracy) As String
+    Private Function AsdTimestampAccuracyToText(Accuracy As wclDriAsdUavTimestampAccuracy) As String
         Select Case Accuracy
-            Case wclWiFiDriAsdUavTimestampAccuracy.taUnknown
+            Case wclDriAsdUavTimestampAccuracy.taUnknown
                 Return "Unknown"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta01s
+            Case wclDriAsdUavTimestampAccuracy.ta01s
                 Return "0.1 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta02s
+            Case wclDriAsdUavTimestampAccuracy.ta02s
                 Return "0.2 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta03s
+            Case wclDriAsdUavTimestampAccuracy.ta03s
                 Return "0.3 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta04s
+            Case wclDriAsdUavTimestampAccuracy.ta04s
                 Return "0.4 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta05s
+            Case wclDriAsdUavTimestampAccuracy.ta05s
                 Return "0.5 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta06s
+            Case wclDriAsdUavTimestampAccuracy.ta06s
                 Return "0.6 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta07s
+            Case wclDriAsdUavTimestampAccuracy.ta07s
                 Return "0.7 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta08s
+            Case wclDriAsdUavTimestampAccuracy.ta08s
                 Return "0.8 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta09s
+            Case wclDriAsdUavTimestampAccuracy.ta09s
                 Return "0.9 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta1s
+            Case wclDriAsdUavTimestampAccuracy.ta1s
                 Return "1 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta11s
+            Case wclDriAsdUavTimestampAccuracy.ta11s
                 Return "1.1 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta12s
+            Case wclDriAsdUavTimestampAccuracy.ta12s
                 Return "1.2 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta13s
+            Case wclDriAsdUavTimestampAccuracy.ta13s
                 Return "1.3 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta14s
+            Case wclDriAsdUavTimestampAccuracy.ta14s
                 Return "1.4 second"
-            Case wclWiFiDriAsdUavTimestampAccuracy.ta15s
+            Case wclDriAsdUavTimestampAccuracy.ta15s
                 Return "1.5 second"
             Case Else
                 Return "Raw value: 0x" + CType(Accuracy, Byte).ToString("X2")
@@ -255,13 +255,13 @@
         Return Altitude.ToString()
     End Function
 
-    Private Function AsdDescriptionTypeToText(DescriptionType As wclWiFiDriAsdDescriptionType) As String
+    Private Function AsdDescriptionTypeToText(DescriptionType As wclDriAsdDescriptionType) As String
         Select Case DescriptionType
-            Case wclWiFiDriAsdDescriptionType.dtText
+            Case wclDriAsdDescriptionType.dtText
                 Return "Text"
-            Case wclWiFiDriAsdDescriptionType.dtEmergency
+            Case wclDriAsdDescriptionType.dtEmergency
                 Return "Emergency"
-            Case wclWiFiDriAsdDescriptionType.dtExtended
+            Case wclDriAsdDescriptionType.dtExtended
                 Return "Extended"
             Case Else
                 Return "Raw value: 0x" + CType(DescriptionType, Byte).ToString("X2")
@@ -283,132 +283,132 @@
         Return LatLon.ToString()
     End Function
 
-    Private Function AsdOperatorClassificationToText(Classification As wclWiDiDriAsdOperatorClassification) As String
+    Private Function AsdOperatorClassificationToText(Classification As wclDriAsdOperatorClassification) As String
         Select Case Classification
-            Case wclWiDiDriAsdOperatorClassification.ocUndeclared
+            Case wclDriAsdOperatorClassification.ocUndeclared
                 Return "Undeclared"
-            Case wclWiDiDriAsdOperatorClassification.ocEu
+            Case wclDriAsdOperatorClassification.ocEu
                 Return "EU"
             Case Else
                 Return "Raw value: 0x" + CType(Classification, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdLocationTypeToText(Location As wclWiDiDriAsdOperatorLocationType) As String
+    Private Function AsdLocationTypeToText(Location As wclDriAsdOperatorLocationType) As String
         Select Case Location
-            Case wclWiDiDriAsdOperatorLocationType.ltTakeOff
+            Case wclDriAsdOperatorLocationType.ltTakeOff
                 Return "Take off"
-            Case wclWiDiDriAsdOperatorLocationType.ltLiveGnss
+            Case wclDriAsdOperatorLocationType.ltLiveGnss
                 Return "Live GNSS"
-            Case wclWiDiDriAsdOperatorLocationType.ltFixed
+            Case wclDriAsdOperatorLocationType.ltFixed
                 Return "Fixed"
             Case Else
                 Return "Raw value: 0x" + CType(Location, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdEuUavCategoryToText(Category As wclWiDiDriAsdUavEuCategory) As String
+    Private Function AsdEuUavCategoryToText(Category As wclDriAsdUavEuCategory) As String
         Select Case Category
-            Case wclWiDiDriAsdUavEuCategory.ucUndeclared
+            Case wclDriAsdUavEuCategory.ucUndeclared
                 Return "Undeclared"
-            Case wclWiDiDriAsdUavEuCategory.ucOpen
+            Case wclDriAsdUavEuCategory.ucOpen
                 Return "Open"
-            Case wclWiDiDriAsdUavEuCategory.ucSpecific
+            Case wclDriAsdUavEuCategory.ucSpecific
                 Return "Specific"
-            Case wclWiDiDriAsdUavEuCategory.ucCertified
+            Case wclDriAsdUavEuCategory.ucCertified
                 Return "Certified"
             Case Else
                 Return "Raw value: 0x" + CType(Category, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdEuUavClassToText(UavClass As wclWiDiDriAsdUavEuClass) As String
+    Private Function AsdEuUavClassToText(UavClass As wclDriAsdUavEuClass) As String
         Select Case UavClass
-            Case wclWiDiDriAsdUavEuClass.ucUnspecified
+            Case wclDriAsdUavEuClass.ucUnspecified
                 Return "Unspecified"
-            Case wclWiDiDriAsdUavEuClass.ucClass0
+            Case wclDriAsdUavEuClass.ucClass0
                 Return "Class 0"
-            Case wclWiDiDriAsdUavEuClass.ucClass1
+            Case wclDriAsdUavEuClass.ucClass1
                 Return "Class 1"
-            Case wclWiDiDriAsdUavEuClass.ucClass2
+            Case wclDriAsdUavEuClass.ucClass2
                 Return "Class 2"
-            Case wclWiDiDriAsdUavEuClass.ucClass3
+            Case wclDriAsdUavEuClass.ucClass3
                 Return "Class 3"
-            Case wclWiDiDriAsdUavEuClass.ucClass4
+            Case wclDriAsdUavEuClass.ucClass4
                 Return "Class 4"
-            Case wclWiDiDriAsdUavEuClass.ucClass5
+            Case wclDriAsdUavEuClass.ucClass5
                 Return "Class 5"
-            Case wclWiDiDriAsdUavEuClass.ucClass6
+            Case wclDriAsdUavEuClass.ucClass6
                 Return "Class 6"
             Case Else
                 Return "Raw value: 0x" + CType(UavClass, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdIdTypeToText(IdType As wclWiFiDriAsdIdType) As String
+    Private Function AsdIdTypeToText(IdType As wclDriAsdIdType) As String
         Select Case IdType
-            Case wclWiFiDriAsdIdType.itNone
+            Case wclDriAsdIdType.itNone
                 Return "None"
-            Case wclWiFiDriAsdIdType.itSerialNumber
+            Case wclDriAsdIdType.itSerialNumber
                 Return "Serial number"
-            Case wclWiFiDriAsdIdType.itCaaRegistrationId
+            Case wclDriAsdIdType.itCaaRegistrationId
                 Return "CAA registration ID"
-            Case wclWiFiDriAsdIdType.itUtmAssignedUuid
+            Case wclDriAsdIdType.itUtmAssignedUuid
                 Return "UTM assigned UUID"
-            Case wclWiFiDriAsdIdType.itSpecificSessionId
+            Case wclDriAsdIdType.itSpecificSessionId
                 Return "Specific session ID"
             Case Else
                 Return "Raw value: 0x" + CType(IdType, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function AsdUavTypeToText(UavType As wclWiFiDriAsdUavType) As String
+    Private Function AsdUavTypeToText(UavType As wclDriAsdUavType) As String
         Select Case UavType
-            Case wclWiFiDriAsdUavType.utNone
+            Case wclDriAsdUavType.utNone
                 Return "None"
-            Case wclWiFiDriAsdUavType.utAeroplane
+            Case wclDriAsdUavType.utAeroplane
                 Return "Aeroplane"
-            Case wclWiFiDriAsdUavType.utCopter
+            Case wclDriAsdUavType.utCopter
                 Return "Copter"
-            Case wclWiFiDriAsdUavType.utGyroplane
+            Case wclDriAsdUavType.utGyroplane
                 Return "Gyroplane"
-            Case wclWiFiDriAsdUavType.utHybridLift
+            Case wclDriAsdUavType.utHybridLift
                 Return "Hybrid"
-            Case wclWiFiDriAsdUavType.utOrnithopter
+            Case wclDriAsdUavType.utOrnithopter
                 Return "Ornithopter"
-            Case wclWiFiDriAsdUavType.utGlider
+            Case wclDriAsdUavType.utGlider
                 Return "Glider"
-            Case wclWiFiDriAsdUavType.utKite
+            Case wclDriAsdUavType.utKite
                 Return "Kite"
-            Case wclWiFiDriAsdUavType.utFreeBalloon
+            Case wclDriAsdUavType.utFreeBalloon
                 Return "Free balloon"
-            Case wclWiFiDriAsdUavType.utCaptiveBalloon
+            Case wclDriAsdUavType.utCaptiveBalloon
                 Return "Captive balloon"
-            Case wclWiFiDriAsdUavType.utAirship
+            Case wclDriAsdUavType.utAirship
                 Return "Airship"
-            Case wclWiFiDriAsdUavType.utFreeFallParachute
+            Case wclDriAsdUavType.utFreeFallParachute
                 Return "Free fall parachute"
-            Case wclWiFiDriAsdUavType.utRocket
+            Case wclDriAsdUavType.utRocket
                 Return "Rocket"
-            Case wclWiFiDriAsdUavType.utTetheredPoweredAircraft
+            Case wclDriAsdUavType.utTetheredPoweredAircraft
                 Return "Tethered powered aircraft"
-            Case wclWiFiDriAsdUavType.utGroundObstacle
+            Case wclDriAsdUavType.utGroundObstacle
                 Return "Ground obstacle"
             Case Else
                 Return "Raw value: 0x" + CType(UavType, Byte).ToString("X2")
         End Select
     End Function
 
-    Private Function VendorToText(Message As wclWiFiDriMessage) As String
+    Private Function VendorToText(Message As wclDriMessage) As String
         Select Case Message.Vendor
-            Case wclWiFiDriVendor.driAsd
+            Case wclDriVendor.driAsd
                 Return "ASD"
             Case Else
                 Return "UKNOWN"
         End Select
     End Function
 
-    Private Sub ShowAsdLocationMessage(Message As wclWiFiDriAsdLocationMessage)
+    Private Sub ShowAsdLocationMessage(Message As wclDriAsdLocationMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("Baro Altitude")
         Item.SubItems.Add(AsdAltitudeToText(Message.BaroAltitude))
 
@@ -458,7 +458,7 @@
         Item.SubItems.Add(Message.VerticalSpeed.ToString())
     End Sub
 
-    Private Sub ShowAsdSelfIdMessage(Message As wclWiFiDriAsdSelfIdMessage)
+    Private Sub ShowAsdSelfIdMessage(Message As wclDriAsdSelfIdMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("Description")
         Item.SubItems.Add(Message.Description)
 
@@ -466,7 +466,7 @@
         Item.SubItems.Add(AsdDescriptionTypeToText(Message.DescriptionType))
     End Sub
 
-    Private Sub ShowAsdOperatorIdMessage(Message As wclWiFiDriAsdOperatorIdMessage)
+    Private Sub ShowAsdOperatorIdMessage(Message As wclDriAsdOperatorIdMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("ID")
         Item.SubItems.Add(Encoding.ASCII.GetString(Message.Id))
 
@@ -474,7 +474,7 @@
         Item.SubItems.Add("0x" + Message.IdType.ToString("X2"))
     End Sub
 
-    Private Sub ShowAsdSystemMessage(Message As wclWiFiDriAsdSystemMessage)
+    Private Sub ShowAsdSystemMessage(Message As wclDriAsdSystemMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("Area ceiling")
         Item.SubItems.Add(AsdAltitudeToText(Message.AreaCeiling))
 
@@ -515,7 +515,7 @@
         Item.SubItems.Add(AsdEuUavClassToText(Message.UavEuClass))
     End Sub
 
-    Private Sub ShowAsdBassicIdMessage(Message As wclWiFiDriAsdBasicIdMessage)
+    Private Sub ShowAsdBassicIdMessage(Message As wclDriAsdBasicIdMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("ID")
         Item.SubItems.Add(Encoding.ASCII.GetString(Message.Id))
 
@@ -526,7 +526,7 @@
         Item.SubItems.Add(AsdUavTypeToText(Message.UavType))
     End Sub
 
-    Private Sub ShowUnknownAsdMessage(Message As wclWiFiDriAsdMessage)
+    Private Sub ShowUnknownAsdMessage(Message As wclDriAsdMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("Message type")
         Item.SubItems.Add(CType(Message.MessageType, Byte).ToString("X2"))
 
@@ -540,7 +540,7 @@
         Item.SubItems.Add(Str)
     End Sub
 
-    Private Sub UpdateAsdMessageDetails(Ssid As String, Message As wclWiFiDriAsdMessage)
+    Private Sub UpdateAsdMessageDetails(Ssid As String, Message As wclDriAsdMessage)
         Dim Item As ListViewItem = lvDetails.Items.Add("SSID")
         Item.SubItems.Add(Ssid)
 
@@ -551,27 +551,27 @@
         Item.SubItems.Add("")
 
         Select Case Message.MessageType
-            Case wclWiFiDriAsdMessageType.mtBasicId
-                ShowAsdBassicIdMessage(CType(Message, wclWiFiDriAsdBasicIdMessage))
-            Case wclWiFiDriAsdMessageType.mtLocation
-                ShowAsdLocationMessage(CType(Message, wclWiFiDriAsdLocationMessage))
-            Case wclWiFiDriAsdMessageType.mtAuth
+            Case wclDriAsdMessageType.mtBasicId
+                ShowAsdBassicIdMessage(CType(Message, wclDriAsdBasicIdMessage))
+            Case wclDriAsdMessageType.mtLocation
+                ShowAsdLocationMessage(CType(Message, wclDriAsdLocationMessage))
+            Case wclDriAsdMessageType.mtAuth
                 ShowUnknownAsdMessage(Message)
-            Case wclWiFiDriAsdMessageType.mtSelfId
-                ShowAsdSelfIdMessage(CType(Message, wclWiFiDriAsdSelfIdMessage))
-            Case wclWiFiDriAsdMessageType.mtSystem
-                ShowAsdSystemMessage(CType(Message, wclWiFiDriAsdSystemMessage))
-            Case wclWiFiDriAsdMessageType.mtOperatorId
-                ShowAsdOperatorIdMessage(CType(Message, wclWiFiDriAsdOperatorIdMessage))
+            Case wclDriAsdMessageType.mtSelfId
+                ShowAsdSelfIdMessage(CType(Message, wclDriAsdSelfIdMessage))
+            Case wclDriAsdMessageType.mtSystem
+                ShowAsdSystemMessage(CType(Message, wclDriAsdSystemMessage))
+            Case wclDriAsdMessageType.mtOperatorId
+                ShowAsdOperatorIdMessage(CType(Message, wclDriAsdOperatorIdMessage))
             Case Else
                 ShowUnknownAsdMessage(Message)
         End Select
     End Sub
 
-    Private Sub UpdateDroneMessages(Node As TreeNode, Messages As List(Of wclWiFiDriMessage))
-        For Each Message As wclWiFiDriMessage In Messages
-            If Message.Vendor = wclWiFiDriVendor.driAsd Then
-                Dim AsdMessage As wclWiFiDriAsdMessage = CType(Message, wclWiFiDriAsdMessage)
+    Private Sub UpdateDroneMessages(Node As TreeNode, Messages As List(Of wclDriMessage))
+        For Each Message As wclDriMessage In Messages
+            If Message.Vendor = wclDriVendor.driAsd Then
+                Dim AsdMessage As wclDriAsdMessage = CType(Message, wclDriAsdMessage)
                 Dim MessageType As String = MessageTypeToText(AsdMessage)
 
                 Dim MessageNode As TreeNode = Nothing
@@ -592,13 +592,13 @@
         Next
     End Sub
 
-    Private Sub UpdateMessageDetails(Ssid As String, Message As wclWiFiDriMessage)
+    Private Sub UpdateMessageDetails(Ssid As String, Message As wclDriMessage)
         ClearMessageDetails()
 
-        If Message.Vendor = wclWiFiDriVendor.driAsd Then UpdateAsdMessageDetails(Ssid, CType(Message, wclWiFiDriAsdMessage))
+        If Message.Vendor = wclDriVendor.driAsd Then UpdateAsdMessageDetails(Ssid, CType(Message, wclDriAsdMessage))
     End Sub
 
-    Private Sub UpdateMessages(Ssid As String, Messages As List(Of wclWiFiDriMessage))
+    Private Sub UpdateMessages(Ssid As String, Messages As List(Of wclDriMessage))
         Dim DroneNode As TreeNode = FindDrone(Ssid)
         If DroneNode IsNot Nothing Then
             UpdateDroneMessages(DroneNode, Messages)
@@ -613,7 +613,7 @@
             Trace("Enum BSS failed", Res)
         Else
             If BssList IsNot Nothing AndAlso BssList.Length > 0 Then
-                Dim Messages As List(Of wclWiFiDriMessage) = New List(Of wclWiFiDriMessage)()
+                Dim Messages As List(Of wclDriMessage) = New List(Of wclDriMessage)()
                 For Each Bss As wclWiFiBss In BssList
                     If Bss.IeRaw IsNot Nothing AndAlso Bss.IeRaw.Length > 0 Then
                         FParser.ParseDriMessages(Bss, Messages)
@@ -675,7 +675,7 @@
 
         If tvDrones.SelectedNode IsNot Nothing Then
             If tvDrones.SelectedNode.Tag IsNot Nothing Then
-                UpdateMessageDetails(tvDrones.SelectedNode.Parent.Text, CType(tvDrones.SelectedNode.Tag, wclWiFiDriMessage))
+                UpdateMessageDetails(tvDrones.SelectedNode.Parent.Text, CType(tvDrones.SelectedNode.Tag, wclDriMessage))
             End If
         End If
     End Sub

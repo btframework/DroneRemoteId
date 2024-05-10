@@ -35,7 +35,7 @@ void __fastcall TfmMain::tvDronesClick(TObject *Sender)
 		if (tvDrones->Selected->Data != NULL)
 		{
 			UpdateMessageDetails(tvDrones->Selected->Parent->Text,
-				(TwclWiFiDriMessage*)tvDrones->Selected->Data);
+				(TwclDriMessage*)tvDrones->Selected->Data);
 		}
 	}
 }
@@ -266,7 +266,7 @@ TTreeNode* __fastcall TfmMain::FindDrone(const String Ssid)
 	return Result;
 }
 //---------------------------------------------------------------------------
-String __fastcall TfmMain::MessageTypeToText(TwclWiFiDriAsdMessage* Message)
+String __fastcall TfmMain::MessageTypeToText(TwclDriAsdMessage* Message)
 {
 	switch (Message->MessageType)
 	{
@@ -288,7 +288,7 @@ String __fastcall TfmMain::MessageTypeToText(TwclWiFiDriAsdMessage* Message)
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdVerticalAccuracyToText(
-	TwclWiFiDriAsdUavVerticalAccuracy Accuracy)
+	TwclDriAsdUavVerticalAccuracy Accuracy)
 {
 	switch (Accuracy)
 	{
@@ -312,7 +312,7 @@ String __fastcall TfmMain::AsdVerticalAccuracyToText(
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdHeightReferenceToText(
-	TwclWiFiDriAsdUavHeightReference Reference)
+	TwclDriAsdUavHeightReference Reference)
 {
 	switch (Reference)
 	{
@@ -326,7 +326,7 @@ String __fastcall TfmMain::AsdHeightReferenceToText(
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdHorizontalAccuracyToText(
-	TwclWiFiDriAsdUavHorizontalAccuracy Accuracy)
+	TwclDriAsdUavHorizontalAccuracy Accuracy)
 {
 	switch (Accuracy)
 	{
@@ -362,7 +362,7 @@ String __fastcall TfmMain::AsdHorizontalAccuracyToText(
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdSpeedAccuracyToText(
-	TwclWiFiDriAsdUavSpeedAccuracy Accuracy)
+	TwclDriAsdUavSpeedAccuracy Accuracy)
 {
 	switch (Accuracy)
 	{
@@ -381,7 +381,7 @@ String __fastcall TfmMain::AsdSpeedAccuracyToText(
 	}
 }
 //---------------------------------------------------------------------------
-String __fastcall TfmMain::AsdStatusToText(TwclWiFiDriAsdUavStatus Status)
+String __fastcall TfmMain::AsdStatusToText(TwclDriAsdUavStatus Status)
 {
 	switch (Status)
 	{
@@ -401,7 +401,7 @@ String __fastcall TfmMain::AsdStatusToText(TwclWiFiDriAsdUavStatus Status)
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdTimestampAccuracyToText(
-	TwclWiFiDriAsdUavTimestampAccuracy Accuracy)
+	TwclDriAsdUavTimestampAccuracy Accuracy)
 {
 	switch (Accuracy)
 	{
@@ -450,7 +450,7 @@ String __fastcall TfmMain::AsdAltitudeToText(float Altitude)
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdDescriptionTypeToText(
-	TwclWiFiDriAsdDescriptionType DescriptionType)
+	TwclDriAsdDescriptionType DescriptionType)
 {
 	switch (DescriptionType)
 	{
@@ -487,7 +487,7 @@ String __fastcall TfmMain::AsdLatLonToText(double LatLon)
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdOperatorClassificationToText(
-	TwclWiDiDriAsdOperatorClassification Classification)
+	TwclDriAsdOperatorClassification Classification)
 {
 	switch (Classification)
 	{
@@ -501,7 +501,7 @@ String __fastcall TfmMain::AsdOperatorClassificationToText(
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdLocationTypeToText(
-	TwclWiDiDriAsdOperatorLocationType Location)
+	TwclDriAsdOperatorLocationType Location)
 {
 	switch (Location)
 	{
@@ -517,7 +517,7 @@ String __fastcall TfmMain::AsdLocationTypeToText(
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdEuUavCategoryToText(
-	TwclWiDiDriAsdUavEuCategory Category)
+	TwclDriAsdUavEuCategory Category)
 {
 	switch (Category)
 	{
@@ -535,7 +535,7 @@ String __fastcall TfmMain::AsdEuUavCategoryToText(
 }
 //---------------------------------------------------------------------------
 String __fastcall TfmMain::AsdEuUavClassToText(
-	TwclWiDiDriAsdUavEuClass UavClass)
+	TwclDriAsdUavEuClass UavClass)
 {
 	switch (UavClass)
 	{
@@ -560,7 +560,7 @@ String __fastcall TfmMain::AsdEuUavClassToText(
 	}
 }
 //---------------------------------------------------------------------------
-String __fastcall TfmMain::AsdIdTypeToText(TwclWiFiDriAsdIdType IdType)
+String __fastcall TfmMain::AsdIdTypeToText(TwclDriAsdIdType IdType)
 {
 	switch (IdType)
 	{
@@ -579,7 +579,7 @@ String __fastcall TfmMain::AsdIdTypeToText(TwclWiFiDriAsdIdType IdType)
 	}
 }
 //---------------------------------------------------------------------------
-String __fastcall TfmMain::AsdUavTypeToText(TwclWiFiDriAsdUavType UavType)
+String __fastcall TfmMain::AsdUavTypeToText(TwclDriAsdUavType UavType)
 {
 	switch (UavType)
 	{
@@ -618,7 +618,7 @@ String __fastcall TfmMain::AsdUavTypeToText(TwclWiFiDriAsdUavType UavType)
 	}
 }
 //---------------------------------------------------------------------------
-String __fastcall TfmMain::VendorToText(TwclWiFiDriMessage* Message)
+String __fastcall TfmMain::VendorToText(TwclDriMessage* Message)
 {
 	switch (Message->Vendor)
 	{
@@ -630,7 +630,7 @@ String __fastcall TfmMain::VendorToText(TwclWiFiDriMessage* Message)
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::ShowAsdLocationMessage(
-	TwclWiFiDriAsdLocationMessage* Message)
+	TwclDriAsdLocationMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "Baro Altitude";
@@ -699,7 +699,7 @@ void __fastcall TfmMain::ShowAsdLocationMessage(
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::ShowAsdSelfIdMessage(
-	TwclWiFiDriAsdSelfIdMessage* Message)
+	TwclDriAsdSelfIdMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "Description";
@@ -711,7 +711,7 @@ void __fastcall TfmMain::ShowAsdSelfIdMessage(
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::ShowAsdOperatorIdMessage(
-	TwclWiFiDriAsdOperatorIdMessage* Message)
+	TwclDriAsdOperatorIdMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "ID";
@@ -723,7 +723,7 @@ void __fastcall TfmMain::ShowAsdOperatorIdMessage(
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::ShowAsdSystemMessage(
-	TwclWiFiDriAsdSystemMessage* Message)
+	TwclDriAsdSystemMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "Area ceiling";
@@ -780,7 +780,7 @@ void __fastcall TfmMain::ShowAsdSystemMessage(
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::ShowAsdBassicIdMessage(
-	TwclWiFiDriAsdBasicIdMessage* Message)
+	TwclDriAsdBasicIdMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "ID";
@@ -795,7 +795,7 @@ void __fastcall TfmMain::ShowAsdBassicIdMessage(
 	Item->SubItems->Add(AsdUavTypeToText(Message->UavType));
 }
 //---------------------------------------------------------------------------
-void __fastcall TfmMain::ShowUnknownAsdMessage(TwclWiFiDriAsdMessage* Message)
+void __fastcall TfmMain::ShowUnknownAsdMessage(TwclDriAsdMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "Message type";
@@ -813,7 +813,7 @@ void __fastcall TfmMain::ShowUnknownAsdMessage(TwclWiFiDriAsdMessage* Message)
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::UpdateAsdMessageDetails(String Ssid,
-	TwclWiFiDriAsdMessage* Message)
+	TwclDriAsdMessage* Message)
 {
 	TListItem* Item = lvDetails->Items->Add();
 	Item->Caption = "SSID";
@@ -830,22 +830,22 @@ void __fastcall TfmMain::UpdateAsdMessageDetails(String Ssid,
 	switch (Message->MessageType)
 	{
 		case mtBasicId:
-			ShowAsdBassicIdMessage((TwclWiFiDriAsdBasicIdMessage*)Message);
+			ShowAsdBassicIdMessage((TwclDriAsdBasicIdMessage*)Message);
 			break;
 		case mtLocation:
-			ShowAsdLocationMessage((TwclWiFiDriAsdLocationMessage*)Message);
+			ShowAsdLocationMessage((TwclDriAsdLocationMessage*)Message);
 			break;
 		case mtAuth:
 			ShowUnknownAsdMessage(Message);
 			break;
 		case mtSelfId:
-			ShowAsdSelfIdMessage((TwclWiFiDriAsdSelfIdMessage*)Message);
+			ShowAsdSelfIdMessage((TwclDriAsdSelfIdMessage*)Message);
 			break;
 		case mtSystem:
-			ShowAsdSystemMessage((TwclWiFiDriAsdSystemMessage*)Message);
+			ShowAsdSystemMessage((TwclDriAsdSystemMessage*)Message);
 			break;
 		case mtOperatorId:
-			ShowAsdOperatorIdMessage((TwclWiFiDriAsdOperatorIdMessage*)Message);
+			ShowAsdOperatorIdMessage((TwclDriAsdOperatorIdMessage*)Message);
 			break;
 		default:
 			ShowUnknownAsdMessage(Message);
@@ -856,12 +856,12 @@ void __fastcall TfmMain::UpdateDroneMessages(TTreeNode* Node, TList* Messages)
 {
 	for (int i = 0; i < Messages->Count; i++)
 	{
-		TwclWiFiDriMessage* Message = (TwclWiFiDriMessage*)(Messages->Items[i]);
+		TwclDriMessage* Message = (TwclDriMessage*)(Messages->Items[i]);
 		if (Message->Vendor != driAsd)
 			Message->Free();
 		else
 		{
-			TwclWiFiDriAsdMessage* AsdMessage = (TwclWiFiDriAsdMessage*)Message;
+			TwclDriAsdMessage* AsdMessage = (TwclDriAsdMessage*)Message;
 			String MessageType = MessageTypeToText(AsdMessage);
 
 			TTreeNode* MessageNode = Node->getFirstChild();
@@ -869,7 +869,7 @@ void __fastcall TfmMain::UpdateDroneMessages(TTreeNode* Node, TList* Messages)
 			{
 				if (MessageNode->Text == MessageType)
 				{
-					((TwclWiFiDriMessage*)MessageNode->Data)->Free();
+					((TwclDriMessage*)MessageNode->Data)->Free();
 					MessageNode->Data = NULL;
 					break;
 				}
@@ -887,12 +887,12 @@ void __fastcall TfmMain::UpdateDroneMessages(TTreeNode* Node, TList* Messages)
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::UpdateMessageDetails(String Ssid,
-	TwclWiFiDriMessage* Message)
+	TwclDriMessage* Message)
 {
 	ClearMessageDetails();
 
 	if (Message->Vendor == driAsd)
-		UpdateAsdMessageDetails(Ssid, (TwclWiFiDriAsdMessage*)Message);
+		UpdateAsdMessageDetails(Ssid, (TwclDriAsdMessage*)Message);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::UpdateMessages(String Ssid, TList* Messages)
@@ -982,7 +982,7 @@ void __fastcall TfmMain::StopScan()
 			TTreeNode* MessageNode = DroneNode->getFirstChild();
 			while (MessageNode != NULL)
 			{
-				((TwclWiFiDriMessage*)MessageNode->Data)->Free();
+				((TwclDriMessage*)MessageNode->Data)->Free();
 				MessageNode = DroneNode->GetNextChild(MessageNode);
 			}
 			DroneNode = FRootNode->GetNextChild(DroneNode);

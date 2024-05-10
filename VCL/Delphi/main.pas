@@ -53,54 +53,54 @@ type
     procedure StopScan;
 
     function FindDrone(const Ssid: string): TTreeNode;
-    function MessageTypeToText(const Message: TwclWiFiDriAsdMessage): string;
+    function MessageTypeToText(const Message: TwclDriAsdMessage): string;
 
     function AsdVerticalAccuracyToText(
-      const Accuracy: TwclWiFiDriAsdUavVerticalAccuracy): string;
+      const Accuracy: TwclDriAsdUavVerticalAccuracy): string;
     function AsdHeightReferenceToText(
-      const Reference: TwclWiFiDriAsdUavHeightReference): string;
+      const Reference: TwclDriAsdUavHeightReference): string;
     function AsdHorizontalAccuracyToText(
-      const Accuracy: TwclWiFiDriAsdUavHorizontalAccuracy): string;
+      const Accuracy: TwclDriAsdUavHorizontalAccuracy): string;
     function AsdSpeedAccuracyToText(
-      const Accuracy: TwclWiFiDriAsdUavSpeedAccuracy): string;
-    function AsdStatusToText(const Status: TwclWiFiDriAsdUavStatus): string;
+      const Accuracy: TwclDriAsdUavSpeedAccuracy): string;
+    function AsdStatusToText(const Status: TwclDriAsdUavStatus): string;
     function AsdTimestampAccuracyToText(
-      const Accuracy: TwclWiFiDriAsdUavTimestampAccuracy): string;
+      const Accuracy: TwclDriAsdUavTimestampAccuracy): string;
     function AsdAltitudeToText(const Altitude: Single): string;
     function AsdDescriptionTypeToText(
-      const DescriptionType: TwclWiFiDriAsdDescriptionType): string;
+      const DescriptionType: TwclDriAsdDescriptionType): string;
     function AsdDirectionToText(const Direction: Word): string;
     function AsdHorizontalSpeedToText(const Speed: Single): string;
     function AsdLatLonToText(const LatLon: Double): string;
     function AsdOperatorClassificationToText(
-      const Classification: TwclWiDiDriAsdOperatorClassification): string;
+      const Classification: TwclDriAsdOperatorClassification): string;
     function AsdLocationTypeToText(
-      const Location: TwclWiDiDriAsdOperatorLocationType): string;
+      const Location: TwclDriAsdOperatorLocationType): string;
     function AsdEuUavCategoryToText(
-      const Category: TwclWiDiDriAsdUavEuCategory): string;
+      const Category: TwclDriAsdUavEuCategory): string;
     function AsdEuUavClassToText(
-      const UavClass: TwclWiDiDriAsdUavEuClass): string;
-    function AsdIdTypeToText(const IdType: TwclWiFiDriAsdIdType): string;
-    function AsdUavTypeToText(const UavType: TwclWiFiDriAsdUavType): string;
-    function VendorToText(const Message: TwclWiFiDriMessage): string;
+      const UavClass: TwclDriAsdUavEuClass): string;
+    function AsdIdTypeToText(const IdType: TwclDriAsdIdType): string;
+    function AsdUavTypeToText(const UavType: TwclDriAsdUavType): string;
+    function VendorToText(const Message: TwclDriMessage): string;
 
     procedure ShowAsdLocationMessage(
-      const Message: TwclWiFiDriAsdLocationMessage);
-    procedure ShowAsdSelfIdMessage(const Message: TwclWiFiDriAsdSelfIdMessage);
+      const Message: TwclDriAsdLocationMessage);
+    procedure ShowAsdSelfIdMessage(const Message: TwclDriAsdSelfIdMessage);
     procedure ShowAsdOperatorIdMessage(
-      const Message: TwclWiFiDriAsdOperatorIdMessage);
-    procedure ShowAsdSystemMessage(const Message: TwclWiFiDriAsdSystemMessage);
+      const Message: TwclDriAsdOperatorIdMessage);
+    procedure ShowAsdSystemMessage(const Message: TwclDriAsdSystemMessage);
     procedure ShowAsdBassicIdMessage(
-      const Message: TwclWiFiDriAsdBasicIdMessage);
-    procedure ShowUnknownAsdMessage(const Message: TwclWiFiDriAsdMessage);
+      const Message: TwclDriAsdBasicIdMessage);
+    procedure ShowUnknownAsdMessage(const Message: TwclDriAsdMessage);
 
     procedure ClearMessageDetails;
     procedure GetDriInfo;
     procedure UpdateAsdMessageDetails(const Ssid: string;
-      const Message: TwclWiFiDriAsdMessage);
+      const Message: TwclDriAsdMessage);
     procedure UpdateDroneMessages(const Node: TTreeNode; const Messages: TList);
     procedure UpdateMessageDetails(const Ssid: string;
-      const Message: TwclWiFiDriMessage);
+      const Message: TwclDriMessage);
     procedure UpdateMessages(const Ssid: string; const Messages: TList);
   end;
 
@@ -132,7 +132,7 @@ begin
   if tvDrones.Selected <> nil then begin
     if tvDrones.Selected.Data <> nil then begin
       UpdateMessageDetails(tvDrones.Selected.Parent.Text,
-        TwclWiFiDriMessage(tvDrones.Selected.Data));
+        TwclDriMessage(tvDrones.Selected.Data));
     end;
   end;
 end;
@@ -360,7 +360,7 @@ begin
 end;
 
 function TfmMain.MessageTypeToText(
-  const Message: TwclWiFiDriAsdMessage): string;
+  const Message: TwclDriAsdMessage): string;
 begin
   case Message.MessageType of
     mtBasicId:
@@ -381,7 +381,7 @@ begin
 end;
 
 function TfmMain.AsdVerticalAccuracyToText(
-  const Accuracy: TwclWiFiDriAsdUavVerticalAccuracy): string;
+  const Accuracy: TwclDriAsdUavVerticalAccuracy): string;
 begin
   case Accuracy of
     vaUnknown:
@@ -404,7 +404,7 @@ begin
 end;
 
 function TfmMain.AsdHeightReferenceToText(
-  const Reference: TwclWiFiDriAsdUavHeightReference): string;
+  const Reference: TwclDriAsdUavHeightReference): string;
 begin
   case Reference of
     hrTakeOff:
@@ -417,7 +417,7 @@ begin
 end;
 
 function TfmMain.AsdHorizontalAccuracyToText(
-  const Accuracy: TwclWiFiDriAsdUavHorizontalAccuracy): string;
+  const Accuracy: TwclDriAsdUavHorizontalAccuracy): string;
 begin
   case Accuracy of
     haUnknown:
@@ -452,7 +452,7 @@ begin
 end;
 
 function TfmMain.AsdSpeedAccuracyToText(
-  const Accuracy: TwclWiFiDriAsdUavSpeedAccuracy): string;
+  const Accuracy: TwclDriAsdUavSpeedAccuracy): string;
 begin
   case Accuracy of
     saUnknown:
@@ -470,7 +470,7 @@ begin
   end;
 end;
 
-function TfmMain.AsdStatusToText(const Status: TwclWiFiDriAsdUavStatus): string;
+function TfmMain.AsdStatusToText(const Status: TwclDriAsdUavStatus): string;
 begin
   case Status of
     usUndeclared:
@@ -489,7 +489,7 @@ begin
 end;
 
 function TfmMain.AsdTimestampAccuracyToText(
-  const Accuracy: TwclWiFiDriAsdUavTimestampAccuracy): string;
+  const Accuracy: TwclDriAsdUavTimestampAccuracy): string;
 begin
   case Accuracy of
     taUnknown:
@@ -538,7 +538,7 @@ begin
 end;
 
 function TfmMain.AsdDescriptionTypeToText(
-  const DescriptionType: TwclWiFiDriAsdDescriptionType): string;
+  const DescriptionType: TwclDriAsdDescriptionType): string;
 begin
   case DescriptionType of
     dtText:
@@ -577,7 +577,7 @@ begin
 end;
 
 function TfmMain.AsdOperatorClassificationToText(
-  const Classification: TwclWiDiDriAsdOperatorClassification): string;
+  const Classification: TwclDriAsdOperatorClassification): string;
 begin
   case Classification of
     ocUndeclared:
@@ -590,7 +590,7 @@ begin
 end;
 
 function TfmMain.AsdLocationTypeToText(
-  const Location: TwclWiDiDriAsdOperatorLocationType): string;
+  const Location: TwclDriAsdOperatorLocationType): string;
 begin
   case Location of
     ltTakeOff:
@@ -605,7 +605,7 @@ begin
 end;
 
 function TfmMain.AsdEuUavCategoryToText(
-  const Category: TwclWiDiDriAsdUavEuCategory): string;
+  const Category: TwclDriAsdUavEuCategory): string;
 begin
   case Category of
     ucUndeclared:
@@ -622,7 +622,7 @@ begin
 end;
 
 function TfmMain.AsdEuUavClassToText(
-  const UavClass: TwclWiDiDriAsdUavEuClass): string;
+  const UavClass: TwclDriAsdUavEuClass): string;
 begin
   case UavClass of
     ucUnspecified:
@@ -646,7 +646,7 @@ begin
   end;
 end;
 
-function TfmMain.AsdIdTypeToText(const IdType: TwclWiFiDriAsdIdType): string;
+function TfmMain.AsdIdTypeToText(const IdType: TwclDriAsdIdType): string;
 begin
   case IdType of
     itNone:
@@ -664,7 +664,7 @@ begin
   end;
 end;
 
-function TfmMain.AsdUavTypeToText(const UavType: TwclWiFiDriAsdUavType): string;
+function TfmMain.AsdUavTypeToText(const UavType: TwclDriAsdUavType): string;
 begin
   case UavType of
     utNone:
@@ -703,7 +703,7 @@ begin
 end;
 
 procedure TfmMain.ShowAsdLocationMessage(
-  const Message: TwclWiFiDriAsdLocationMessage);
+  const Message: TwclDriAsdLocationMessage);
 var
   Item: TListItem;
 begin
@@ -773,7 +773,7 @@ begin
 end;
 
 procedure TfmMain.ShowAsdSelfIdMessage(
-  const Message: TwclWiFiDriAsdSelfIdMessage);
+  const Message: TwclDriAsdSelfIdMessage);
 var
   Item: TListItem;
 begin
@@ -787,7 +787,7 @@ begin
 end;
 
 procedure TfmMain.ShowAsdOperatorIdMessage(
-  const Message: TwclWiFiDriAsdOperatorIdMessage);
+  const Message: TwclDriAsdOperatorIdMessage);
 var
   Item: TListItem;
 begin
@@ -801,7 +801,7 @@ begin
 end;
 
 procedure TfmMain.ShowAsdSystemMessage(
-  const Message: TwclWiFiDriAsdSystemMessage);
+  const Message: TwclDriAsdSystemMessage);
 var
   Item: TListItem;
 begin
@@ -860,7 +860,7 @@ begin
 end;
 
 procedure TfmMain.ShowAsdBassicIdMessage(
-  const Message: TwclWiFiDriAsdBasicIdMessage);
+  const Message: TwclDriAsdBasicIdMessage);
 var
   Item: TListItem;
 begin
@@ -877,7 +877,7 @@ begin
   Item.SubItems.Add(AsdUavTypeToText(Message.UavType));
 end;
 
-procedure TfmMain.ShowUnknownAsdMessage(const Message: TwclWiFiDriAsdMessage);
+procedure TfmMain.ShowUnknownAsdMessage(const Message: TwclDriAsdMessage);
 var
   Item: TListItem;
   Str: string;
@@ -898,7 +898,7 @@ begin
 end;
 
 procedure TfmMain.UpdateAsdMessageDetails(const Ssid: string;
-  const Message: TwclWiFiDriAsdMessage);
+  const Message: TwclDriAsdMessage);
 var
   Item: TListItem;
 begin
@@ -916,17 +916,17 @@ begin
 
   case Message.MessageType of
     mtBasicId:
-      ShowAsdBassicIdMessage(TwclWiFiDriAsdBasicIdMessage(Message));
+      ShowAsdBassicIdMessage(TwclDriAsdBasicIdMessage(Message));
     mtLocation:
-      ShowAsdLocationMessage(TwclWiFiDriAsdLocationMessage(Message));
+      ShowAsdLocationMessage(TwclDriAsdLocationMessage(Message));
     mtAuth:
       ShowUnknownAsdMessage(Message);
     mtSelfId:
-      ShowAsdSelfIdMessage(TwclWiFiDriAsdSelfIdMessage(Message));
+      ShowAsdSelfIdMessage(TwclDriAsdSelfIdMessage(Message));
     mtSystem:
-      ShowAsdSystemMessage(TwclWiFiDriAsdSystemMessage(Message));
+      ShowAsdSystemMessage(TwclDriAsdSystemMessage(Message));
     mtOperatorId:
-      ShowAsdOperatorIdMessage(TwclWiFiDriAsdOperatorIdMessage(Message));
+      ShowAsdOperatorIdMessage(TwclDriAsdOperatorIdMessage(Message));
     else
       ShowUnknownAsdMessage(Message);
   end;
@@ -936,24 +936,24 @@ procedure TfmMain.UpdateDroneMessages(const Node: TTreeNode;
   const Messages: TList);
 var
   i: Integer;
-  Message: TwclWiFiDriMessage;
-  AsdMessage: TwclWiFiDriAsdMessage;
+  Message: TwclDriMessage;
+  AsdMessage: TwclDriAsdMessage;
   MessageType: string;
   MessageNode: TTreeNode;
 begin
   for i := 0 to Messages.Count - 1 do begin
-    Message := TwclWiFiDriMessage(Messages[i]);
+    Message := TwclDriMessage(Messages[i]);
     if Message.Vendor <> driAsd then
       Message.Free
 
     else begin
-      AsdMessage := TwclWiFiDriAsdMessage(Message);
+      AsdMessage := TwclDriAsdMessage(Message);
       MessageType := MessageTypeToText(AsdMessage);
 
       MessageNode := Node.getFirstChild;
       while MessageNode <> nil do begin
         if MessageNode.Text = MessageType then begin
-          TwclWiFiDriMessage(MessageNode.Data).Free;
+          TwclDriMessage(MessageNode.Data).Free;
           MessageNode.Data := nil;
           Break;
         end;
@@ -971,12 +971,12 @@ begin
 end;
 
 procedure TfmMain.UpdateMessageDetails(const Ssid: string;
-  const Message: TwclWiFiDriMessage);
+  const Message: TwclDriMessage);
 begin
   ClearMessageDetails;
 
   if Message.Vendor = driAsd then
-    UpdateAsdMessageDetails(Ssid, TwclWiFiDriAsdMessage(Message));
+    UpdateAsdMessageDetails(Ssid, TwclDriAsdMessage(Message));
 end;
 
 procedure TfmMain.UpdateMessages(const Ssid: string; const Messages: TList);
@@ -990,7 +990,7 @@ begin
   end;
 end;
 
-function TfmMain.VendorToText(const Message: TwclWiFiDriMessage): string;
+function TfmMain.VendorToText(const Message: TwclDriMessage): string;
 begin
   case Message.Vendor of
     driAsd:
@@ -1078,7 +1078,7 @@ begin
     while DroneNode <> nil do begin
       MessageNode := DroneNode.getFirstChild;
       while MessageNode <> nil do begin
-        TwclWiFiDriMessage(MessageNode.Data).Free;
+        TwclDriMessage(MessageNode.Data).Free;
         MessageNode := DroneNode.GetNextChild(MessageNode);
       end;
       DroneNode := FRootNode.GetNextChild(DroneNode);

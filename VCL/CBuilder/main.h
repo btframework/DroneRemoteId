@@ -60,53 +60,53 @@ private:	// User declarations
 	void __fastcall StopScan();
 
 	TTreeNode* __fastcall FindDrone(String Ssid);
-	String __fastcall MessageTypeToText(TwclWiFiDriAsdMessage* Message);
+	String __fastcall MessageTypeToText(TwclDriAsdMessage* Message);
 
 	String __fastcall AsdVerticalAccuracyToText(
-		TwclWiFiDriAsdUavVerticalAccuracy Accuracy);
+		TwclDriAsdUavVerticalAccuracy Accuracy);
 	String __fastcall AsdHeightReferenceToText(
-		TwclWiFiDriAsdUavHeightReference Reference);
+		TwclDriAsdUavHeightReference Reference);
 	String __fastcall AsdHorizontalAccuracyToText(
-		TwclWiFiDriAsdUavHorizontalAccuracy Accuracy);
+		TwclDriAsdUavHorizontalAccuracy Accuracy);
 	String __fastcall AsdSpeedAccuracyToText(
-		TwclWiFiDriAsdUavSpeedAccuracy Accuracy);
-	String __fastcall AsdStatusToText(TwclWiFiDriAsdUavStatus Status);
+		TwclDriAsdUavSpeedAccuracy Accuracy);
+	String __fastcall AsdStatusToText(TwclDriAsdUavStatus Status);
 	String __fastcall AsdTimestampAccuracyToText(
-		TwclWiFiDriAsdUavTimestampAccuracy Accuracy);
+		TwclDriAsdUavTimestampAccuracy Accuracy);
 	String __fastcall AsdAltitudeToText(float Altitude);
 	String __fastcall AsdDescriptionTypeToText(
-		TwclWiFiDriAsdDescriptionType DescriptionType);
+		TwclDriAsdDescriptionType DescriptionType);
 	String __fastcall AsdDirectionToText(unsigned short Direction);
 	String __fastcall AsdHorizontalSpeedToText(float Speed);
 	String __fastcall AsdLatLonToText(double LatLon);
 	String __fastcall AsdOperatorClassificationToText(
-		TwclWiDiDriAsdOperatorClassification Classification);
+		TwclDriAsdOperatorClassification Classification);
 	String __fastcall AsdLocationTypeToText(
-		TwclWiDiDriAsdOperatorLocationType Location);
+		TwclDriAsdOperatorLocationType Location);
 	String __fastcall AsdEuUavCategoryToText(
-		TwclWiDiDriAsdUavEuCategory Category);
-	String __fastcall AsdEuUavClassToText(TwclWiDiDriAsdUavEuClass UavClass);
-	String __fastcall AsdIdTypeToText(TwclWiFiDriAsdIdType IdType);
-	String __fastcall AsdUavTypeToText(TwclWiFiDriAsdUavType UavType);
-	String __fastcall VendorToText(TwclWiFiDriMessage* Message);
+		TwclDriAsdUavEuCategory Category);
+	String __fastcall AsdEuUavClassToText(TwclDriAsdUavEuClass UavClass);
+	String __fastcall AsdIdTypeToText(TwclDriAsdIdType IdType);
+	String __fastcall AsdUavTypeToText(TwclDriAsdUavType UavType);
+	String __fastcall VendorToText(TwclDriMessage* Message);
 
 	void __fastcall ShowAsdLocationMessage(
-		TwclWiFiDriAsdLocationMessage* Message);
-	void __fastcall ShowAsdSelfIdMessage(TwclWiFiDriAsdSelfIdMessage* Message);
+		TwclDriAsdLocationMessage* Message);
+	void __fastcall ShowAsdSelfIdMessage(TwclDriAsdSelfIdMessage* Message);
 	void __fastcall ShowAsdOperatorIdMessage(
-		TwclWiFiDriAsdOperatorIdMessage* Message);
-	void __fastcall ShowAsdSystemMessage(TwclWiFiDriAsdSystemMessage* Message);
+		TwclDriAsdOperatorIdMessage* Message);
+	void __fastcall ShowAsdSystemMessage(TwclDriAsdSystemMessage* Message);
 	void __fastcall ShowAsdBassicIdMessage(
-		TwclWiFiDriAsdBasicIdMessage* Message);
-	void __fastcall ShowUnknownAsdMessage(TwclWiFiDriAsdMessage* Message);
+		TwclDriAsdBasicIdMessage* Message);
+	void __fastcall ShowUnknownAsdMessage(TwclDriAsdMessage* Message);
 
 	void __fastcall ClearMessageDetails();
 	void __fastcall GetDriInfo();
 	void __fastcall UpdateAsdMessageDetails(String Ssid,
-		TwclWiFiDriAsdMessage* Message);
+		TwclDriAsdMessage* Message);
 	void __fastcall UpdateDroneMessages(TTreeNode* Node, TList* Messages);
 	void __fastcall UpdateMessageDetails(String Ssid,
-		TwclWiFiDriMessage* Message);
+		TwclDriMessage* Message);
 	void __fastcall UpdateMessages(String Ssid, TList* Messages);
 
 public:		// User declarations

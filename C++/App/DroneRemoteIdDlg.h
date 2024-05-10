@@ -71,37 +71,37 @@ private:
 	void EnumInterfaces();
 	HTREEITEM FindDrone(const CString& Ssid);
 
-	CString MessageTypeToText(const CwclWiFiDriAsdMessage* const Message) const;
-	CString AsdVerticalAccuracyToText(const wclWiFiDriAsdUavVerticalAccuracy Accuracy) const;
-	CString AsdHeightReferenceToText(const wclWiFiDriAsdUavHeightReference Reference) const;
-	CString AsdHorizontalAccuracyToText(const wclWiFiDriAsdUavHorizontalAccuracy Accuracy) const;
-	CString AsdSpeedAccuracyToText(const wclWiFiDriAsdUavSpeedAccuracy Accuracy) const;
-	CString AsdStatusToText(const wclWiFiDriAsdUavStatus Status) const;
-	CString AsdTimestampAccuracyToText(const wclWiFiDriAsdUavTimestampAccuracy Accuracy) const;
+	CString MessageTypeToText(const CwclDriAsdMessage* const Message) const;
+	CString AsdVerticalAccuracyToText(const wclDriAsdUavVerticalAccuracy Accuracy) const;
+	CString AsdHeightReferenceToText(const wclDriAsdUavHeightReference Reference) const;
+	CString AsdHorizontalAccuracyToText(const wclDriAsdUavHorizontalAccuracy Accuracy) const;
+	CString AsdSpeedAccuracyToText(const wclDriAsdUavSpeedAccuracy Accuracy) const;
+	CString AsdStatusToText(const wclDriAsdUavStatus Status) const;
+	CString AsdTimestampAccuracyToText(const wclDriAsdUavTimestampAccuracy Accuracy) const;
 	CString AsdAltitudeToText(const float Altitude) const;
-	CString AsdDescriptionTypeToText(const wclWiFiDriAsdDescriptionType DescriptionType) const;
+	CString AsdDescriptionTypeToText(const wclDriAsdDescriptionType DescriptionType) const;
 	CString AsdDirectionToText(const unsigned short Direction) const;
 	CString AsdHorizontalSpeedToText(const float Speed) const;
 	CString AsdLatLonToText(const double LatLon) const;
-	CString AsdOperatorClassificationToText(const wclWiDiDriAsdOperatorClassification Classification) const;
-	CString AsdLocationTypeToText(const wclWiDiDriAsdOperatorLocationType Location) const;
-	CString AsdEuUavCategoryToText(const wclWiDiDriAsdUavEuCategory Category) const;
-	CString AsdEuUavClassToText(const wclWiDiDriAsdUavEuClass UavClass) const;
-	CString AsdIdTypeToText(const wclWiFiDriAsdIdType IdType) const;
-	CString AsdUavTypeToText(const wclWiFiDriAsdUavType UavType) const;
-	CString VendorToText(const CwclWiFiDriMessage* const Message) const;
+	CString AsdOperatorClassificationToText(const wclDriAsdOperatorClassification Classification) const;
+	CString AsdLocationTypeToText(const wclDriAsdOperatorLocationType Location) const;
+	CString AsdEuUavCategoryToText(const wclDriAsdUavEuCategory Category) const;
+	CString AsdEuUavClassToText(const wclDriAsdUavEuClass UavClass) const;
+	CString AsdIdTypeToText(const wclDriAsdIdType IdType) const;
+	CString AsdUavTypeToText(const wclDriAsdUavType UavType) const;
+	CString VendorToText(const CwclDriMessage* const Message) const;
 
-	void ShowAsdLocationMessage(const CwclWiFiDriAsdLocationMessage* const Message);
-	void ShowAsdSelfIdMessage(const CwclWiFiDriAsdSelfIdMessage* const Message);
-	void ShowAsdOperatorIdMessage(const CwclWiFiDriAsdOperatorIdMessage* const Message);
-	void ShowAsdSystemMessage(const CwclWiFiDriAsdSystemMessage* const Message);
-	void ShowAsdBassicIdMessage(const CwclWiFiDriAsdBasicIdMessage* const Message);
-	void ShowUnknownAsdMessage(const CwclWiFiDriAsdMessage* const Message);
+	void ShowAsdLocationMessage(const CwclDriAsdLocationMessage* const Message);
+	void ShowAsdSelfIdMessage(const CwclDriAsdSelfIdMessage* const Message);
+	void ShowAsdOperatorIdMessage(const CwclDriAsdOperatorIdMessage* const Message);
+	void ShowAsdSystemMessage(const CwclDriAsdSystemMessage* const Message);
+	void ShowAsdBassicIdMessage(const CwclDriAsdBasicIdMessage* const Message);
+	void ShowUnknownAsdMessage(const CwclDriAsdMessage* const Message);
 
-	void UpdateAsdMessageDetails(const CString& Ssid, const CwclWiFiDriAsdMessage* const Message);
-	void UpdateDroneMessages(const HTREEITEM Node, wclWiFiDriMessages& Messages);
-	void UpdateMessageDetails(const CString& Ssid, const CwclWiFiDriMessage* const Message);
-	void UpdateMessages(const CString& Ssid, wclWiFiDriMessages& Messages);
+	void UpdateAsdMessageDetails(const CString& Ssid, const CwclDriAsdMessage* const Message);
+	void UpdateDroneMessages(const HTREEITEM Node, wclDriMessages& Messages);
+	void UpdateMessageDetails(const CString& Ssid, const CwclDriMessage* const Message);
+	void UpdateMessages(const CString& Ssid, wclDriMessages& Messages);
 
 	void GetDriInfo();
 
