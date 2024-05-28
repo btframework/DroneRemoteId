@@ -3905,7 +3905,7 @@ namespace wclWiFi
 		/// <remarks> The caller is responsible for clear memory allocated for the
 		///   <c>List</c> dynamic array. </remarks>
 		/// <seealso cref="wclWiFiCountryOrRegions" />
-		int GetCountyOrRegions(wclWiFiCountryOrRegions& List) const;
+		int GetCountryOrRegions(wclWiFiCountryOrRegions& List) const;
 		/// <summary> Reads the WiFi Hosted Network capability of the
 		///   interface. </summary>
 		/// <param name="Supported"> The Hosted network support. <c>True</c> if the
@@ -4914,6 +4914,12 @@ namespace wclWiFi
 		/// <seealso cref="wclWiFiProfileEditPage" />
 		int ShowUIEdit(const GUID& IfaceId, const tstring& ProfileName,
 			const wclWiFiProfileEditPage Page = epConnection);
+
+		/// <summary> The function creates a HEX representation for the provided
+		///   SSID. </summary>
+		/// <param name="Ssid"> The SSID. </param>
+		/// <returns> The HEX that can be used in XML profile. </returns>
+		tstring SsidToHex(const tstring& Ssid) const;
 	};
 
 	/// <summary> The PHY types used by the WiFi Sniffer. </summary>
@@ -5274,6 +5280,8 @@ namespace wclWiFi
 	// Forward declaration
 	class CwclWiFiDirectAdvertiser;
 	class CwclWiFiDirectClient;
+	class CwclWiFiDirectConnectionRequestedEventHandler;
+	class CwclWiFiDirectPairParams;
 
 	/// <summary> The class represents a WiFi Direct device. </summary>
 	/// <remarks> An application must not create or destroy objects of this class
@@ -5281,9 +5289,10 @@ namespace wclWiFi
 	class CwclWiFiDirectDevice
 	{
 		DISABLE_COPY(CwclWiFiDirectDevice);
-
+		
 	private:
 		friend class CwclWiFiDirectAdvertiser;
+		friend class CwclWiFiDirectConnectionRequestedEventHandler;
 		friend class CwclWiFiDirectClient;
 
 		/* Device's properties. */
@@ -5294,62 +5303,94 @@ namespace wclWiFi
 		tstring						FName;
 		tstring						FRemoteAddress;
 		wclWiFiDirectDeviceState	FState;
+		tstring						FSystemDeviceId;
+		
+		/* Internal fields. */
 		
 		CwclMessageReceiver*		FReceiver;
-		
+		LONG						FRefCount;
+
 		/* WinRT WiFi Direct interfaces. */
 		
-		WlanApi::IWiFiDirectDevice*						FDevice;
-		wclCommon::WinApi::EventRegistrationToken		FDeviceEvent;
-		wclCommon::WinApi::IDeviceInformationPairing*	FPairing;
-		wclCommon::WinApi::IDeviceInformationPairing2*	FPairing2;
+		WlanApi::IWiFiDirectDevice*					FDevice;
+		wclCommon::WinApi::EventRegistrationToken	FDeviceEvent;
 		
 		/* WinRT thread. */
 		
+		// Used to synchronize access to IWiFiDirectDevice object.
+		RTL_CRITICAL_SECTION FCS;
+		HANDLE	FTerminationEvent;
 		HANDLE	FThread;
-		HANDLE	FThreadEvent;
 		
-		int SetPairingParams(wclCommon::WinApi::DevicePairingKinds& Kind,
-			wclCommon::WinApi::IDevicePairingSettings** Settings);
-		int Pair(bool& JustPaired);
-		void PairCompleted(const wclCommon::WinApi::DevicePairingResultStatus Status);
-		void Unpair();
+		/* Device property getters. */
 		
-		int CreatePairingInterface();
-		void DestroyPairingInterface();
+		tstring GetAddress(const bool Local);
+		void GetDeviceName(wclCommon::WinApi::IDeviceInformation* const Info);
 		
-		int CreateDevice();
+		/* Device pairing. */
+		
+		void AddOrderedMethods(WlanApi::IWiFiDirectConnectionParameters2* const Params,
+			const CwclWiFiDirectPairParams* const UserParams);
+		int CreatePairingInterfaces(wclCommon::WinApi::IDeviceInformation* const Info,
+			wclCommon::WinApi::IDeviceInformationPairing*& Pairing,
+			wclCommon::WinApi::IDeviceInformationPairing2*& Pairing2);
+		wclCommon::WinApi::DevicePairingKinds EncodePairingMethods(
+			const CwclWiFiDirectPairParams* const UserParams);
+		void NotifyPairCompleted(const wclCommon::WinApi::DevicePairingResultStatus Status);
+		int Pair(wclCommon::WinApi::IDeviceInformation* const Info, bool& JustPaired);
+		int SetPairingProcedure(WlanApi::IWiFiDirectConnectionParameters2* const Params,
+			const CwclWiFiDirectPairParams* const UserParams);
+		int SetupPairingParams(wclCommon::WinApi::DevicePairingKinds& Kind,
+			WlanApi::IWiFiDirectConnectionParameters*& Params);
+		void Unpair(wclCommon::WinApi::IDeviceInformation* const Info);
+		int WaitPairing(wclCommon::WinApi::IDevicePairingResultAsyncOperation* const AsyncOper,
+			wclCommon::WinApi::DevicePairingResultStatus& Status, bool& JustPaired);
+		
+		/* Device creation. */
+		
+		int CreateDevice(wclCommon::WinApi::IDeviceInformation* const Info);
 		void DestroyDevice();
 		
-		int GetAddress(const bool Local, tstring& Ip);
-		int GetAddresses();
+		/* Connection management. */
 		
+		int InternalConnect(wclCommon::WinApi::IDeviceInformation* const Info);
 		int InternalConnect();
 		void InternalDisconnect();
+		void SendConnectedMessage(const int Res);
 		
+		/* Connection thread and connection event management. */
+		
+		int CreateTerminationEvent();
 		static UINT __stdcall _ThreadProc(LPVOID lpParam);
 		void ThreadProc();
 		
+		/* "Public" methods. */
+		
+		// Accepts incoming connection request.
+		bool Accept(wclCommon::WinApi::IDeviceInformation* const Info);
+		// Connect to WiFi Direct device with its Device Information object.
+		int Connect(wclCommon::WinApi::IDeviceInformation* const Info);
 		// Connects to WiFi Direct device with given ID.
-		int Connect();
+		int Connect(const tstring& Id);
+		
+		/* Reference counting. */
+		
+		void AddRef();
+		void Release();
 		
 	public:
 		/// <summary> Creates new WiFi Direct device object. </summary>
 		/// <param name="Receiver"> The message receiver object that will
 		///   receive notification messages. If the <c>Receiver</c> parameter is
-		///   <c>NULL</c> the <see cref="wclEInvalidArgument" /> exception
+		///   <c>nil</c> the <see cref="wclEInvalidArgument" /> exception
 		///   raises. </param>
-		/// <param name="Id"> The device's ID. If the <c>Id</c> parameter is an
-		///   empty string the <see cref="wclEInvalidArgument" /> exception
-		///   raises. </param>
-		/// <param name="Name"> The device's name. </param>
 		/// <param name="Legacy"> The device's legacy mode. </param>
 		/// <remarks> An application must not create or destroy objects of this
 		///   class directly. </remarks>
 		/// <seealso cref="CwclMessageReceiver" />
-		/// <exception cref="wclEInvalidArgument"></exception>
-		CwclWiFiDirectDevice(CwclMessageReceiver* const Receiver, const tstring& Id,
-			const tstring& Name = _T(""), const bool Legacy = false);
+		/// <exception cref="wclEInvalidArgument" />
+		CwclWiFiDirectDevice(CwclMessageReceiver* const Receiver,
+			const bool Legacy);
 		/// <summary> Frees the WiFi Direct device object. </summary>
 		/// <remarks> An application must not create or destroy objects of this
 		///   class directly. </remarks>
@@ -5367,7 +5408,7 @@ namespace wclWiFi
 		/// <summary> Gets the device's ID. </summary>
 		/// <value> The WiFi Direct device's ID. </value>
 		__declspec(property(get = GetId)) tstring Id;
-
+		
 		/// <summary> gets the legacy setting. </summary>
 		/// <returns> <c>True</c> if the device is legacy WiFi device. <c>False</c>
 		///   if the device is WiFi Direct device. </returns>
@@ -5376,28 +5417,28 @@ namespace wclWiFi
 		/// <value> <c>True</c> if the device is legacy WiFi device. <c>False</c>
 		///   if the device is WiFi Direct device. </value>
 		__declspec(property(get = GetLegacy)) bool Legacy;
-
+		
 		/// <summary> Gets the local IP address. </summary>
 		/// <returns> The connection's local IPD address. </returns>
 		tstring GetLocalAddress() const;
 		/// <summary> Gets the local IP address. </summary>
 		/// <value> The connection's local IPD address. </value>
 		__declspec(property(get = GetLocalAddress)) tstring LocalAddress;
-
+		
 		/// <summary> Gets the device's name. </summary>
 		/// <returns> The WiFi Direct device's name. </returns>
 		tstring GetName() const;
 		/// <summary> Gets the device's name. </summary>
 		/// <value> The WiFi Direct device's name. </value>
 		__declspec(property(get = GetName)) tstring Name;
-
+		
 		/// <summary> Gets the remote IP address. </summary>
 		/// <returns> The connection's remote IP address. </returns>
 		tstring GetRemoteAddress() const;
 		/// <summary> Gets the remote IP address. </summary>
 		/// <value> The connection's remote IP address. </value>
 		__declspec(property(get = GetRemoteAddress)) tstring RemoteAddress;
-
+		
 		/// <summary> Gets the current device's state. </summary>
 		/// <returns> The WiFi Direct device's state. </returns>
 		/// <seealso cref="wclWiFiDirectDeviceState" />
@@ -5406,6 +5447,17 @@ namespace wclWiFi
 		/// <value> The WiFi Direct device's state. </value>
 		/// <seealso cref="wclWiFiDirectDeviceState" />
 		__declspec(property(get = GetState)) wclWiFiDirectDeviceState State;
+		
+		/// <summary> Gets the system device ID. </summary>
+		/// <returns> The WiFi Direct system device ID. </returns>
+		/// <remarks> The system device ID is how system detected the
+		///  device. </remarks>
+		tstring GetSystemDeviceId() const;
+		/// <summary> Gets the system device ID. </summary>
+		/// <value> The WiFi Direct system device ID. </value>
+		/// <remarks> The system device ID is how system detected the
+		///  device. </remarks>
+		__declspec(property(get = GetSystemDeviceId)) tstring SystemDeviceId;
 	};
 
 	/// <summary> The base class for all WiFi Direct components. </summary>
@@ -5776,8 +5828,11 @@ namespace wclWiFi
 		
 		int StartListener();
 		void StopListener();
+
 		// Checks is Mobile HotSpot is running.
 		int IsHotspotRunning() const;
+		// Checks is x32 app runs on x64 platform.
+		bool IsWow64() const;
 		
 		/* WinRT thread. */
 		
@@ -6419,7 +6474,6 @@ namespace wclWiFi
 		tstring				FDeviceId;
 		bool				FPaired;
 		WCL_WFD_DEVICES*	FPairedDevices;
-		tstring				FName;
 
 		int CanExecuteOperation();
 
@@ -6443,10 +6497,6 @@ namespace wclWiFi
 		// Enumerates paired devices.
 		static UINT __stdcall _EnumPairedDevicesThread(LPVOID lpParam);
 		void EnumPairedDevicesThreadProc();
-
-		// Reads WiFi Direct device's name.
-		static UINT __stdcall _ResolveNameThread(LPVOID lpParam);
-		void ResolveNameThreadProc();
 		
 	protected:
 		/// <summary> The method called when WiFi hardware has been switched off
@@ -6518,15 +6568,6 @@ namespace wclWiFi
 		///   found devices IDs. </remarks>
 		/// <seealso cref="WCL_WFD_DEVICES" />
 		int EnumPairedDevices(const WCL_WFD_DEVICES* const Devices);
-		
-		/// <summary> Gets the WiFi Direct device's name. </summary>
-		/// <param name="Id"> The WiFi Direct device's ID. </param>
-		/// <param name="Name"> If the method completed with success on output
-		///   contains the WiFi Direct  device's name. </param>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		int GetName(const tstring& Id, tstring& Name);
 		
 		/// <summary> Gets discovering state of the component. </summary>
 		/// <returns> The current discovering state. <c>True</c> if the discovering

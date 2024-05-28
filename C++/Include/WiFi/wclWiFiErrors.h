@@ -133,12 +133,7 @@ namespace wclWiFi
 	const int WCL_E_WIFI_CANTOPEN = WCL_E_WIFI_BASE + 0x0022;
 	/// <summary> The data supplied is of the wrong type. </summary>
 	const int WCL_E_WIFI_DATATYPE_MISMATCH = WCL_E_WIFI_BASE + 0x0023;
-	/// <summary> The Hosted Network has already been started. </summary>
-	const int WCL_E_WIFI_HOSTED_NETWORK_STARTED = WCL_E_WIFI_BASE + 0x0024;
-	/// <summary> The Hosted Network does not support PSD IE on this
-	///   platform. </summary>
-	const int WCL_E_WIFI_PSD_IE_NOT_SUPPORTED = WCL_E_WIFI_BASE + 0x0025;
-
+	
 	/* AEP authentication error codes. */
 
 	/// <summary> The base error code for WiFi EAP errors. </summary>
@@ -784,6 +779,11 @@ namespace wclWiFi
 	const int WCL_E_WIFI_HN_GET_IP_TABLE_FAILED = WCL_E_WIFI_HN_BASE + 0x0003;
 	/// <summary> The peer with specified MAC was not found. </summary>
 	const int WCL_E_WIFI_HN_PEER_NOT_FOUND = WCL_E_WIFI_HN_BASE + 0x0004;
+	/// <summary> The Hosted Network has already been started. </summary>
+	const int WCL_E_WIFI_HN_STARTED = WCL_E_WIFI_HN_BASE + 0x0005;
+	/// <summary> The Hosted Network does not support PSD IE on this
+	///   platform. </summary>
+	const int WCL_E_WIFI_HN_PSD_IE_NOT_SUPPORTED = WCL_E_WIFI_HN_BASE + 0x0006;
 
 	/* Network List Manager error codes. */
 
@@ -974,7 +974,7 @@ namespace wclWiFi
 	const int WCL_E_WIFI_DIRECT_PAIR_NOT_ALLOWED = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0007;
 	/// <summary> Authentication failed, so the device is not paired. Either the
 	///   device or the application rejected the authentication. </summary>
-	const int WCL_E_WIFI_DIRECT_PAIR_FAILURE = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0008;
+	const int WCL_E_WIFI_DIRECT_PAIR_AUTHENTICATION_FAILURE = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0008;
 	/// <summary> There are no network profiles for this device to use. </summary>
 	const int WCL_E_WIFI_DIRECT_PAIR_NO_PROFILES = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0009;
 	/// <summary> The minimum level of protection is not supported by the device
@@ -990,14 +990,16 @@ namespace wclWiFi
 	/// <summary> The device is already attempting to pair or unpair. </summary>
 	const int WCL_E_WIFI_DIRECT_PAIR_IN_PROGRESS = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x000E;
 	/// <summary> Either the event handler wasn't registered or a required
-	///   <c>TwclWiFiDirectPairingKinds</c> was not supported. </summary>
+	///   <c>wclWiFiDirectPairingKinds</c> was not supported. </summary>
 	const int WCL_E_WIFI_DIRECT_PAIR_HANDLER_NOT_REGISTERED = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x000F;
 	/// <summary> The application handler rejected the pairing. </summary>
 	const int WCL_E_WIFI_DIRECT_PAIR_REJECTED_BY_HANDLER = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0010;
 	/// <summary> The remove device already has an association. </summary>
 	const int WCL_E_WIFI_DIRECT_PAIR_HAS_ASSOCCIATION = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0011;
-	/// <summary> An unknown or unexpected failure occurred. </summary>
-	const int WCL_E_WIFI_DIRECT_PAIR_UNKNOW = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0012;
+	/// <summary> An unexpected failure occurred. </summary>
+	const int WCL_E_WIFI_DIRECT_PAIR_UNKNOWN = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0012;
+	/// <summary> An unknown failure occurred. </summary>
+	const int WCL_E_WIFI_DIRECT_PAIR_FAILURE = WCL_E_WIFI_DIRECT_PAIR_BASE + 0x0013;
 
 	/* WiFi direct device error codes. */
 
@@ -1024,64 +1026,54 @@ namespace wclWiFi
 	const int WCL_E_WIFI_DIRECT_DEVICE_PAIRING_NOT_SUPPORTED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0008;
 	/// <summary> WiFi Direct device does not support custom pairing. </summary>
 	const int WCL_E_WIFI_DIRECT_DEVICE_CUSTOM_PAIRING_NOT_SUPPORTED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0009;
-	/// <summary> Unable to get WiFi Direct device's name. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_NAME_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000A;
 	/// <summary> Unable to create WiFi Direct device pairing notification
 	///   synchronization event. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_PAIRING_SYNC_EVENT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000B;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_PAIRING_SYNC_EVENT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000A;
 	/// <summary> Connection has been terminated by user. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CONNECTION_TERMINATED_BT_USER = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000C;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CONNECTION_TERMINATED_BT_USER = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000B;
 	/// <summary> Wait for notification message processing failed. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_WAIT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000D;
+	const int WCL_E_WIFI_DIRECT_DEVICE_WAIT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000C;
 	/// <summary> Unable to create pairing synchronization mutex. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_PAIRING_MUTEX_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000E;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_PAIRING_MUTEX_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000D;
 	/// <summary> Unable to set Group Owner Intent. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_SET_GO_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000F;
+	const int WCL_E_WIFI_DIRECT_DEVICE_SET_GO_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000E;
 	/// <summary> Unable to get connection parameters. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_CONNECTION_PARAMETERS_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0010;
+	const int WCL_E_WIFI_DIRECT_DEVICE_GET_CONNECTION_PARAMETERS_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x000F;
 	/// <summary> Unable to set preferred pairing procedure. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_SET_PAIRING_PROCEDURE_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0011;
+	const int WCL_E_WIFI_DIRECT_DEVICE_SET_PAIRING_PROCEDURE_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0010;
 	/// <summary> Unable to get custom pairing interface. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_CUSTOM_PAIRING_FILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0012;
+	const int WCL_E_WIFI_DIRECT_DEVICE_GET_CUSTOM_PAIRING_FILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0011;
 	/// <summary> Unable to set pairing event handler. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_SET_PAIRING_EVENT_HANDLER_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0013;
+	const int WCL_E_WIFI_DIRECT_DEVICE_SET_PAIRING_EVENT_HANDLER_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0012;
 	/// <summary> Unable to get pairing settings. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRING_SETTINGS_FILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0014;
+	const int WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRING_SETTINGS_FILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0013;
 	/// <summary> Unable to start pairing with remote WiFi Direct device. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_START_PAIRING_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0015;
+	const int WCL_E_WIFI_DIRECT_DEVICE_START_PAIRING_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0014;
 	/// <summary> Unable to get pairing result. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRING_RESULT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0016;
+	const int WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRING_RESULT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0015;
 	/// <summary> Unable to pair with remote device. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_PAIRING_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0017;
+	const int WCL_E_WIFI_DIRECT_DEVICE_PAIRING_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0016;
 	/// <summary> Unable to create WiFi Direct device object. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0018;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0017;
 	/// <summary> Unable to get WiFi Direct device creation operation result. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_GET_RESULT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0019;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_GET_RESULT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0018;
 	/// <summary> WiFi Direct device object was not created. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_OBJECT_NOT_CREATED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001A;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_OBJECT_NOT_CREATED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0019;
 	/// <summary> Unable to set disconnection event handler. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_SET_DISCONNECT_EVENT_HANDLER_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001B;
-	/// <summary> Unable to get connection endpoint pairs. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_ENDPOINTS_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001C;
-	/// <summary> Unable to get connection endpoints count. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_ENDPOINTS_COUNT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001D;
-	/// <summary> No connection endpoints were found. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_ENDPOINTS_NOT_FOUND = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001E;
-	/// <summary> Unable to get default (first) connection endpoint pair. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_ENDPOINT_PAIR_FILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001F;
-	/// <summary> Unable to get IHostName interface for the connection endpoint pair. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_HOST_NAME_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0020;
-	/// <summary> Unable to convert Host Name to IP address. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_CANONICAL_NAME_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0021;
+	const int WCL_E_WIFI_DIRECT_DEVICE_SET_DISCONNECT_EVENT_HANDLER_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001A;
 	/// <summary> Unable to get WiFi Direct device's pairing status. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRED_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0022;
+	const int WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRED_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001B;
 	/// <summary> Unable to start unpairing operation. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_START_UNPAIR_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0023;
+	const int WCL_E_WIFI_DIRECT_DEVICE_START_UNPAIR_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001C;
 	/// <summary> Timeout during creating WiFi Direct device object. Usually it
 	///   appears when device has wrong DHCP configuration or uses static IP. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_TIMEOUT = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0024;
+	const int WCL_E_WIFI_DIRECT_DEVICE_CREATE_TIMEOUT = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001D;
 	/// <summary> Unable to start WiFi Direct device object creating procedure. </summary>
-	const int WCL_E_WIFI_DIRECT_DEVICE_START_CREATE_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0025;
+	const int WCL_E_WIFI_DIRECT_DEVICE_START_CREATE_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001E;
+	/// <summary> Unable to get device ID. </summary>
+	const int WCL_E_WIFI_DIRECT_DEVICE_GET_ID_FAILED = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x001F;
+	/// <summary> The WiFi Direct device or driver is busy. </summary>
+	const int WCL_E_WIFI_DIRECT_DEVICE_BUSY = WCL_E_WIFI_DIRECT_DEVICE_BASE + 0x0020;
 
 	/* WiFi direct advertiser error codes. */
 
@@ -1129,6 +1121,13 @@ namespace wclWiFi
 	const int WCL_E_WIFI_DIRECT_ADVERTISER_CREATE_MUTEX_FAILED = WCL_E_WIFI_DIRECT_ADVERTISER_BASE + 0x0013;
 	/// <summary> Mobile HotSpot is already running on PC. </summary>
 	const int WCL_E_WIFI_DIRECT_ADVERTISER_HOTSPOT_RUNNING = WCL_E_WIFI_DIRECT_ADVERTISER_BASE + 0x0014;
+	/// <summary> This error returned when your run x32 application on x64
+	///   platform and Autonomous Group Owner enabled in WiFiDirectAdvertiser and
+	///   the Advertiser runs not in Legacy mode. </summary>
+	/// <remarks> Windows API has some bug when pairing always failed if you
+	///   run WiFi Direct Advertiser in Autonomous Group Owner mode in x32
+	///   application on x64 platform. </remarks>
+	const int WCL_E_WIFI_DIRECT_ADVERTISER_INVALID_OS_BITS = WCL_E_WIFI_DIRECT_ADVERTISER_BASE + 0x0015;
 
 	/* WiFi direct device watcher error codes. */
 

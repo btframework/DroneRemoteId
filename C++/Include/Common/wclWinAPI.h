@@ -2606,6 +2606,7 @@ namespace wclCommon
 
 		int wclWinRtCreateInstance(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
 		int wclWinRtActivateFactory(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
+		int wclWinRtWaitAsync(IAsyncInfo* Async, const HANDLE Event);
 		int wclWinRtWaitAsync(IAsyncInfo* Async);
 
 		// ======================================================================

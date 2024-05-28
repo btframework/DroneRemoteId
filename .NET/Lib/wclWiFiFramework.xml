@@ -1815,12 +1815,6 @@
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DATATYPE_MISMATCH">
             <summary> The data supplied is of the wrong type. </summary>
         </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_HOSTED_NETWORK_STARTED">
-            <summary> The Hosted Network has already been started. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_PSD_IE_NOT_SUPPORTED">
-            <summary> The Hosted Network does not support PSD IE on this platform. </summary>
-        </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_EAP_BASE">
             <summary> The base error code for WiFi EAP errors. </summary>
         </member>
@@ -2679,6 +2673,13 @@
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_HN_PEER_NOT_FOUND">
             <summary> The peer with specified MAC was not found. </summary>
         </member>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_HN_STARTED">
+            <summary> The Hosted Network has already been started. </summary>
+        </member>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_HN_PSD_IE_NOT_SUPPORTED">
+            <summary> The Hosted Network does not support PSD IE on this
+              platform. </summary>
+        </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_NLM_BASE">
             <summary> The base Network List Manager error code. </summary>
         </member>
@@ -2944,7 +2945,7 @@
             <summary> The authentication protocol is not supported, so the device is
               not paired. </summary>
         </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_FAILURE">
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_AUTHENTICATION_FAILURE">
             <summary> Authentication failed, so the device is not paired. Either the
               device or the application rejected the authentication. </summary>
         </member>
@@ -2970,7 +2971,7 @@
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_HANDLER_NOT_REGISTERED">
             <summary> Either the event handler wasn't registered or a required
-              <c>TwclWiFiDirectPairingKinds</c> was not supported. </summary>
+              <c>wclWiFiDirectPairingKinds</c> was not supported. </summary>
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_REJECTED_BY_HANDLER">
             <summary> The application handler rejected the pairing. </summary>
@@ -2978,8 +2979,11 @@
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_HAS_ASSOCCIATION">
             <summary> The remove device already has an association. </summary>
         </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_UNKNOW">
-            <summary> An unknown or unexpected failure occurred. </summary>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_UNKNOWN">
+            <summary> An unexpected failure occurred. </summary>
+        </member>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_PAIR_FAILURE">
+            <summary> An unknown failure occurred. </summary>
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_BASE">
             <summary> The base error code for WiFi Direct device errors. </summary>
@@ -3015,9 +3019,6 @@
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_CUSTOM_PAIRING_NOT_SUPPORTED">
             <summary> WiFi Direct device does not support custom pairing. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_NAME_FAILED">
-            <summary> Unable to get WiFi Direct device's name. </summary>
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_CREATE_PAIRING_SYNC_EVENT_FAILED">
             <summary> Unable to create WiFi Direct device pairing notification
@@ -3073,26 +3074,6 @@
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_SET_DISCONNECT_EVENT_HANDLER_FAILED">
             <summary> Unable to set disconnection event handler. </summary>
         </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_ENDPOINTS_FAILED">
-            <summary> Unable to get connection endpoint pairs. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_ENDPOINTS_COUNT_FAILED">
-            <summary> Unable to get connection endpoints count. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_ENDPOINTS_NOT_FOUND">
-            <summary> No connection endpoints were found. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_ENDPOINT_PAIR_FILED">
-            <summary> Unable to get default (first) connection endpoint
-              pair. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_HOST_NAME_FAILED">
-            <summary> Unable to get IHostName interface for the connection
-              endpoint pair. </summary>
-        </member>
-        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_CANONICAL_NAME_FAILED">
-            <summary> Unable to convert Host Name to IP address. </summary>
-        </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_PAIRED_FAILED">
             <summary> Unable to get WiFi Direct device's pairing status. </summary>
         </member>
@@ -3105,6 +3086,12 @@
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_START_CREATE_FAILED">
             <summary> Unable to start WiFi Direct device object creating procedure. </summary>
+        </member>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_GET_ID_FAILED">
+            <summary> Unable to get device ID. </summary>
+        </member>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_BUSY">
+            <summary> The WiFi Direct device or driver is busy. </summary>
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_ADVERTISER_BASE">
             <summary> The base error code for WiFi Direct Advertiser. </summary>
@@ -3180,6 +3167,14 @@
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_ADVERTISER_HOTSPOT_RUNNING">
             <summary> Mobile HotSpot is already running on PC. </summary>
+        </member>
+        <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_ADVERTISER_INVALID_OS_BITS">
+            <summary> This error returned when your run x32 application on x64
+              platform and Autonomous Group Owner enabled in WiFiDirectAdvertiser and
+              the Advertiser runs not in Legacy mode. </summary>
+            <remarks> Windows API has some bug when pairing always failed if you
+              run WiFi Direct Advertiser in Autonomous Group Owner mode in x32
+              application on x64 platform. </remarks>
         </member>
         <member name="F:wclWiFi.wclWiFiErrors.WCL_E_WIFI_DIRECT_DEVICE_WATCHER_BASE">
             <summary> The base error code for WiFi Direct Device Watcher. </summary>
@@ -6547,7 +6542,7 @@
               the WCL error codes. </returns>
             <seealso cref="T:wclWiFi.wclWiFiConnectionAttributes" />
         </member>
-        <member name="M:wclWiFi.wclWiFiInterface.GetCountyOrRegions(System.String[]@)">
+        <member name="M:wclWiFi.wclWiFiInterface.GetCountryOrRegions(System.String[]@)">
             <summary> Reads the WiFi interface supported Countries or Regions
               list. </summary>
             <param name="List"> The supported Countries and Regions List. </param>
@@ -6960,6 +6955,9 @@
         <member name="F:wclWiFi.wclWiFiConnectionAttributes.Security">
             <summary> The security attributes of the connection. </summary>
             <seealso cref="T:wclWiFi.wclWiFiSecurityAttributes" />
+        </member>
+        <member name="T:wclWiFi.wclWiFiDirectAcceptDeviceMessageParams">
+            <exclude />
         </member>
         <member name="T:wclWiFi.wclMobileHotspot">
             <summary> The class allows to control Mobile Hotspot feature on Windows 10
@@ -7502,20 +7500,11 @@
               may be one of the WCL return codes. </returns>
             <seealso cref="T:wclWiFi.wclWiFiProfileEditPage" />
         </member>
-        <member name="M:wclWiFi.wclWiFiProfilesManager.ShowUIEdit(System.Guid,System.String)">
-            <summary> Displays the wireless profile user interface (UI). This UI is
-              used to view and edit advanced settings of a wireless network
-              profile. </summary>
-            <param name="IfaceId"> The ID of the interface. </param>
-            <param name="ProfileName"> Contains the name of the profile to be viewed
-              or edited. Profile names are case-sensitive. The supplied profile must
-              be present on the interface. That means the profile must have been
-              previously created and saved in the profile store and that the profile
-              must be valid for the supplied interface. </param>
-            <returns> If the function succeeds, the return value is
-              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. If the function fails, the return value
-              may be one of the WCL return codes. </returns>
-            <seealso cref="T:wclWiFi.wclWiFiProfileEditPage" />
+        <member name="M:wclWiFi.wclWiFiProfilesManager.SsidToHex(System.String)">
+            <summary> The function creates a HEX representation for the provided
+              SSID. </summary>
+            <param name="Ssid"> The SSID. </param>
+            <returns> The HEX that can be used in XML profile. </returns>
         </member>
         <member name="T:wclWiFi.wclWiFiTemporaryProfileFlag">
             <summary> The flags to set on the profile. </summary>
@@ -8868,21 +8857,22 @@
             <remarks> An application must not create or destroy objects of this class
               directly. </remarks>
         </member>
-        <member name="M:wclWiFi.wclWiFiDirectDevice.#ctor(wclCommon.wclMessageReceiver,System.String,System.String,System.Boolean)">
+        <member name="M:wclWiFi.wclWiFiDirectDevice.#ctor(wclCommon.wclMessageReceiver,System.Boolean)">
             <summary> Creates new WiFi Direct device object. </summary>
             <param name="Receiver"> The message receiver object that will
               receive notification messages. If the <c>Receiver</c> parameter is
-              <c>null</c> the <see cref="T:wclCommon.wclEInvalidArgument" /> exception
+              <c>nil</c> the <see cref="T:wclCommon.wclEInvalidArgument" /> exception
               raises. </param>
-            <param name="Id"> The device's ID. If the <c>Id</c> parameter is an
-              empty string the <see cref="T:wclCommon.wclEInvalidArgument" /> exception
-              raises. </param>
-            <param name="Name"> The device's name. </param>
             <param name="Legacy"> The device's legacy mode. </param>
             <remarks> An application must not create or destroy objects of this
               class directly. </remarks>
             <seealso cref="T:wclCommon.wclMessageReceiver" />
             <exception cref="T:wclCommon.wclEInvalidArgument" />
+        </member>
+        <member name="M:wclWiFi.wclWiFiDirectDevice.Finalize">
+            <summary> Frees the WiFi Direct device object. </summary>
+            <remarks> An application must not create or destroy objects of this
+              class directly. </remarks>
         </member>
         <member name="M:wclWiFi.wclWiFiDirectDevice.Disconnect">
             <summary> Disconnects a WiFi Direct device. </summary>
@@ -8915,6 +8905,12 @@
             <summary> Gets the current device's state. </summary>
             <value> The WiFi Direct device's state. </value>
             <seealso cref="T:wclWiFi.wclWiFiDirectDeviceState" />
+        </member>
+        <member name="P:wclWiFi.wclWiFiDirectDevice.SystemDeviceId">
+            <summary> Gets the system device ID. </summary>
+            <value> The WiFi Direct system device ID. </value>
+            <remarks> The system device ID is how system detected the
+             device. </remarks>
         </member>
         <member name="T:wclWiFi.wclWiFiDirectConfigurationMethod">
             <summary> Specifies a WiFi Direct configuration method. Configuration is
@@ -9059,15 +9055,6 @@
               StringList object before calling the method and to destroy it after
               usage. The <c>Devices</c> list will be cleared before filled with
               found devices IDs. </remarks>
-        </member>
-        <member name="M:wclWiFi.wclWiFiDirectDeviceWatcher.GetName(System.String,System.String@)">
-            <summary> Gets the WiFi Direct device's name. </summary>
-            <param name="Id"> The WiFi Direct device's ID. </param>
-            <param name="Name"> If the method completed with success on output
-              contains the WiFi Direct  device's name. </param>
-            <returns> If the function succeed the return value is
-              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
-              the WCL error codes. </returns>
         </member>
         <member name="P:wclWiFi.wclWiFiDirectDeviceWatcher.Discovering">
             <summary> Gets discovering state of the component. </summary>
