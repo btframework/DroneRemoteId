@@ -43,6 +43,9 @@
     <Reference Include="wclCommon">
       <HintPath>..\Lib\wclCommon.dll</HintPath>
     </Reference>
+    <Reference Include="wclDri">
+      <HintPath>..\Lib\wclDri.dll</HintPath>
+    </Reference>
     <Reference Include="wclWiFiFramework">
       <HintPath>..\Lib\wclWiFiFramework.dll</HintPath>
     </Reference>
@@ -56,8 +59,8 @@
     <Import Include="System.Text" />
     <Import Include="System.Windows.Forms" />
     <Import Include="wclCommon" />
+    <Import Include="wclDri" />
     <Import Include="wclWiFi" />
-    <Import Include="wclWiFi.Dri" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="main.vb">

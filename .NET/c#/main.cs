@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 using wclCommon;
 using wclWiFi;
-using wclWiFi.Dri;
+using wclDri;
 
 namespace DroneRemoteIdCSharp
 {

@@ -8,9 +8,10 @@
 #include "afxwin.h"
 
 #include "wclWiFiDri.h"
+#include "wclDroneRemoteId.h"
 
 using namespace wclWiFi;
-using namespace wclWiFi::Dri;
+using namespace wclDri;
 
 
 // CDroneRemoteIdDlg dialog

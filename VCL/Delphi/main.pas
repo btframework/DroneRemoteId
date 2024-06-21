@@ -4,7 +4,7 @@ interface
 
 uses
   Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, wclWiFi, System.Classes, wclWiFiDri,
-  Vcl.ComCtrls;
+  Vcl.ComCtrls, wclDroneRemoteId;
 
 type
   TfmMain = class(TForm)

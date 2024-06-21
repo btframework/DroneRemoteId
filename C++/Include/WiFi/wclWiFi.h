@@ -5388,7 +5388,7 @@ namespace wclWiFi
 		/// <remarks> An application must not create or destroy objects of this
 		///   class directly. </remarks>
 		/// <seealso cref="CwclMessageReceiver" />
-		/// <exception cref="wclEInvalidArgument" />
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclWiFiDirectDevice(CwclMessageReceiver* const Receiver,
 			const bool Legacy);
 		/// <summary> Frees the WiFi Direct device object. </summary>
