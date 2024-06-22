@@ -7,8 +7,7 @@
 #include "afxcmn.h"
 #include "afxwin.h"
 
-#include "wclWiFiDri.h"
-#include "wclDroneRemoteId.h"
+#include "wclWiFi.h"
 
 using namespace wclWiFi;
 using namespace wclDri;

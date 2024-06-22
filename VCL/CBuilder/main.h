@@ -8,7 +8,6 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include "wclWiFi.hpp"
-#include "wclWiFiDri.hpp"
 #include <Vcl.ComCtrls.hpp>
 //---------------------------------------------------------------------------
 class TfmMain : public TForm

@@ -3,8 +3,8 @@ unit main;
 interface
 
 uses
-  Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, wclWiFi, System.Classes, wclWiFiDri,
-  Vcl.ComCtrls, wclDroneRemoteId;
+  Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, wclWiFi, System.Classes, Vcl.ComCtrls,
+  wclDriCommon, wclDriAsd;
 
 type
   TfmMain = class(TForm)

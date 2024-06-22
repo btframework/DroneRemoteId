@@ -19,16 +19,10 @@
 
 #include "..\Common\wclHelpers.h"
 
+#include "wclDriCommon.h"
+
 namespace wclDri
 {
-	/// <summary> The enumeration defines supported Drone Remote ID
-	///   vendors. </summary>
-	typedef enum
-	{
-		/// <summary> ASD-STAN. </summary>
-		driAsd
-	} wclDriVendor;
-
 	/// <summary> The ASD DRI message types. </summary>
 	typedef enum
 	{
@@ -289,52 +283,8 @@ namespace wclDri
 		ta15s = 15
 	} wclDriAsdUavTimestampAccuracy;
 
-	/// <summary> The Drone Remote ID message raw data. </summary>
-	typedef std::vector<unsigned char> wclDriRawData;
-
 	/// <summary> The ID value data type for DRI ASD IDs. </summary>
 	typedef std::vector<unsigned char> wclDriAsdId;
-
-	/// <summary> The base class for Drone Remote ID messages. </summary>
-	class CwclDriMessage
-	{
-		DISABLE_COPY(CwclDriMessage);
-		
-	private:
-		wclDriRawData	FData;
-		wclDriVendor	FVendor;
-		
-	public:
-		/// <summary> Creates new DRI message object. </summary>
-		/// <param name="Data"> The raw DRI message data. </param>
-		/// <param name="Vendor"> The DRI system vendor ID. </param>
-		/// <seealso cref="wclDriRawData" />
-		/// <seealso cref="wclDriVendor" />
-		CwclDriMessage(const wclDriRawData& Data, const wclDriVendor Vendor);
-		/// <summary> Frees the object. </summary>
-		virtual ~CwclDriMessage();
-		
-		/// <summary> Gets the message raw data. </summary>
-		/// <returns> The raw bytes array. </returns>
-		/// <seealso cref="wclDriRawData" />
-		wclDriRawData GetData() const;
-		/// <summary> Gets the message raw data. </summary>
-		/// <value> The raw bytes array. </value>
-		/// <seealso cref="wclDriRawData" />
-		__declspec(property(get = GetData)) wclDriRawData Data;
-
-		/// <summary> Gets the vendor ID. </summary>
-		/// <returns> The vendor ID. </returns>
-		/// <seealso cref="wclDriVendor" />
-		wclDriVendor GetVendor() const;
-		/// <summary> Gets the vendor ID. </summary>
-		/// <value> The vendor ID. </value>
-		/// <seealso cref="wclDriVendor" />
-		__declspec(property(get = GetVendor)) wclDriVendor Vendor;
-	};
-	/// <summary> The <see cref="CwclDriMessage" /> messages array. </summary>
-	/// <seealso cref="CwclDriMessage" />
-	typedef std::vector<CwclDriMessage*> wclDriMessages;
 
 	/// <summary> The base class for ASD DRI message. </summary>
 	/// <seealso cref="CwclDriMessage" />
@@ -843,5 +793,41 @@ namespace wclDri
 		/// <value> The vertical speed in m/s. The maximum value is 62 m/s. If the
 		///   speed is unknown or invalid the value is 63 m/s. </value>
 		__declspec(property(get = GetVerticalSpeed)) float VerticalSpeed;
+	};
+
+	/// <summary> The Drone Remote ID ASD messages parser. </summary>
+	/// <remarks> The class is for internal use only. Use high-level DRI
+	///   parsers or watchers instead. </remarks>
+	class CwclDriAsdParser
+	{
+		DISABLE_COPY(CwclDriAsdParser);
+		
+	private:
+		wclDriRawData CopyData(const wclDriRawData& Data, const size_t Ndx,
+			const size_t Len) const;
+		wclDriRawData CopyData(const wclDriRawData& Data, const size_t Ndx) const;
+
+		/* ASD message parsers */
+
+		void ParseAsdMessage(const unsigned char Counter,
+			const wclDriRawData& Data, wclDriMessages& Messages) const;
+		void UnpackAsdMessages(const unsigned char Counter,
+			const wclDriRawData& Data, wclDriMessages& Messages) const;
+		void ParseAsdMessages(const wclDriRawData& Data,
+			wclDriMessages& Messages) const;
+		
+	public:
+		/// <summary> Creates new ASD message parser. </summary>
+		CwclDriAsdParser();
+		/// <summary> Free the parser. </summary>
+		virtual ~CwclDriAsdParser();
+
+		/// <summary> Parse ASD DRI messages. </summary>
+		/// <param name="Raw"> The ASD DRI raw data. </param>
+		/// <param name="Messages"> If the method completed with success on output
+		///   contains the DRI messages list. An application is responsible to free
+		///   the returned list. If no one DRI message found the returning value
+		///   is the empty list. </param>
+		void Parse(const wclDriRawData& Raw, wclDriMessages& Messages);
 	};
 }
