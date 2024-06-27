@@ -8,7 +8,9 @@
 #include "afxwin.h"
 
 #include "wclWiFi.h"
+#include "wclBluetooth.h"
 
+using namespace wclBluetooth;
 using namespace wclWiFi;
 using namespace wclDri;
 
@@ -50,14 +52,18 @@ private:
 private:
 	CwclWiFiClient WiFiClient;
 	CwclWiFiEvents WiFiEvents;
+	CwclBluetoothManager BluetoothManager;
+	CwclBluetoothLeBeaconWatcher BeaconWatcher;
 	
 	GUID FId;
+	CwclDriAsdParser FBtParser;
 	CwclWiFiDriParser FParser;
 	HTREEITEM FRootNode;
 	bool FScanActive;
 
 	CString IntToHex(const int Val) const;
 	CString IntToHex(const unsigned char Val) const;
+	CString IntToHex(const __int64 i) const;
 	CString FloatToStr(const float Val) const;
 	CString FloatToStr(const double Val) const;
 	CString IntToStr(const unsigned short Val) const;
@@ -120,6 +126,15 @@ private:
 
 	void WiFiClientBeforeClose(void* sender);
 	void WiFiClientAfterOpen(void* sender);
+
+	void BeaconWatcherDriAsdMessage(void* Sender, const __int64 Address,
+		const __int64 Timestamp, const char Rssi, const wclDriRawData& Raw);
+	void BeaconWatcherStarted(void* Sender);
+	void BeaconWatcherStopped(void* Sender);
+
+	void BluetoothManagerAfterOpen(void* Sender);
+	void BluetoothManagerClosed(void* Sender);
+
 public:
 	afx_msg void OnBnClickedButtonClear();
 	afx_msg void OnBnClickedButtonStart();

@@ -619,6 +619,9 @@
             <remarks> The class is for internal use only. Use high-level DRI
               parsers or watchers instead. </remarks>
         </member>
+        <member name="M:wclDri.wclDriAsdParser.#ctor">
+            <summary> Creates ASD DRI parser. </summary>
+        </member>
         <member name="M:wclDri.wclDriAsdParser.Parse(System.Byte[],System.Collections.Generic.List{wclDri.wclDriMessage})">
             <summary> Parse ASD DRI messages. </summary>
             <param name="Raw"> The ASD DRI raw data. </param>
@@ -626,7 +629,9 @@
               contains the DRI messages list. An application is responsible to free
               the returned list. If no one DRI message found the returning value
               is the empty list. </param>
-            <exception cref="T:wclCommon.wclEInvalidArgument" />
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
         </member>
     </members>
 </doc>

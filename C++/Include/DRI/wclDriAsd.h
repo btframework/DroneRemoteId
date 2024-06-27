@@ -828,6 +828,9 @@ namespace wclDri
 		///   contains the DRI messages list. An application is responsible to free
 		///   the returned list. If no one DRI message found the returning value
 		///   is the empty list. </param>
-		void Parse(const wclDriRawData& Raw, wclDriMessages& Messages);
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int Parse(const wclDriRawData& Raw, wclDriMessages& Messages);
 	};
 }

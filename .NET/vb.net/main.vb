@@ -2,7 +2,11 @@
     Private WithEvents WiFiClient As wclWiFiClient
     Private WithEvents WiFiEvents As wclWiFiEvents
 
+    Private WithEvents BluetoothManager As wclBluetoothManager
+    Private WithEvents BeaconWatcher As wclBluetoothLeBeaconWatcher
+
     Private FId As Guid
+    Private FBtParser As wclDriAsdParser
     Private FParser As wclWiFiDriParser
     Private FRootNode As TreeNode
     Private FScanActive As Boolean
@@ -19,9 +23,6 @@
     Private Sub AdapterDisabled()
         StopScan()
         FId = Guid.Empty
-
-        btStart.Enabled = False
-        btStop.Enabled = False
     End Sub
 
     Private Sub ClearMessageDetails()
@@ -29,9 +30,6 @@
     End Sub
 
     Private Sub EnumInterfaces()
-        btStart.Enabled = False
-        btStop.Enabled = False
-
         Dim Ifaces As wclWiFiInterfaceData() = Nothing
         Dim Res As Int32 = WiFiClient.EnumInterfaces(Ifaces)
         If Res <> wclErrors.WCL_E_SUCCESS Then
@@ -64,12 +62,7 @@
                     If Found Then Exit For
                 Next
 
-                If Found Then
-                    Trace("Use WiFi interface " + FId.ToString())
-
-                    btStart.Enabled = True
-                    btStop.Enabled = False
-                End If
+                If Found Then Trace("Use WiFi interface " + FId.ToString())
             End If
         End If
     End Sub
@@ -626,7 +619,7 @@
 
     Private Sub RestartScan()
         If FScanActive Then
-            Dim Res As Int32 = WiFiClient.Scan(FId)
+            Dim Res As Integer = WiFiClient.Scan(FId)
             If Res <> wclErrors.WCL_E_SUCCESS Then
                 Trace("Restart scan failed", Res)
 
@@ -637,25 +630,71 @@
 
     Private Sub StartScan()
         If Not FScanActive Then
-            If FId <> Guid.Empty Then
-                Dim Res As Int32 = WiFiClient.Scan(FId)
+            FId = Guid.Empty
+
+            Dim Res As Integer = WiFiClient.Open()
+            If Res <> wclErrors.WCL_E_SUCCESS Then
+                Trace("WiFiClient open failed", Res)
+            Else
+                Res = WiFiEvents.Open()
                 If Res <> wclErrors.WCL_E_SUCCESS Then
-                    Trace("Start scan failed", Res)
+                    Trace("WiFiEvents open failed", Res)
                 Else
-                    btStart.Enabled = False
-                    btStop.Enabled = True
-
-                    FScanActive = True
-                    FRootNode = tvDrones.Nodes.Add("Drones")
-
-                    Trace("Scan started")
+                    EnumInterfaces()
                 End If
+
+                If Res <> wclErrors.WCL_E_SUCCESS Then WiFiClient.Close()
+            End If
+
+            If FId <> Guid.Empty Then
+                Res = WiFiClient.Scan(FId)
+                If Res <> wclErrors.WCL_E_SUCCESS Then
+                    Trace("Start WiFi scan failed", Res)
+                Else
+                    Trace("WiFi scan started")
+                End If
+            End If
+
+            Res = BluetoothManager.Open()
+            If Res <> wclErrors.WCL_E_SUCCESS Then
+                Trace("Bluetooth manager open failed", Res)
+            Else
+                Dim Radio As wclBluetoothRadio = Nothing
+                Res = BluetoothManager.GetLeRadio(Radio)
+                If Res <> wclErrors.WCL_E_SUCCESS Then
+                    Trace("Get LE radio failed", Res)
+                Else
+                    BeaconWatcher.AllowExtendedAdvertisements = True
+                    Res = BeaconWatcher.Start(Radio)
+                    If Res <> wclErrors.WCL_E_SUCCESS Then
+                        BeaconWatcher.AllowExtendedAdvertisements = False
+                        Res = BeaconWatcher.Start(Radio)
+                    End If
+
+                    If Res <> wclErrors.WCL_E_SUCCESS Then Trace("Start Bluetooth scan failed", Res)
+                End If
+
+                If Res <> wclErrors.WCL_E_SUCCESS Then BluetoothManager.Close()
+            End If
+
+            FScanActive = (BeaconWatcher.Monitoring OrElse WiFiClient.Active)
+            If FScanActive Then
+                FRootNode = tvDrones.Nodes.Add("Drones")
+
+                btStart.Enabled = False
+                btStop.Enabled = True
             End If
         End If
     End Sub
 
     Private Sub StopScan()
         If FScanActive Then
+            WiFiEvents.Close()
+            WiFiClient.Close()
+
+            BeaconWatcher.Stop()
+            BluetoothManager.Close()
+
             btStart.Enabled = True
             btStop.Enabled = False
 
@@ -684,23 +723,16 @@
         WiFiClient = New wclWiFiClient()
         WiFiEvents = New wclWiFiEvents()
 
+        BluetoothManager = New wclBluetoothManager()
+        BeaconWatcher = New wclBluetoothLeBeaconWatcher()
+
         FParser = New wclWiFiDriParser()
+        FBtParser = New wclDriAsdParser()
         FScanActive = False
         FRootNode = Nothing
 
-        Dim Res As Int32 = WiFiClient.Open()
-        If Res <> wclErrors.WCL_E_SUCCESS Then
-            Trace("WiFiClient open failed", Res)
-        Else
-            Res = WiFiEvents.Open()
-            If Res <> wclErrors.WCL_E_SUCCESS Then
-                Trace("WiFiEvents open failed", Res)
-            Else
-                EnumInterfaces()
-            End If
-
-            If Res <> wclErrors.WCL_E_SUCCESS Then WiFiClient.Close()
-        End If
+        btStart.Enabled = True
+        btStop.Enabled = False
     End Sub
 
     Private Sub WiFiEventsMsmRadioStateChange(Sender As Object, IfaceId As Guid, State As wclWiFiPhyRadioState) Handles WiFiEvents.OnMsmRadioStateChange
@@ -775,8 +807,28 @@
 
     Private Sub Form1_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
         StopScan()
+    End Sub
 
-        WiFiEvents.Close()
-        WiFiClient.Close()
+    Private Sub BeaconWatcher_OnDriAsdMessage(Sender As Object, Address As Long, Timestamp As Long, Rssi As SByte, Raw() As Byte) Handles BeaconWatcher.OnDriAsdMessage
+        Dim Messages As List(Of wclDriMessage) = New List(Of wclDriMessage)()
+        If FBtParser.Parse(Raw, Messages) = wclErrors.WCL_E_SUCCESS Then
+            If Messages.Count > 0 Then UpdateMessages(Address.ToString("X12"), Messages)
+        End If
+    End Sub
+
+    Private Sub BeaconWatcher_OnStarted(sender As Object, e As EventArgs) Handles BeaconWatcher.OnStarted
+        Trace("Bluetooth scan started")
+    End Sub
+
+    Private Sub BeaconWatcher_OnStopped(sender As Object, e As EventArgs) Handles BeaconWatcher.OnStopped
+        Trace("Bluetooth scan stopped")
+    End Sub
+
+    Private Sub BluetoothManager_AfterOpen(sender As Object, e As EventArgs) Handles BluetoothManager.AfterOpen
+        Trace("Bluetooth manager opened")
+    End Sub
+
+    Private Sub BluetoothManager_OnClosed(sender As Object, e As EventArgs) Handles BluetoothManager.OnClosed
+        Trace("Bluetooth manager closed")
     End Sub
 End Class

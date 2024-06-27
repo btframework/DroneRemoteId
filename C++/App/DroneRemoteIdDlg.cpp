@@ -69,23 +69,18 @@ BOOL CDroneRemoteIdDlg::OnInitDialog()
 	__hook(&CwclWiFiEvents::BeforeClose, &WiFiEvents, &CDroneRemoteIdDlg::WiFiEventsBeforeClose);
 	__hook(&CwclWiFiEvents::OnMsmRadioStateChange, &WiFiEvents, &CDroneRemoteIdDlg::WiFiEventsMsmRadioStateChange);
 
+	__hook(&CwclBluetoothLeBeaconWatcher::OnDriAsdMessage, &BeaconWatcher, &CDroneRemoteIdDlg::BeaconWatcherDriAsdMessage);
+	__hook(&CwclBluetoothLeBeaconWatcher::OnStarted, &BeaconWatcher, &CDroneRemoteIdDlg::BeaconWatcherStarted);
+	__hook(&CwclBluetoothLeBeaconWatcher::OnStopped, &BeaconWatcher, &CDroneRemoteIdDlg::BeaconWatcherStopped);
+
+	__hook(&CwclBluetoothManager::AfterOpen, &BluetoothManager, &CDroneRemoteIdDlg::BluetoothManagerAfterOpen);
+	__hook(&CwclBluetoothManager::OnClosed, &BluetoothManager, &CDroneRemoteIdDlg::BluetoothManagerClosed);
+
 	FScanActive = false;
 	FRootNode = NULL;
 
-	int Res = WiFiClient.Open();
-	if (Res != WCL_E_SUCCESS)
-		Trace(_T("WiFiClient open failed"), Res);
-	else
-	{
-		Res = WiFiEvents.Open();
-		if (Res != WCL_E_SUCCESS)
-			Trace(_T("WiFiEvents open failed"), Res);
-		else
-			EnumInterfaces();
-
-		if (Res != WCL_E_SUCCESS)
-			WiFiClient.Close();
-	}
+	btStart.EnableWindow(TRUE);
+	btStop.EnableWindow(FALSE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -158,6 +153,14 @@ CString CDroneRemoteIdDlg::IntToHex(const unsigned char Val) const
 	return s;
 }
 
+CString CDroneRemoteIdDlg::IntToHex(const __int64 i) const
+{
+	CString s;
+	s.Format(_T("%.4X%.8X"), static_cast<INT32>((i >> 32) & 0x00000FFFF),
+		static_cast<INT32>(i) & 0xFFFFFFFF);
+	return s;
+}
+
 CString CDroneRemoteIdDlg::FloatToStr(const float Val) const
 {
 	CString s;
@@ -212,9 +215,6 @@ void CDroneRemoteIdDlg::AdapterDisabled()
 {
 	StopScan();
 	FId = wclWiFi::GUID_NULL;
-
-	btStart.EnableWindow(FALSE);
-	btStop.EnableWindow(FALSE);
 }
 
 void CDroneRemoteIdDlg::ClearMessageDetails()
@@ -224,9 +224,6 @@ void CDroneRemoteIdDlg::ClearMessageDetails()
 
 void CDroneRemoteIdDlg::EnumInterfaces()
 {
-	btStart.EnableWindow(FALSE);
-	btStop.EnableWindow(FALSE);
-
 	wclWiFiInterfaces Ifaces;
 	int Res = WiFiClient.EnumInterfaces(Ifaces);
 	if (Res != WCL_E_SUCCESS)
@@ -271,12 +268,7 @@ void CDroneRemoteIdDlg::EnumInterfaces()
 			}
 
 			if (Found)
-			{
 				Trace(_T("Use WiFi interface ") + GuidToString(FId));
-
-				btStart.EnableWindow(TRUE);
-				btStop.EnableWindow(FALSE);
-			}
 		}
 	}
 }
@@ -980,21 +972,66 @@ void CDroneRemoteIdDlg::StartScan()
 {
 	if (!FScanActive)
 	{
+		FId = wclWiFi::GUID_NULL;
+		
+		int Res = WiFiClient.Open();
+		if (Res != WCL_E_SUCCESS)
+			Trace(_T("WiFiClient open failed"), Res);
+		else
+		{
+			Res = WiFiEvents.Open();
+			if (Res != WCL_E_SUCCESS)
+				Trace(_T("WiFiEvents open failed"), Res);
+			else
+				EnumInterfaces();
+
+			if (Res != WCL_E_SUCCESS)
+				WiFiClient.Close();
+		}
+
 		if (FId != wclWiFi::GUID_NULL)
 		{
 			int Res = WiFiClient.Scan(FId);
 			if (Res != WCL_E_SUCCESS)
-				Trace(_T("Start scan failed"), Res);
+				Trace(_T("Start WiFi scan failed"), Res);
+			else
+				Trace(_T("WiFI scan started"));
+		}
+		
+		Res = BluetoothManager.Open();
+		if (Res != WCL_E_SUCCESS)
+			Trace(_T("Bluetooth manager open failed"), Res);
+		else
+		{
+			CwclBluetoothRadio* Radio;
+			Res = BluetoothManager.GetLeRadio(Radio);
+			if (Res != WCL_E_SUCCESS)
+				Trace(_T("Get LE radio failed"), Res);
 			else
 			{
-				btStart.EnableWindow(FALSE);
-				btStop.EnableWindow(TRUE);
+				BeaconWatcher.AllowExtendedAdvertisements = true;
+				Res = BeaconWatcher.Start(Radio);
+				if (Res != WCL_E_SUCCESS)
+				{
+					BeaconWatcher.AllowExtendedAdvertisements = false;
+					Res = BeaconWatcher.Start(Radio);
+				}
 
-				FScanActive = true;
-				FRootNode = tvDrones.InsertItem(_T("Drones"));
-
-				Trace(_T("Scan started"));
+				if (Res != WCL_E_SUCCESS)
+					Trace(_T("Start Bluetooth scan failed"), Res);
 			}
+
+			if (Res != WCL_E_SUCCESS)
+				BluetoothManager.Close();
+		}
+		
+		FScanActive = (BeaconWatcher.Monitoring || WiFiClient.Active);
+		if (FScanActive)
+		{
+			FRootNode = tvDrones.InsertItem(_T("Drones"));
+
+			btStart.EnableWindow(FALSE);
+			btStop.EnableWindow(TRUE);
 		}
 	}
 }
@@ -1003,6 +1040,12 @@ void CDroneRemoteIdDlg::StopScan()
 {
 	if (FScanActive)
 	{
+		WiFiEvents.Close();
+		WiFiClient.Close();
+
+		BeaconWatcher.Stop();
+		BluetoothManager.Close();
+
 		btStart.EnableWindow(TRUE);
 		btStop.EnableWindow(FALSE);
 
@@ -1131,9 +1174,51 @@ void CDroneRemoteIdDlg::OnDestroy()
 
 	StopScan();
 
-	WiFiEvents.Close();
-	WiFiClient.Close();
-
 	__unhook(&WiFiEvents);
 	__unhook(&WiFiClient);
+	__unhook(&BluetoothManager);
+	__unhook(&BeaconWatcher);
+}
+
+void CDroneRemoteIdDlg::BeaconWatcherDriAsdMessage(void* Sender, const __int64 Address,
+	const __int64 Timestamp, const char Rssi, const wclDriRawData& Raw)
+{
+	UNREFERENCED_PARAMETER(Sender);
+	UNREFERENCED_PARAMETER(Timestamp);
+	UNREFERENCED_PARAMETER(Rssi);
+
+	wclDriMessages Messages;
+	if (FBtParser.Parse(Raw, Messages) == WCL_E_SUCCESS)
+	{
+		if (Messages.size() > 0)
+			UpdateMessages(IntToHex(Address), Messages);
+	}
+}
+
+void CDroneRemoteIdDlg::BeaconWatcherStarted(void* Sender)
+{
+	UNREFERENCED_PARAMETER(Sender);
+
+	Trace(_T("Bluetooth scan started"));
+}
+
+void CDroneRemoteIdDlg::BeaconWatcherStopped(void* Sender)
+{
+	UNREFERENCED_PARAMETER(Sender);
+
+	Trace(_T("Bluetooth scan stopped"));
+}
+
+void CDroneRemoteIdDlg::BluetoothManagerAfterOpen(void* Sender)
+{
+	UNREFERENCED_PARAMETER(Sender);
+
+	Trace(_T("Bluetooth manager opened"));
+}
+
+void CDroneRemoteIdDlg::BluetoothManagerClosed(void* Sender)
+{
+	UNREFERENCED_PARAMETER(Sender);
+
+	Trace(_T("Bluetooth manager closed"));
 }

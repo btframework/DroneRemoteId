@@ -43,7 +43,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Include\Common;..\Include\WiFi;..\Include\DRI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Include\Common;..\Include\WiFi;..\Include\DRI;..\Include\Bluetooth;..\Include\Communication</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
     <Link>
@@ -51,7 +51,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wclWiFiFramework.lib</AdditionalDependencies>
+      <AdditionalDependencies>wclWiFiFramework.lib;wclBluetoothFramework.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

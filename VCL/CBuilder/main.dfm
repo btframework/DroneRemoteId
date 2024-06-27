@@ -88,8 +88,8 @@ object fmMain: TfmMain
   object WiFiClient: TwclWiFiClient
     AfterOpen = WiFiClientAfterOpen
     BeforeClose = WiFiClientBeforeClose
-    Left = 64
-    Top = 288
+    Left = 72
+    Top = 184
   end
   object WiFiEvents: TwclWiFiEvents
     AfterOpen = WiFiEventsAfterOpen
@@ -99,7 +99,20 @@ object fmMain: TfmMain
     OnAcmScanComplete = WiFiEventsAcmScanComplete
     OnAcmScanFail = WiFiEventsAcmScanFail
     OnMsmRadioStateChange = WiFiEventsMsmRadioStateChange
-    Left = 64
-    Top = 344
+    Left = 72
+    Top = 240
+  end
+  object BluetoothManager: TwclBluetoothManager
+    AfterOpen = BluetoothManagerAfterOpen
+    OnClosed = BluetoothManagerClosed
+    Left = 72
+    Top = 296
+  end
+  object BeaconWatcher: TwclBluetoothLeBeaconWatcher
+    OnDriAsdMessage = BeaconWatcherDriAsdMessage
+    OnStarted = BeaconWatcherStarted
+    OnStopped = BeaconWatcherStopped
+    Left = 72
+    Top = 360
   end
 end

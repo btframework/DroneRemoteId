@@ -1007,33 +1007,6 @@
         <member name="M:wclWiFi.wclWiFiDriParser.#ctor">
             <summary> Creates new parser object. </summary>
         </member>
-        <member name="M:wclWiFi.wclWiFiDriParser.ExtractDriElements(wclWiFi.wclWiFiBss,wclWiFi.wclWiFiInformationElement[]@)">
-            <summary> Extracts Drone Remote ID information elements from WiFi BSS
-              data. </summary>
-            <param name="Bss"> The WiFi BSS data. </param>
-            <param name="Elements"> If the method completed with success and at
-              least one IE was found on output contains the array of IEs. If the
-              method was success but no one IE found or if the method failed the
-              output value is <c>null</c>. </param>
-            <remarks> As Windows may combine multiple Information Elements received
-              in different Beacon advertisement in a single raw data stream there
-              can be more than one IE with given ID. </remarks>
-            <seealso cref="T:wclWiFi.wclWiFiBss" />
-            <seealso cref="T:wclWiFi.wclWiFiInformationElement" />
-        </member>
-        <member name="M:wclWiFi.wclWiFiDriParser.ExtractDriElements(System.Byte[],wclWiFi.wclWiFiInformationElement[]@)">
-            <summary> Extracts Drone Remote ID information elements from WiFi frame
-              IE raw data. </summary>
-            <param name="Raw"> The WiFi frame IE raw bytes array. </param>
-            <param name="Elements"> If the method completed with success and at
-              least one IE was found on output contains the array of IEs. If the
-              method was success but no one IE found or if the method failed the
-              output value is <c>null</c>. </param>
-            <remarks> As Windows may combine multiple Information Elements received
-              in different Beacon advertisement in a single raw data stream there
-              can be more than one IE with given ID. </remarks>
-            <seealso cref="T:wclWiFi.wclWiFiInformationElement" />
-        </member>
         <member name="M:wclWiFi.wclWiFiDriParser.ParseDriMessages(wclWiFi.wclWiFiBss,System.Collections.Generic.List{wclDri.wclDriMessage})">
             <summary> Extracts DRI messages from BSS information
               elements. </summary>
@@ -1042,6 +1015,9 @@
               contains the DRI messages list. An application is responsible to free
               the returned list. If no one DRI message found the returning value
               is the empty list. </param>
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
             <seealso cref="T:wclWiFi.wclWiFiBss" />
         </member>
         <member name="M:wclWiFi.wclWiFiDriParser.ParseDriMessages(System.Byte[],System.Collections.Generic.List{wclDri.wclDriMessage})">
@@ -1052,7 +1028,9 @@
               contains the DRI messages list. An application is responsible to free
               the returned list. If no one DRI message found the returning value
               is the empty list. </param>
-            <exception cref="T:wclCommon.wclEInvalidArgument" />
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
         </member>
         <member name="T:wclWiFi.wclWiFiErrors">
             <summary> WiFi Framework error codes. </summary>
@@ -4722,6 +4700,9 @@
               least one IE was found on output contains the array of IEs. If the
               method was success but no one IE found or if the method failed the
               output value is <c>null</c>. </param>
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
             <seealso cref="T:wclWiFi.wclWiFiBss" />
             <seealso cref="T:wclWiFi.wclWiFiInformationElement" />
         </member>
@@ -4733,6 +4714,9 @@
               least one IE was found on output contains the array of IEs. If the
               method was success but no one IE found or if the method failed the
               output value is <c>null</c>. </param>
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
             <seealso cref="T:wclWiFi.wclWiFiInformationElement" />
         </member>
         <member name="M:wclWiFi.wclWiFiInformationElementParser.ExtractInformationElements(wclWiFi.wclWiFiInformationElementId,wclWiFi.wclWiFiBss,wclWiFi.wclWiFiInformationElement[]@)">
@@ -4744,6 +4728,9 @@
               least one IE was found on output contains the array of IEs. If the
               method was success but no one IE found or if the method failed the
               output value is <c>null</c>. </param>
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
             <remarks> As Windows may combine multiple Information Elements received
               in different Beacon advertisement in a single raw data stream there
               can be more than one IE with given ID. </remarks>
@@ -4760,6 +4747,9 @@
               least one IE was found on output contains the array of IEs. If the
               method was success but no one IE found or if the method failed the
               output value is <c>null</c>. </param>
+            <returns> If the function succeed the return value is
+              <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
+              the WCL error codes. </returns>
             <remarks> As Windows may combine multiple Information Elements received
               in different Beacon advertisement in a single raw data stream there
               can be more than one IE with given ID. </remarks>

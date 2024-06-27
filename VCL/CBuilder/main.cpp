@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "wclWiFi"
+#pragma link "wclBluetooth"
 #pragma resource "*.dfm"
 TfmMain *fmMain;
 //---------------------------------------------------------------------------
@@ -123,9 +124,6 @@ void __fastcall TfmMain::AdapterDisabled()
 {
 	StopScan();
 	FId = GUID_NULL;
-
-	btStart->Enabled = false;
-	btStop->Enabled = false;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::btClearClick(TObject *Sender)
@@ -150,9 +148,6 @@ void __fastcall TfmMain::ClearMessageDetails()
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::EnumInterfaces()
 {
-	btStart->Enabled = false;
-	btStop->Enabled = false;
-
 	TwclWiFiInterfaces Ifaces;
 	int Res = WiFiClient->EnumInterfaces(Ifaces);
 	if (Res != WCL_E_SUCCESS)
@@ -199,45 +194,27 @@ void __fastcall TfmMain::EnumInterfaces()
 			}
 
 			if (Found)
-			{
 				Trace("Use WiFi interface " + GUIDToString(FId));
-
-				btStart->Enabled = true;
-				btStop->Enabled = false;
-			}
 		}
 	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::FormCreate(TObject *Sender)
 {
+	FBtParser = new TwclDriAsdParser();
 	FParser = new TwclWiFiDriParser();
 	FScanActive = false;
 	FRootNode = NULL;
 
-	int Res = WiFiClient->Open();
-	if (Res != WCL_E_SUCCESS)
-		Trace("WiFiClient open failed", Res);
-	else
-	{
-		Res = WiFiEvents->Open();
-		if (Res != WCL_E_SUCCESS)
-			Trace("WiFiEvents open failed", Res);
-		else
-			EnumInterfaces();
-
-		if (Res != WCL_E_SUCCESS)
-			WiFiClient->Close();
-	}
+	btStart->Enabled = true;
+	btStop->Enabled = false;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfmMain::FormDestroy(TObject *Sender)
 {
 	StopScan();
 
-	WiFiEvents->Close();
-	WiFiClient->Close();
-
+	FBtParser->Free();
 	FParser->Free();
 }
 //---------------------------------------------------------------------------
@@ -948,21 +925,66 @@ void __fastcall TfmMain::StartScan()
 {
 	if (!FScanActive)
 	{
+		FId = GUID_NULL;
+
+		int Res = WiFiClient->Open();
+		if (Res != WCL_E_SUCCESS)
+			Trace("WiFiClient open failed", Res);
+		else
+		{
+			Res = WiFiEvents->Open();
+			if (Res != WCL_E_SUCCESS)
+				Trace("WiFiEvents open failed", Res);
+			else
+				EnumInterfaces();
+
+			if (Res != WCL_E_SUCCESS)
+				WiFiClient->Close();
+		}
+
 		if (!CompareMem((void*)&FId, (void*)&GUID_NULL, sizeof(TGUID)))
 		{
 			int Res = WiFiClient->Scan(FId);
 			if (Res != WCL_E_SUCCESS)
-				Trace("Start scan failed", Res);
+				Trace("Start WiFi scan failed", Res);
+			else
+				Trace("WiFi Scan started");
+		}
+
+		Res = BluetoothManager->Open();
+		if (Res != WCL_E_SUCCESS)
+			Trace("Bluetooth manager open failed", Res);
+		else
+		{
+			TwclBluetoothRadio* Radio;
+			Res = BluetoothManager->GetLeRadio(Radio);
+			if (Res != WCL_E_SUCCESS)
+				Trace("Get LE radio failed", Res);
 			else
 			{
-				btStart->Enabled = false;
-				btStop->Enabled = true;
+				BeaconWatcher->AllowExtendedAdvertisements = true;
+				Res = BeaconWatcher->Start(Radio);
+				if (Res != WCL_E_SUCCESS)
+				{
+					BeaconWatcher->AllowExtendedAdvertisements = false;
+					Res = BeaconWatcher->Start(Radio);
+				}
 
-				FScanActive = true;
-				FRootNode = tvDrones->Items->Add(NULL, "Drones");
-
-				Trace("Scan started");
+				if (Res != WCL_E_SUCCESS)
+					Trace("Start Bluetooth scan failed", Res);
 			}
+
+			if (Res != WCL_E_SUCCESS)
+				BluetoothManager->Close();
+		}
+
+		FScanActive = (BeaconWatcher->Monitoring || WiFiClient->Active);
+		if (FScanActive)
+		{
+			FRootNode = tvDrones->Items->Add(NULL, "Drones");
+
+			btStart->Enabled = false;
+			btStop->Enabled = true;
 		}
 	}
 }
@@ -971,6 +993,12 @@ void __fastcall TfmMain::StopScan()
 {
 	if (FScanActive)
 	{
+		WiFiEvents->Close();
+		WiFiClient->Close();
+
+		BeaconWatcher->Stop();
+		BluetoothManager->Close();
+
 		btStart->Enabled = true;
 		btStop->Enabled = false;
 
@@ -997,3 +1025,38 @@ void __fastcall TfmMain::StopScan()
 	}
 }
 //---------------------------------------------------------------------------
+void __fastcall TfmMain::BeaconWatcherDriAsdMessage(TObject *Sender,
+	const __int64 Address, const __int64 Timestamp, const SByte Rssi,
+	const TwclDriRawData Raw)
+
+{
+	TList* Messages = new TList();
+	if (FBtParser->Parse(Raw, Messages) == WCL_E_SUCCESS)
+	{
+		if (Messages->Count > 0)
+			UpdateMessages(IntToHex(Address, 12), Messages);
+	}
+	Messages->Free();
+}
+//---------------------------------------------------------------------------
+void __fastcall TfmMain::BluetoothManagerAfterOpen(TObject *Sender)
+{
+	Trace("Bluetooth manager opened");
+}
+//---------------------------------------------------------------------------
+void __fastcall TfmMain::BluetoothManagerClosed(TObject *Sender)
+{
+	Trace("Bluetooth manager closed");
+}
+//---------------------------------------------------------------------------
+void __fastcall TfmMain::BeaconWatcherStarted(TObject *Sender)
+{
+	Trace("Bluetooth scan started");
+}
+//---------------------------------------------------------------------------
+void __fastcall TfmMain::BeaconWatcherStopped(TObject *Sender)
+{
+	Trace("Bluetooth scan stopped");
+}
+//---------------------------------------------------------------------------
+

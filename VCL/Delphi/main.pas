@@ -4,7 +4,7 @@ interface
 
 uses
   Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, wclWiFi, System.Classes, Vcl.ComCtrls,
-  wclDriCommon, wclDriAsd;
+  wclDriCommon, wclDriAsd, wclBluetooth;
 
 type
   TfmMain = class(TForm)
@@ -16,6 +16,8 @@ type
     btClear: TButton;
     tvDrones: TTreeView;
     lvDetails: TListView;
+    BluetoothManager: TwclBluetoothManager;
+    BeaconWatcher: TwclBluetoothLeBeaconWatcher;
     procedure btClearClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure WiFiEventsMsmRadioStateChange(Sender: TObject;
@@ -35,9 +37,16 @@ type
       const Reason: Integer);
     procedure WiFiEventsAcmScanComplete(Sender: TObject; const IfaceId: TGUID);
     procedure tvDronesClick(Sender: TObject);
+    procedure BeaconWatcherDriAsdMessage(Sender: TObject; const Address: Int64;
+      const Timestamp: Int64; const Rssi: SByte; const Raw: TwclDriRawData);
+    procedure BluetoothManagerAfterOpen(Sender: TObject);
+    procedure BluetoothManagerClosed(Sender: TObject);
+    procedure BeaconWatcherStarted(Sender: TObject);
+    procedure BeaconWatcherStopped(Sender: TObject);
 
   private
     FId: TGUID;
+    FBtParser: TwclDriAsdParser;
     FParser: TwclWiFiDriParser;
     FRootNode: TTreeNode;
     FScanActive: Boolean;
@@ -216,9 +225,6 @@ procedure TfmMain.AdapterDisabled;
 begin
   StopScan;
   FId := GUID_NULL;
-
-  btStart.Enabled := False;
-  btStop.Enabled := False;
 end;
 
 procedure TfmMain.btClearClick(Sender: TObject);
@@ -252,9 +258,6 @@ var
   j: Integer;
   Enabled: Boolean;
 begin
-  btStart.Enabled := False;
-  btStop.Enabled := False;
-
   Res := WiFiClient.EnumInterfaces(Ifaces);
   if Res <> WCL_E_SUCCESS then
     Trace('Enum interfaces failed', Res)
@@ -293,47 +296,28 @@ begin
           Break;
       end;
 
-      if Found then begin
+      if Found then
         Trace('Use WiFi interface ' + GUIDToString(FId));
-
-        btStart.Enabled := True;
-        btStop.Enabled := False;
-      end;
     end;
   end;
 end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
-var
-  Res: Integer;
 begin
+  FBtParser := TwclDriAsdParser.Create;
   FParser := TwclWiFiDriParser.Create;
   FScanActive := False;
   FRootNode := nil;
 
-  Res := WiFiClient.Open;
-  if Res <> WCL_E_SUCCESS then
-    Trace('WiFiClient open failed', Res)
-
-  else begin
-    Res := WiFiEvents.Open;
-    if Res <> WCL_E_SUCCESS then
-      Trace('WiFiEvents open failed', Res)
-    else
-      EnumInterfaces;
-
-    if Res <> WCL_E_SUCCESS then
-      WiFiClient.Close;
-  end;
+  btStart.Enabled := True;
+  btStop.Enabled := False;
 end;
 
 procedure TfmMain.FormDestroy(Sender: TObject);
 begin
   StopScan;
 
-  WiFiEvents.Close;
-  WiFiClient.Close;
-
+  FBtParser.Free;
   FParser.Free;
 end;
 
@@ -401,6 +385,40 @@ begin
     else
       Result := 'Raw value: 0x' + IntToHex(Byte(Accuracy), 2);
   end;
+end;
+
+procedure TfmMain.BeaconWatcherDriAsdMessage(Sender: TObject;
+  const Address: Int64; const Timestamp: Int64; const Rssi: SByte;
+  const Raw: TwclDriRawData);
+var
+  Messages: TList;
+begin
+  Messages := TList.Create;
+  if FBtParser.Parse(Raw, Messages) = WCL_E_SUCCESS then begin
+    if Messages.Count > 0 then
+      UpdateMessages(IntToHex(Address, 12), Messages);
+  end;
+  Messages.Free;
+end;
+
+procedure TfmMain.BeaconWatcherStarted(Sender: TObject);
+begin
+  Trace('Bluetooth scan started');
+end;
+
+procedure TfmMain.BeaconWatcherStopped(Sender: TObject);
+begin
+  Trace('Bluetooth scan stopped');
+end;
+
+procedure TfmMain.BluetoothManagerAfterOpen(Sender: TObject);
+begin
+  Trace('Bluetooth manager opened');
+end;
+
+procedure TfmMain.BluetoothManagerClosed(Sender: TObject);
+begin
+  Trace('Bluetooth manager closed');
 end;
 
 function TfmMain.AsdHeightReferenceToText(
@@ -1043,22 +1061,65 @@ end;
 procedure TfmMain.StartScan;
 var
   Res: Integer;
+  Radio: TwclBluetoothRadio;
 begin
   if not FScanActive then begin
+    FId := GUID_NULL;
+
+    Res := WiFiClient.Open;
+    if Res <> WCL_E_SUCCESS then
+      Trace('WiFiClient open failed', Res)
+
+    else begin
+      Res := WiFiEvents.Open;
+      if Res <> WCL_E_SUCCESS then
+        Trace('WiFiEvents open failed', Res)
+      else
+        EnumInterfaces;
+
+      if Res <> WCL_E_SUCCESS then
+        WiFiClient.Close;
+    end;
+
     if not CompareMem(@FId, @GUID_NULL, SizeOf(TGUID)) then begin
       Res := WiFiClient.Scan(FId);
       if Res <> WCL_E_SUCCESS then
-        Trace('Start scan failed', Res)
+        Trace('Start WiFi scan failed', Res)
+      else
+        Trace('WiFi scan started');
+    end;
+
+    Res := BluetoothManager.Open;
+    if Res <> WCL_E_SUCCESS then
+      Trace('Bluetooth manager open failed', Res)
+
+    else begin
+      Res := BluetoothManager.GetLeRadio(Radio);
+      if Res <> WCL_E_SUCCESS then
+        Trace('Get LE radio failed', Res)
 
       else begin
-        btStart.Enabled := False;
-        btStop.Enabled := True;
+        BeaconWatcher.AllowExtendedAdvertisements := True;
+        Res := BeaconWatcher.Start(Radio);
+        if Res <> WCL_E_SUCCESS then begin
+          BeaconWatcher.AllowExtendedAdvertisements := False;
+          Res := BeaconWatcher.Start(Radio);
+        end;
 
-        FScanActive := True;
-        FRootNode := tvDrones.Items.Add(nil, 'Drones');
-
-        Trace('Scan started');
+        if Res <> WCL_E_SUCCESS then
+          Trace('Start Bluetooth scan failed', Res);
       end;
+
+      if Res <> WCL_E_SUCCESS then
+        BluetoothManager.Close;
+    end;
+
+    FScanActive := BeaconWatcher.Monitoring or WiFiClient.Active;
+    if FScanActive then begin
+      FRootNode := tvDrones.Items.Add(nil, 'Drones');
+
+      btStart.Enabled := False;
+      btStop.Enabled := True;
     end;
   end;
 end;
@@ -1069,6 +1130,12 @@ var
   MessageNode: TTreeNode;
 begin
   if FScanActive then begin
+    WiFiEvents.Close;
+    WiFiClient.Close;
+
+    BeaconWatcher.Stop;
+    BluetoothManager.Close;
+
     btStart.Enabled := True;
     btStop.Enabled := False;
 

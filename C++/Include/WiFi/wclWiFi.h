@@ -3216,18 +3216,24 @@ namespace wclWiFi
 		/// <param name="Bss"> The WiFi BSS data. </param>
 		/// <param name="Elements"> If the method completed with success and at
 		///   least one IE was found on output contains the array of IEs. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
 		/// <seealso cref="wclWiFiBss" />
 		/// <seealso cref="wclWiFiInformationElements" />
-		void ExtractInformationElements(const wclWiFiBss& Bss,
+		int ExtractInformationElements(const wclWiFiBss& Bss,
 			wclWiFiInformationElements& Elements) const;
 		/// <summary> Extracts information elements from WiFi frame IE raw
 		///   data. </summary>
 		/// <param name="Raw"> The WiFi frame IE raw bytes array. </param>
 		/// <param name="Elements"> If the method completed with success and at
 		///   least one IE was found on output contains the array of IEs. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
 		/// <seealso cref="wclWiFiIeRawData" />
 		/// <seealso cref="wclWiFiInformationElements" />
-		void ExtractInformationElements(const wclWiFiIeRawData& Raw,
+		int ExtractInformationElements(const wclWiFiIeRawData& Raw,
 			wclWiFiInformationElements& Elements) const;
 
 		/// <summary> Extracts information elements with specified ID from WiFi
@@ -3236,13 +3242,16 @@ namespace wclWiFi
 		/// <param name="Bss"> The WiFi BSS data. </param>
 		/// <param name="Elements"> If the method completed with success and at
 		///   least one IE was found on output contains the array of IEs. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
 		/// <remarks> As Windows may combine multiple Information Elements received
 		///   in different Beacon advertisement in a single raw data stream there
 		///   can be more than one IE with given ID. </remarks>
 		/// <seealso cref="wclWiFiInformationElementId" />
 		/// <seealso cref="wclWiFiBss" />
 		/// <seealso cref="wclWiFiInformationElements" />
-		void ExtractInformationElements(const wclWiFiInformationElementId Id,
+		int ExtractInformationElements(const wclWiFiInformationElementId Id,
 			const wclWiFiBss& Bss, wclWiFiInformationElements& Elements) const;
 		/// <summary> Extracts information elements with specified ID from WiFi
 		///   frame IE raw data. </summary>
@@ -3250,13 +3259,16 @@ namespace wclWiFi
 		/// <param name="Raw"> The WiFi frame IE raw bytes array. </param>
 		/// <param name="Elements"> If the method completed with success and at
 		///   least one IE was found on output contains the array of IEs. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
 		/// <remarks> As Windows may combine multiple Information Elements received
 		///   in different Beacon advertisement in a single raw data stream there
 		///   can be more than one IE with given ID. </remarks>
 		/// <seealso cref="wclWiFiInformationElementId" />
 		/// <seealso cref="wclWiFiIeRawData" />
 		/// <seealso cref="wclWiFiInformationElements" />
-		void ExtractInformationElements(const wclWiFiInformationElementId Id,
+		int ExtractInformationElements(const wclWiFiInformationElementId Id,
 			const wclWiFiIeRawData& Raw, wclWiFiInformationElements& Elements) const;
 	};
 
@@ -6960,46 +6972,15 @@ namespace wclWiFi
 
 		unsigned long GetOui(const wclWiFiInformationElement& Element) const;
 		bool IsDriIe(const wclWiFiInformationElement& Element) const;
+
+		int ExtractDriElements(const wclWiFiIeRawData& Raw,
+			wclWiFiInformationElements& Elements) const;
 		
-		/* ASD message parsers */
-
-		void ParseAsdMessage(const unsigned char Counter,
-			const wclDriRawData& Data, wclDriMessages& Messages) const;
-		void UnpackAsdMessages(const unsigned char Counter,
-			const wclDriRawData& Data, wclDriMessages& Messages) const;
-		void ParseAsdMessages(const wclDriRawData& Data,
-			wclDriMessages& Messages) const;
-
 	public:
 		/// <summary> Creates new parser object. </summary>
 		CwclWiFiDriParser();
 		/// <summary> Frees the object. </summary>
 		virtual ~CwclWiFiDriParser();
-
-		/// <summary> Extracts Drone Remote ID information elements from WiFi BSS
-		///   data. </summary>
-		/// <param name="Bss"> The WiFi BSS data. </param>
-		/// <param name="Elements"> If the method completed with success and at
-		///   least one IE was found on output contains the array of IEs. </param>
-		/// <remarks> As Windows may combine multiple Information Elements received
-		///   in different Beacon advertisement in a single raw data stream there
-		///   can be more than one IE with given ID. </remarks>
-		/// <seealso cref="wclWiFiBss" />
-		/// <seealso cref="wclWiFiInformationElements" />
-		void ExtractDriElements(const wclWiFiBss& Bss,
-			wclWiFiInformationElements& Elements) const;
-		/// <summary> Extracts Drone Remote ID information elements from WiFi frame
-		///   IE raw data. </summary>
-		/// <param name="Raw"> The WiFi frame IE raw bytes array. </param>
-		/// <param name="Elements"> If the method completed with success and at
-		///   least one IE was found on output contains the array of IEs. </param>
-		/// <remarks> As Windows may combine multiple Information Elements received
-		///   in different Beacon advertisement in a single raw data stream there
-		///   can be more than one IE with given ID. </remarks>
-		/// <seealso cref="wclWiFiIeRawData" />
-		/// <seealso cref="wclWiFiInformationElements" />
-		void ExtractDriElements(const wclWiFiIeRawData& Raw,
-			wclWiFiInformationElements& Elements) const;
 
 		/// <summary> Extracts DRI messages from BSS information elements. </summary>
 		/// <param name="Bss"> The WiFi BSS data. </param>
@@ -7007,9 +6988,12 @@ namespace wclWiFi
 		///   contains the DRI messages list. An application is responsible to free
 		///   the returned list. If no one DRI message found the returning value
 		///   is the empty list. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
 		/// <seealso cref="wclWiFiBss" />
 		/// <seealso cref="wclWiFiDriMessages" />
-		void ParseDriMessages(const wclWiFiBss& Bss, wclDriMessages& Messages) const;
+		int ParseDriMessages(const wclWiFiBss& Bss, wclDriMessages& Messages) const;
 		/// <summary> Extracts DRI messages from information elements raw
 		///   data. </summary>
 		/// <param name="Raw"> The IE raw data. </param>
@@ -7017,8 +7001,11 @@ namespace wclWiFi
 		///   contains the DRI messages list. An application is responsible to free
 		///   the returned list. If no one DRI message found the returning value
 		///   is the empty list. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
 		/// <seealso cref="wclWiFiIeRawData" />
 		/// <seealso cref="wclWiFiDriMessages" />
-		void ParseDriMessages(const wclWiFiIeRawData& Raw, wclDriMessages& Messages) const;
+		int ParseDriMessages(const wclWiFiIeRawData& Raw, wclDriMessages& Messages) const;
 	};
 }

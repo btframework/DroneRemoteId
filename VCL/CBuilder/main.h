@@ -9,6 +9,7 @@
 #include <Vcl.Forms.hpp>
 #include "wclWiFi.hpp"
 #include <Vcl.ComCtrls.hpp>
+#include "wclBluetooth.hpp"
 //---------------------------------------------------------------------------
 class TfmMain : public TForm
 {
@@ -21,6 +22,8 @@ __published:	// IDE-managed Components
 	TListView *lvDetails;
 	TwclWiFiClient *WiFiClient;
 	TwclWiFiEvents *WiFiEvents;
+	TwclBluetoothManager *BluetoothManager;
+	TwclBluetoothLeBeaconWatcher *BeaconWatcher;
 	void __fastcall tvDronesClick(TObject *Sender);
 	void __fastcall WiFiClientAfterOpen(TObject *Sender);
 	void __fastcall WiFiClientBeforeClose(TObject *Sender);
@@ -41,9 +44,17 @@ __published:	// IDE-managed Components
 	void __fastcall btStopClick(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
+	void __fastcall BeaconWatcherDriAsdMessage(TObject *Sender, const __int64 Address,
+          const __int64 Timestamp, const SByte Rssi, const TwclDriRawData Raw);
+	void __fastcall BluetoothManagerAfterOpen(TObject *Sender);
+	void __fastcall BluetoothManagerClosed(TObject *Sender);
+	void __fastcall BeaconWatcherStarted(TObject *Sender);
+	void __fastcall BeaconWatcherStopped(TObject *Sender);
+
 
 private:	// User declarations
 	TGUID FId;
+	TwclDriAsdParser* FBtParser;
 	TwclWiFiDriParser* FParser;
 	TTreeNode* FRootNode;
 	bool FScanActive;
