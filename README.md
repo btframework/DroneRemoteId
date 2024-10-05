@@ -1,10 +1,5 @@
 # Drone Remote ID demo applications
 
-Starting from versions:
-
-* 7.18.0 [Bluetooth Framework](https://www.btframework.com/bluetoothframework.htm) supports receiving and decoding Drone Remote ID (DRI) advertisement
-* 7.11.0 [WiFi Framework](https://www.btframework.com/wififramework.htm) supports receiving and decoding Drone Remote ID (DRI) advertisement
-
 ## What is DRI
 
 Remote ID is a system that allows drones to transmit identification and location information. This information can be received by other airspace participants, including authorities, pilots and the general public.
@@ -15,8 +10,11 @@ Please do not hesitate to contact us at support@btframework.com if you have any 
 
 ## How to build
 
-This project requires [Bluetooth Framework](https://www.btframework.com/bluetoothframework.htm) 7.18.0 or newer and [WiFi Framework](https://www.btframework.com/wififramework.htm) 7.11.0 or newer.
-
 * Delphi samples is designed for Delphi/CBuilder (RAD Studio) 10
 * C++ samples is designed for Visual Studio 2015
 * .NET samples is designed for .NET Framework 4.0 and above and created in Visual Studio 2015
+
+Required:
+* Bluetooth Framework **7.18.2.0** or above. You can download Bluetooth Framework [here](https://www.btframework.com/bluetoothframework.htm)
+* WiFi Framework **7.11.4.0** or above. You can download WiFi Framework [here](https://www.btframework.com/wififramework.htm)ework](https://www.btframework.com/wififramework.htm) 7.11.0 or newer.
+

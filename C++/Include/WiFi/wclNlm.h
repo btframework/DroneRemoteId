@@ -20,6 +20,7 @@
 
 #include "..\Common\wclHelpers.h"
 #include "..\Common\wclMessaging.h"
+
 #include "wclWiFiErrors.h"
 
 /// <summary> This macro helps to build correct documentation. </summary>

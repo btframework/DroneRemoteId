@@ -327,6 +327,14 @@ namespace wclCommunication
 		CwclCustomClientDataProcessor*	FProcessor;
 
 	protected:
+		/// <summary> Allocates memory for incoming data buffer. </summary>
+		/// <param name="Buffer"> The read buffer. </param>
+		/// <param name="Size"> The read buffer size. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int AllocateReadBuffer(void*& Buffer, unsigned long& Size);
+
 		/// <summary> Send a data notification message. </summary>
 		/// <param name="Data"> The data buffer contains received data. </param>
 		/// <param name="Size"> The length of the received data. </param>
@@ -929,6 +937,14 @@ namespace wclCommunication
 		CwclCustomServerClientDataProcessor*	FProcessor;
 
 	protected:
+		/// <summary> Allocates memory for incoming data buffer. </summary>
+		/// <param name="Buffer"> The read buffer. </param>
+		/// <param name="Size"> The read buffer size. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int AllocateReadBuffer(void*& Buffer, unsigned long& Size);
+
 		/// <summary> Send a data notification message. </summary>
 		/// <param name="Data"> The data buffer contains received data. </param>
 		/// <param name="Size"> The length of the received data. </param>

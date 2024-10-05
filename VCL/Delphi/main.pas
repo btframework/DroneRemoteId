@@ -121,7 +121,7 @@ implementation
 {$R *.dfm}
 
 uses
-  wclHelpers, wclErrors, SysUtils, ActiveX, Contnrs;
+  wclErrors, SysUtils, ActiveX, Contnrs;
 
 procedure TfmMain.Trace(const Msg: string);
 begin

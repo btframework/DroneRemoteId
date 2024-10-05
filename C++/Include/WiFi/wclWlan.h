@@ -16,8 +16,10 @@
 #pragma once
 
 #include <windows.h>
-#include "wclWiFiErrors.h"
+
 #include "..\Common\wclWinAPI.h"
+
+#include "wclWiFiErrors.h"
 
 namespace wclWiFi
 {

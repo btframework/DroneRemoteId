@@ -17,8 +17,95 @@
 
 #include <exception>
 
+#include "wclHelpers.h"
+
 namespace wclCommon
 {
+	/// <summary> The structure contains detailed information about Wireless
+	///   Communication Library error code. </summary>
+	typedef struct
+	{
+		/// <summary> The error code. </summary>
+		int Error;
+		/// <summary> The framework name that the error relates to. </summary>
+		tstring Framework;
+		/// <summary> The error category. </summary>
+		tstring Category;
+		/// <summary> The error constant name. </summary>
+		tstring Constant;
+		/// <summary> The human readable error description. </summary>
+		tstring Description;
+	} wclErrorDetails;
+
+	/// <summary> The class provides methods to get human readable information
+	///   about Wireless Communication Library errors. </summary>
+	class CwclErrorInformation
+	{
+		DISABLE_COPY(CwclErrorInformation);
+
+	private:
+		bool					FComInitialized;
+		RTL_CRITICAL_SECTION	FCS;
+		
+		IXMLDOMDocument*		FDocument;
+		IXMLDOMElement*			FRootElement;
+		IXMLDOMNodeList*		FFrameworks;
+		
+		void InitializeXmlDocument();
+
+		bool GetFrameworksNodes();
+		bool GetRootElement();
+		bool InitializeCom();
+		bool LoadDocument(const tstring& FileName);
+
+		void ReleaseInterfaces();
+		void UninitializeCom();
+
+		bool GetAttributeText(IXMLDOMNode* const Node,
+			const tstring& AttributeName, tstring& Text);
+		void GetErrorDescription(IXMLDOMNode* const Node, tstring& Description);
+
+		bool ErrorFound(IXMLDOMNode* const Node, const int Error);
+		
+	public:
+		/// <summary> Creates new object. </summary>
+		CwclErrorInformation();
+		/// <summary> Free the object. </summary>
+		virtual ~CwclErrorInformation();
+		
+		/// <summary> Closes the errors description file. </summary>
+		/// <returns> <c>True</c> if the method completed with success. <c>False</c>
+		///   otherwise. </returns>
+		bool Close();
+		/// <summary> Opens the errors description file. </summary>
+		/// <param name="FileName"> Full path (including file name) to the
+		///   errors.xml file. </param>
+		/// <returns> <c>True</c> if errors file was opened. <c>False</c>
+		///   otherwise. </returns>
+		bool Open(const tstring& FileName);
+		
+		/// <summary> Gets the Wireless Communication Library error
+		///   details. </summary>
+		/// <param name="Error"> An error code. </param>
+		/// <param name="Details"> If the method completed with success the
+		///   Details structure will be fulfilled with the specified error
+		///   details. </param>
+		/// <returns> If the method completed with success the returning value is
+		///   <c>True</c>. If the method failed the returning value is
+		///   <c>False</c>. </returns>
+		/// <seealso cref="wclErrorDetails" />
+		bool GetDetails(const int Error, wclErrorDetails& Details);
+		
+		/// <summary> Gets the file state. </summary>
+		/// <returns> <c>True</c> if the errors description file is opened.
+		///   <c>False</c> otherwise. </returns>
+		bool GetOpened() const;
+		/// <summary> Gets the file state. </summary>
+		/// <value> <c>True</c> if the errors description file is opened.
+		///   <c>False</c> otherwise. </value>
+		__declspec(property(get = GetOpened)) bool Opened;
+	};
+
 	/* Common error codes. */
 	
 	/// <summary> Operation completed with success. </summary>
@@ -53,6 +140,11 @@ namespace wclCommon
 	const int WCL_E_MR_UNABLE_CREATE_SYNC_OBJ = WCL_E_MR_BASE + 0x0005;
 	/// <summary> A thread synchronization object has not been created. </summary>
 	const int WCL_E_MR_SYNC_OBJ_NOT_CREATED = WCL_E_MR_BASE + 0x0006;
+	/// <summary> An invalid thread used to call the method. </summary>
+	const int WCL_E_MR_INVALID_THREAD = WCL_E_MR_BASE + 0x0007;
+	/// <summary> Unable to create asynchronous message processing thread
+	///   termination event. </summary>
+	const int WCL_E_MR_UNABLE_CREATE_TERM_EVENT = WCL_E_MR_BASE + 0x0008;
 
 	/* Message broadcaster error codes. */
 
@@ -89,6 +181,8 @@ namespace wclCommon
 	const int WCL_E_MB_WAIT_TIMEOUT = WCL_E_MB_BASE + 0x000B;
 	/// <summary> Wait operation failed. </summary>
 	const int WCL_E_MB_WAIT_FAILED = WCL_E_MB_BASE + 0x000C;
+	/// <summary> A message receiver with given ID was not found. </summary>
+	const int WCL_E_MB_RECEIVER_NOT_FOUND = WCL_E_MB_BASE + 0x000D;
 
 	/* WinRT subsystem error codes. */
 	  
@@ -182,6 +276,15 @@ namespace wclCommon
 	/// <summary> The power state monitoring feature is supported on Windows 8 and
 	///   above. </summary>
 	const int WCL_E_PEM_FEATURE_NOT_SUPPORTED = WCL_E_PEM_BASE + 0x0002;
+	/// <summary> Unable to get system power status. </summary>
+	const int WCL_E_PEM_GET_POWER_STATUS_FAILED = WCL_E_PEM_BASE + 0x0003;
+	/// <summary> Unable to create Power Events Window initialization
+	///   event. </summary>
+	const int WCL_E_PEM_CREATE_INIT_EVENT_FAILED = WCL_E_PEM_BASE + 0x0004;
+	/// <summary> Unable to create and start Power Event Window thread. </summary>
+	const int WCL_E_PEM_CREATE_WND_THREAD_FAILED = WCL_E_PEM_BASE + 0x0005;
+	/// <summary> Unable to create Power Events Window. </summary>
+	const int WCL_E_PEM_CREATE_WND_FAILED = WCL_E_PEM_BASE + 0x0006;
 
 	/* Configuration Manager API error codes */
 
@@ -210,16 +313,6 @@ namespace wclCommon
 		/// <summary> Creates new exception object. </summary>
 		/// <param name="msg"> The exception message. </param>
 		wclEInvalidArgument(const char* msg) : wclException(msg) { };
-	};
-
-	/// <summary> Critical exception. </summary>
-	/// <seealso cref="wclException" />
-	class wclECritical : public wclException
-	{
-	public:
-		/// <summary> Creates new exception object. </summary>
-		/// <param name="msg"> The exception message. </param>
-		wclECritical(const char* msg) : wclException(msg) { };
 	};
 
 	/// <summary> Not enough system memory. </summary>

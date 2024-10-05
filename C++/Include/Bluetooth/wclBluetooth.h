@@ -3482,13 +3482,12 @@ namespace wclBluetooth
 	public:
 		/// <summary> Creates a new radio object. </summary>
 		/// <param name="Manager"> The <see cref="CwclBluetoothManager" /> object
-		///   that creates and owns the Radio. If the <c>Manager</c> parameter is
-		///   <c>NULL</c> the <see cref="wclECritical" /> exception raises. </param>
+		///   that creates and owns the Radio. </param>
 		/// <remarks> An application must never create the Radio objects directly.
 		///   Instead of that an application must use methods of the
 		///   <c>CwclBluetoothManager</c> component. </remarks>
 		/// <seealso cref="CwclBluetoothManager" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclBluetoothRadio(CwclBluetoothManager* const Manager);
 		/// <summary> Frees the Radio object. </summary>
 		/// <remarks> An application must never destroy a Radio object directly.
@@ -4551,13 +4550,11 @@ namespace wclBluetooth
 	public:
 		/// <summary> Create new Classic Bluetooth client connection. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclRfCommClientConnection(CwclBluetoothRadio* const Radio);
 
 		/// <summary> Connects to a remote device. </summary>
@@ -4749,13 +4746,11 @@ namespace wclBluetooth
 	public:
 		/// <summary> Create new Classic Bluetooth server connection. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclRfCommServerConnection(CwclBluetoothRadio* const Radio);
 
 		/// <summary> The method starts listening for client connections. </summary>
@@ -5206,13 +5201,11 @@ namespace wclBluetooth
 	public:
 		/// <summary> Creates a new GATT client connection object. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclGattClientConnection(CwclBluetoothRadio* const Radio);
 
 		/// <summary> The method reads all the characteristics available for the
@@ -5689,8 +5682,7 @@ namespace wclBluetooth
 	public:
 		/// <summary> Creates new local GATT characteristic. </summary>
 		/// <param name="Service"> The local GATT service object that owns the
-		///   characteristic. If this parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </param>
+		///   characteristic. </param>
 		/// <param name="Uuid"> The characteristic's UUID. </param>
 		/// <param name="Params"> The characteristic's parameters. </param>
 		/// <remarks> An application must not create this class directly.
@@ -5699,7 +5691,7 @@ namespace wclBluetooth
 		/// <seealso cref="CwclGattLocalService" />
 		/// <seealso cref="wclGattUuid" />
 		/// <seealso cref="wclGattLocalCharacteristicParameters" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclGattLocalCharacteristic(CwclGattLocalService* const Service,
 			const wclGattUuid& Uuid, const wclGattLocalCharacteristicParameters& Params);
 		/// <summary> Frees the object. </summary>
@@ -5882,15 +5874,14 @@ namespace wclBluetooth
 	public:
 		/// <summary> Creates new Local GATT service. </summary>
 		/// <param name="Server"> The GATT server connection object that owns
-		///   the service. If this parameter is <c>NULL</c> the
-		///   <seealso cref="wclECritical" /> raises. </param>
+		///   the service. </param>
 		/// <param name="Uuid"> The service's UUID. </param>
 		/// <remarks> An application must not create this class directly.
 		///   Instead of that an application must use methods of high-level
 		///   classes. </remarks>
 		/// <seealso cref="CwclGattServerConnection" />
 		/// <seealso cref="wclGattUuid" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclGattLocalService(CwclGattServerConnection* const Server, const wclGattUuid& Uuid);
 		/// <summary> Frees the object. </summary>
 		/// <remarks> An application must not destroy this class directly.
@@ -6805,13 +6796,11 @@ namespace wclBluetooth
 		/// <summary> Creates a new "virtual" GATT Server connection
 		///   object. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclGattServerConnection(CwclBluetoothRadio* const Radio);
 		/// <summary> Frees the GATT Server connection. </summary>
 		virtual ~CwclGattServerConnection();
@@ -6820,7 +6809,7 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		/// <remarks> This feature is supported on Windows 10 with the Microsoft
+		/// <remarks> This feature is supported on Windows 10 and above with the Microsoft
 		///   Bluetooth drivers or on any other Windows platform with BlueSoleil
 		///   Bluetooth drivers. </remarks>
 		int Start();
@@ -7425,13 +7414,11 @@ namespace wclBluetooth
 		/// <summary> Creates a new "virtual" Beacon Watcher connection
 		///   object. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclBluetoothLeBeaconWatcherConnection(CwclBluetoothRadio* const Radio);
 		/// <summary> Frees the Beacon Watcher. </summary>
 		virtual ~CwclBluetoothLeBeaconWatcherConnection();
@@ -7454,9 +7441,6 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		/// <remarks> This feature is supported on Windows 10 with the
-		///   Microsoft Bluetooth drivers only. If the method returns error try to
-		///   call this method with default scan parameters. </remarks>
 		/// <seealso cref="wclBluetoothLeScanningMode" />
 		int Start(const bool AllowExtendedAdvertisements, const unsigned short ScanInterval,
 			const wclBluetoothLeScanningMode ScanningMode, const unsigned short ScanWindow);
@@ -8589,7 +8573,6 @@ namespace wclBluetooth
 		WCL_BLE_ADV_LIST*	FAdvertisements;
 		bool				FAdvertising;
 		unsigned short		FInterval;
-		HANDLE				FMutex;
 		CwclBluetoothRadio*	FRadio;
 
 		/* Extended advertisement properties. */
@@ -8644,13 +8627,11 @@ namespace wclBluetooth
 		/// <summary> Creates a new "virtual" Bluetooth LE Advertising connection
 		///   object. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>NULL</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclBluetoothLeAdvertiserConnection(CwclBluetoothRadio* const Radio);
 		/// <summary> Frees the Bluetooth LE Advertiser. </summary>
 		virtual ~CwclBluetoothLeAdvertiserConnection();
@@ -8673,8 +8654,6 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		/// <remarks> This feature is supported on Windows 10 with the Microsoft
-		///   Bluetooth drivers only. </remarks>
 		/// <seealso cref="WCL_BLE_ADV_LIST" />
 		int Start(WCL_BLE_ADV_LIST* const Advertisements, const unsigned short Interval,
 			const bool UseExtendedAdvertisement, const bool Anonymous,
@@ -9028,13 +9007,11 @@ namespace wclBluetooth
 	public:
 		/// <summary> Create new Wii Remote client connection. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>nil</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
+		/// <exception cref="wclEInvalidArgument"></exception>
 		CwclWiiRemoteClientConnection(CwclBluetoothRadio* const Radio);
 		
 		/// <summary> Connects to a remote device. </summary>
@@ -9319,13 +9296,10 @@ namespace wclBluetooth
 	public:
 		/// <summary> Create new Wii Remote HID client connection. </summary>
 		/// <param name="Radio"> The Radio object that owns the connection. </param>\
-		/// <remarks> <para> An application must never create this class directly.
+		/// <remarks> An application must never create this class directly.
 		///   Instead of that an application must use upper-level methods and
-		///   classes. </para>
-		///   <para> If the <c>Radio</c> parameter is <c>nil</c> the
-		///   <see cref="wclECritical" /> exception raises. </para> </remarks>
+		///   classes. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
-		/// <exception cref="wclECritical"></exception>
 		CwclWiiRemoteHidClientConnection(CwclBluetoothRadio* const Radio);
 	};
 
@@ -11492,9 +11466,8 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		/// <remarks> This feature is supported on Windows 10 with the
-		///   Microsoft Bluetooth drivers only. If the method returns error try to
-		///   call this method with default scan parameters. </remarks>
+		/// <remarks> If the method returns error try to call this method with
+		///   default scan parameters. </remarks>
 		/// <seealso cref="TwclBluetoothRadio" />
 		int Start(CwclBluetoothRadio* const Radio);
 		/// <summary> Stops monitoring for Bluetooth LE Beacons. </summary>
@@ -11984,8 +11957,6 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		/// <remarks> This feature is supported on Windows 10 with the Microsoft
-		///   Bluetooth drivers only. </remarks>
 		/// <seealso cref="CwclBluetoothRadio" />
 		int Start(CwclBluetoothRadio* const Radio);
 		/// <summary> Stops advertising. </summary>

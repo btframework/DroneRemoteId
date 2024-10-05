@@ -2841,6 +2841,12 @@
             <summary> The <c>wclWiFiEvents</c> component provides access to the
               Wireless LAN notifications. </summary>
             <seealso cref="T:wclWiFi.wclCustomWiFiComponent" />
+            <summary> The <c>wclWiFiEvents</c> component provides access to the
+              Wireless LAN notifications. </summary>
+            <seealso cref="T:wclWiFi.wclCustomWiFiComponent" />
+            <summary> The <c>wclWiFiEvents</c> component provides access to the
+              Wireless LAN notifications. </summary>
+            <seealso cref="T:wclWiFi.wclCustomWiFiComponent" />
         </member>
         <member name="M:wclWiFi.wclWiFiEvents.InternalClose">
             <summary> Executes additional finalization produres. </summary>
@@ -8237,17 +8243,12 @@
             <remarks> An application must not create or destroy objects of this class
               directly. </remarks>
         </member>
-        <member name="M:wclWiFi.wclWiFiDirectDevice.#ctor(wclCommon.wclMessageReceiver,System.Boolean)">
+        <member name="M:wclWiFi.wclWiFiDirectDevice.#ctor(System.Int32,System.Boolean)">
             <summary> Creates new WiFi Direct device object. </summary>
-            <param name="Receiver"> The message receiver object that will
-              receive notification messages. If the <c>Receiver</c> parameter is
-              <c>nil</c> the <see cref="T:wclCommon.wclEInvalidArgument" /> exception
-              raises. </param>
+            <param name="ReceiverId"> The message receiver ID. </param>
             <param name="Legacy"> The device's legacy mode. </param>
             <remarks> An application must not create or destroy objects of this
               class directly. </remarks>
-            <seealso cref="T:wclCommon.wclMessageReceiver" />
-            <exception cref="T:wclCommon.wclEInvalidArgument" />
         </member>
         <member name="M:wclWiFi.wclWiFiDirectDevice.Finalize">
             <summary> Frees the WiFi Direct device object. </summary>

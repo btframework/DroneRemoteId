@@ -17,7 +17,7 @@
 
 #include <vector>
 
-#include "..\Common\wclHelpers.h"
+#include "..\Common\wclErrors.h"
 
 #include "wclDriCommon.h"
 

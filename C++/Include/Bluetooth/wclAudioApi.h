@@ -16,7 +16,7 @@
 #pragma once
 
 #include <initguid.h>
-#include "mmreg.h"
+#include <mmreg.h>
 
 #include "..\Common\wclWinAPI.h"
 

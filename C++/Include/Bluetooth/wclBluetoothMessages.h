@@ -1180,7 +1180,7 @@ namespace wclBluetooth
 
 	/* Wii Remote Messages. */
 		
-	class CwclWiiRemoteMessage : public CwclWiiCategoryMessage
+	class CwclWiiRemoteMessage : public CwclWiiRemoteCategoryMessage
 	{
 		DISABLE_COPY(CwclWiiRemoteMessage);
 		

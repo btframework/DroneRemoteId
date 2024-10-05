@@ -1040,18 +1040,7 @@ namespace wclWiFi
 		CwclMessageReceiver*	FReceiver;
 		IFACES*					FIfaces;
 		
-		// Not synchronized. Fired by WLAN API as callback.
-		static void __stdcall NotificationCallback(WlanApi::PWLAN_NOTIFICATION_DATA data, PVOID context);
-		void EventReceived(const WlanApi::PWLAN_NOTIFICATION_DATA Event) const;
-		void AcmEventReceived(const WlanApi::WLAN_NOTIFICATION_DATA& Event, CwclMessage*& Msg) const;
-		void HwkEventReceived(const WlanApi::WLAN_NOTIFICATION_DATA& Event, CwclMessage*& Msg) const;
-		void MsmEventReceived(const WlanApi::WLAN_NOTIFICATION_DATA& Event, CwclMessage*& Msg) const;
-		void OneXEventReceived(const WlanApi::WLAN_NOTIFICATION_DATA& Event, CwclMessage*& Msg) const;
-		
 		void MessageReceived(const CwclMessage* const Message);
-		
-		// Returns PHY by its index.
-		int GetPhyType(const GUID& IfaceId, const DWORD Ndx, wclWiFiPhy& Phy) const;
 
 	protected:
 		/* Internal methods. */
@@ -5035,14 +5024,10 @@ namespace wclWiFi
 		CwclWiFiInterface*		FIface;
 		ULONG					FIndex; // Adapters index.
 		wclWiFiOperationMode	FMode; // Old operation mode.
-		HANDLE					FMutex;
 		CwclMessageReceiver*	FReceiver;
 
 		static void __stdcall wclNmFrameCallback(HANDLE hCaptureEngine,
 			ULONG ulAdapterIndex, void* pCallerContext, HANDLE hFrame);
-		
-		int AquareMutex(const GUID& Id);
-		void ReleaseMutex();
 		
 		int SetupInterface(const GUID& Id);
 		void DestroyInterface();
@@ -5324,7 +5309,7 @@ namespace wclWiFi
 		
 		/* Internal fields. */
 		
-		CwclMessageReceiver*		FReceiver;
+		long						FReceiverId;
 		LONG						FRefCount;
 
 		/* WinRT WiFi Direct interfaces. */
@@ -5397,17 +5382,11 @@ namespace wclWiFi
 		
 	public:
 		/// <summary> Creates new WiFi Direct device object. </summary>
-		/// <param name="Receiver"> The message receiver object that will
-		///   receive notification messages. If the <c>Receiver</c> parameter is
-		///   <c>nil</c> the <see cref="wclEInvalidArgument" /> exception
-		///   raises. </param>
+		/// <param name="ReceiverId"> The message receiver ID. </param>
 		/// <param name="Legacy"> The device's legacy mode. </param>
 		/// <remarks> An application must not create or destroy objects of this
 		///   class directly. </remarks>
-		/// <seealso cref="CwclMessageReceiver" />
-		/// <exception cref="wclEInvalidArgument"></exception>
-		CwclWiFiDirectDevice(CwclMessageReceiver* const Receiver,
-			const bool Legacy);
+		CwclWiFiDirectDevice(const long ReceiverId, const bool Legacy);
 		/// <summary> Frees the WiFi Direct device object. </summary>
 		/// <remarks> An application must not create or destroy objects of this
 		///   class directly. </remarks>

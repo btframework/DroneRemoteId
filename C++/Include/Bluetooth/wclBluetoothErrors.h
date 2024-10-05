@@ -170,7 +170,7 @@ namespace wclBluetooth
 	/// <summary> Unable to resolve connected remote device address. </summary>
 	const int WCL_E_BLUETOOTH_UNABLE_TO_RESOLVE_ADDRESS = WCL_E_BLUETOOTH_BASE + 0x0043;
 	/// <summary> Unable to add new SDP record. </summary>
-	const int WCL_E_BLUETOOTH_UNABLE_ADD_ADP_RECORD = WCL_E_BLUETOOTH_BASE + 0x0044;
+	const int WCL_E_BLUETOOTH_UNABLE_ADD_SDP_RECORD = WCL_E_BLUETOOTH_BASE + 0x0044;
 	/// <summary> Unable to set server authentication and/or encryption
 	///   states. </summary>
 	const int WCL_E_BLUETOOTH_UNABLE_SET_SERVER_SECURITY = WCL_E_BLUETOOTH_BASE + 0x0045;
@@ -415,6 +415,13 @@ namespace wclBluetooth
 	const int WCL_E_BLUETOOTH_OPEN_RADIO_INVALID_NAME = WCL_E_BLUETOOTH_BASE + 0x00B2;
 	/// <summary> Too many opened Bluetooth Radio driver instances. </summary>
 	const int WCL_E_BLUETOOTH_OPEN_RADIO_COUNT_LIMIT = WCL_E_BLUETOOTH_BASE + 0x00B3;
+	/// <summary> <para> A Bluetooth driver is busy. </para>
+	///   <para> This error usually returned when your application tries to change
+	///   Radio state (ON/OFF) right inside OnStatusChanged event handler when
+	///   Radio was turned ON/OFF from system control panel. </para>
+	///   <para> If you receive this error simple add small delay (about 200 ms)
+	///   and try to switch radio state again. </para>. </summary>
+	const int WCL_E_BLUETOOTH_DRIVER_BUSY = WCL_E_BLUETOOTH_BASE + 0x00B4;
 
 	/* Bluetooth LE error codes. */
 
@@ -563,10 +570,10 @@ namespace wclBluetooth
 	const int WCL_E_BLUETOOTH_LE_WRITE_VALUE_TOO_LONG = WCL_E_BLUETOOTH_LE_BASE + 0x0038;
 	/// <summary> Unable to get Bluetooth LE Advertiser object. </summary>
 	const int WCL_E_BLUETOOTH_LE_UNABLE_GET_ADVERTISER = WCL_E_BLUETOOTH_LE_BASE + 0x0039;
-	/// <summary> Bluetooth LE advertising is already running on this radio. </summary>
-	const int WCL_E_BLUETOOTH_LE_ADVERTISING = WCL_E_BLUETOOTH_LE_BASE + 0x003A;
-	/// <summary> Unable to create advertising protection mutex object. </summary>
-	const int WCL_E_BLUETOOTH_LE_CREATE_ADVERTISING_MUTEX_FAILED = WCL_E_BLUETOOTH_LE_BASE + 0x003B;
+	/// <summary> Unable to start subscribing thread. </summary>
+	const int WCL_E_BLUETOOTH_LE_SUBSCRIBE_FAILED = WCL_E_BLUETOOTH_LE_BASE + 0x003A;
+	/// <summary> No subscribed clients found. </summary>
+	const int WCL_E_BLUETOOTH_LE_GATT_SERVER_NO_SUBSCRIBED_CLIENTS = WCL_E_BLUETOOTH_LE_BASE + 0x003B;
 	/// <summary> Unable to create connection completion event. </summary>
 	const int WCL_E_BLUETOOTH_LE_CREATE_CONNECTION_COMPLETION_EVENT_FAILED = WCL_E_BLUETOOTH_LE_BASE + 0x003C;
 	/// <summary> Unable to start LE devices discovering thread. </summary>
@@ -956,10 +963,6 @@ namespace wclBluetooth
 	const int WCL_E_BLUETOOTH_LE_GATT_SERVER_RESPONSE_ALREADY_SENT = WCL_E_BLUETOOTH_LE_BASE + 0x00DF;
 	/// <summary> A client is not connected to a Bluetooth device. </summary>
 	const int WCL_E_BLUETOOTH_LE_CLIENT_NOT_CONNECTED = WCL_E_BLUETOOTH_LE_BASE + 0x00E0;
-	/// <summary> Unable to start subscribing thread. </summary>
-	const int WCL_E_BLUETOOTH_LE_SUBSCRIBE_FAILED = WCL_E_BLUETOOTH_LE_BASE + 0x00E1;
-	/// <summary> No subscribed clients found. </summary>
-	const int WCL_E_BLUETOOTH_LE_GATT_SERVER_NO_SUBSCRIBED_CLIENTS = WCL_E_BLUETOOTH_LE_BASE + 0x00E2;
 
 	/* Wii Remote error codes. */
 

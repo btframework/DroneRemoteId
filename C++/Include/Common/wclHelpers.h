@@ -19,8 +19,6 @@
 
 #include <windows.h>
 
-#include "wclErrors.h"
-
 namespace wclCommon
 {
 	/// <summary> Defines the string type as UNICODE string. </summary>
@@ -35,49 +33,6 @@ namespace wclCommon
 	/// <param name="Sender"> The object that initiated the event. </param>
 	#define wclNotifyEvent(_event_name_) \
 		__event void _event_name_(void* Sender)
-
-	/// <summary> Creates a new mutex with given name. </summary>
-	/// <param name="Name"> The mutex name. </param>
-	/// <param name="Unique"> Set this to <c>true</c> to create a process-dependent
-	///   unique mutex. Otherwise system wide named mutex will be created. </param>
-	/// <param name="Own"> The optional parameter (default value is <c>false</c>
-	///   indicates if the Mutex must be owned by a called. </param>
-	/// <returns> If the function succeed the return value is the Mutex handle.
-		///   If the function failed the return value is <c>NULL</c>. </returns>
-	HANDLE wclCreateMutex(const TCHAR* Name, const bool Unique,
-		const bool Own = false);
-
-	/// <summary> Reads the error information. </summary>
-	/// <param name="Error"> The WCL error code. </param>
-	/// <param name="Framework"> If the function completed with success on output
-	///   contains the WCL Framework name that the error relates to. </param>
-	/// <param name="Category"> If the function completed with success on output
-	///   contains the error category. </param>
-	/// <param name="Constant"> If the function completed with success on output
-	///   contains the error constant name. </param>
-	/// <param name="Description"> If the function completed with success on output
-	///   contains the error description. </param>
-	/// <returns> If the function completed with success the returning value is
-	///   <c>true</c>. Otherwise the function returns <c>false</c>. </returns>
-	/// <remarks> The function uses the errors.xml file located on our site.
-	///   The file link is https://www.btframework.com/errors.xml. </remarks>
-	bool wclGetErrorInfo(const int Error, tstring& Framework, tstring& Category,
-		tstring& Constant, tstring& Description);
-	/// <summary> Reads the error information. </summary>
-	/// <param name="FileName"> The full file path to the error.xml file. </param>
-	/// <param name="Error"> The WCL error code. </param>
-	/// <param name="Framework"> If the function completed with success on output
-	///   contains the WCL Framework name that the error relates to. </param>
-	/// <param name="Category"> If the function completed with success on output
-	///   contains the error category. </param>
-	/// <param name="Constant"> If the function completed with success on output
-	///   contains the error constant name. </param>
-	/// <param name="Description"> If the function completed with success on output
-	///   contains the error description. </param>
-	/// <returns> If the function completed with success the returning value is
-	///   <c>true</c>. Otherwise the function returns <c>false</c>. </returns>
-	bool wclGetErrorInfo(const tstring& FileName, const int Error, tstring& Framework,
-		tstring& Category, tstring& Constant, tstring& Description);
 
 	/// <summary> Converts UTF8 string to WCL string. </summary>
 	/// <param name="lpszUTF8"> UTF8 encoded string. </param>
@@ -105,126 +60,6 @@ namespace wclCommon
 	/// <param name="s"> The ANSI string. </param>
 	/// <returns> The UNICODE string. </returns>
 	std::wstring wclAnsiToUnicode(const std::string& s);
-
-	/// <summary> Windows versions. </summary>
-	typedef enum
-	{
-		/// <summary> Unknown Windows version. </summary>
-		verUnknown = 1,
-		/// <summary> Windows XP. </summary>
-		verWinXP = 2,
-		/// <summary> Windows Vista. </summary>
-		verWinVista = 3,
-		/// <summary> Windows 7. </summary>
-		verWin7 = 4,
-		/// <summary> Windows 8. </summary>
-		verWin8 = 5,
-		/// <summary> Windows 8.1. </summary>
-		verWin81 = 6,
-		/// <summary> Windows 10. </summary>
-		verWin10 = 7,
-		/// <summary> Windows 11. </summary>
-		verWin11 = 8
-	} wclWinVer;
-
-	/// <summary> The class provides information about OS version. </summary>
-	class CwclOsVersion
-	{
-		DISABLE_COPY(CwclOsVersion);
-
-	private:
-		bool			FIsWinIot;
-		unsigned short	FOsBuild;
-		wclWinVer		FOsVersion;
-		
-		void ReadIsWinIot();
-		void CheckWin10orAbove();
-		void ReadOsVersion();
-
-	public:
-		/// <summary> Creates new object of the version reading class. </summary>
-		CwclOsVersion();
-		
-		/// <summary> Checks if software runs on Windows 10 IoT. </summary>
-		/// <returns> The function returns <c>true</c> if it runs on Windows 10 IoT.
-		///   Otherwise returns <c>false</c>. </returns>
-		bool GetIsWinIot();
-		/// <summary> Checks if software runs on Windows 10 IoT. </summary>
-		/// <value> The function returns <c>true</c> if it runs on Windows 10 IoT.
-		///   Otherwise returns <c>false</c>. </value>
-		__declspec(property(get = GetIsWinIot)) bool IsWinIot;
-
-		/// <summary> Gets Windows OS version. </summary>
-		/// <returns> The Windows OS version. </returns>
-		/// <seealso cref="wclWinVer" />
-		wclWinVer GetOsVersion();
-		/// <summary> Gets Windows OS version. </summary>
-		/// <value> The Windows OS version. </value>
-		/// <seealso cref="wclWinVer" />
-		__declspec(property(get = GetOsVersion)) wclWinVer OsVersion;
-
-		/// <summary> Gets the OS build number. </summary>
-		/// <returns> The OS build number. </returns>
-		/// <remarks> <para> For Win 10 <c>Build</c> can be translated to OS version
-		///   (release) using the table below. </para>
-		///   <para><c> Build </c> <c> Release </c></para>
-		///   <para><c>=======</c> <c>=========</c></para>
-		///   <para><c> 10240 </c> <c>   1507  </c></para>
-		///   <para><c> 10586 </c> <c>   1511  </c></para>
-		///   <para><c> 14393 </c> <c>   1607  </c></para>
-		///   <para><c> 15063 </c> <c>   1703  </c></para>
-		///   <para><c> 16299 </c> <c>   1709  </c></para>
-		///   <para><c> 17134 </c> <c>   1803  </c></para>
-		///   <para><c> 17763 </c> <c>   1809  </c></para>
-		///   <para><c> 18362 </c> <c>   1903  </c></para>
-		///   <para><c> 18363 </c> <c>   1909  </c></para>
-		///   <para><c> 19041 </c> <c>   2004  </c></para>
-		///   <para><c> 19042 </c> <c>   20H2  </c></para>
-		///   <para><c> 19043 </c> <c>   21H1  </c></para>
-		///   <para><c> 19044 </c> <c>   21H2  </c></para>
-		///   <para><c> 19045 </c> <c>   22H2  </c></para>
-		///   <para></para>
-		/// <para> For Win 11 <c>Build</c> can be translated to OS version
-		///   (release) using the table below. </para>
-		///   <para><c> Build </c> <c> Release </c></para>
-		///   <para><c>=======</c> <c>=========</c></para>
-		///   <para><c> 22000 </c> <c>   21H2  </c></para>
-		///   <para><c> 22621 </c> <c>   22H2  </c></para>
-		///   <para><c> 22631 </c> <c>   23H2  </c></para> </remarks>
-		unsigned short GetOsBuild();
-		/// <summary> Gets the OS build number. </summary>
-		/// <value> The OS build number. </value>
-		/// <remarks> <para> For Win 10 <c>Build</c> can be translated to OS version
-		///   (release) using the table below. </para>
-		///   <para><c> Build </c> <c> Release </c></para>
-		///   <para><c>=======</c> <c>=========</c></para>
-		///   <para><c> 10240 </c> <c>   1507  </c></para>
-		///   <para><c> 10586 </c> <c>   1511  </c></para>
-		///   <para><c> 14393 </c> <c>   1607  </c></para>
-		///   <para><c> 15063 </c> <c>   1703  </c></para>
-		///   <para><c> 16299 </c> <c>   1709  </c></para>
-		///   <para><c> 17134 </c> <c>   1803  </c></para>
-		///   <para><c> 17763 </c> <c>   1809  </c></para>
-		///   <para><c> 18362 </c> <c>   1903  </c></para>
-		///   <para><c> 18363 </c> <c>   1909  </c></para>
-		///   <para><c> 19041 </c> <c>   2004  </c></para>
-		///   <para><c> 19042 </c> <c>   20H2  </c></para>
-		///   <para><c> 19043 </c> <c>   21H1  </c></para>
-		///   <para><c> 19044 </c> <c>   21H2  </c></para>
-		///   <para><c> 19045 </c> <c>   22H2  </c></para>
-		///   <para></para>
-		/// <para> For Win 11 <c>Build</c> can be translated to OS version
-		///   (release) using the table below. </para>
-		///   <para><c> Build </c> <c> Release </c></para>
-		///   <para><c>=======</c> <c>=========</c></para>
-		///   <para><c> 22000 </c> <c>   21H2  </c></para>
-		///   <para><c> 22621 </c> <c>   22H2  </c></para>
-		///   <para><c> 22631 </c> <c>   23H2  </c></para> </remarks>
-		__declspec(property(get = GetOsBuild)) unsigned short OsBuild;
-	};
-
-	/// <summary> Global instance of the OS version reader class. </summary>
-	extern CwclOsVersion wclOsVersion;
 
 	/// <summary> Stream origins. </summary>
 	typedef enum
