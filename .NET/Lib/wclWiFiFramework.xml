@@ -2829,11 +2829,35 @@
             <summary> Initializes a new instance of the exception class with a specified error message. </summary>
             <param name="message">The message that describes the error.</param>
         </member>
+        <member name="T:wclWiFi.wclEWiFiEvents">
+            <summary> The wclWiFiEvents exceptions. </summary>
+            <seealso cref="T:wclWiFi.wclEWiFi" />
+        </member>
+        <member name="M:wclWiFi.wclEWiFiEvents.#ctor(System.String)">
+            <summary> Initializes a new instance of the exception class with a specified error message. </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
         <member name="T:wclWiFi.wclEWiFiSniffer">
             <summary> The WiFi Sniffer exceptions. </summary>
             <seealso cref="T:wclWiFi.wclEWiFi" />
         </member>
         <member name="M:wclWiFi.wclEWiFiSniffer.#ctor(System.String)">
+            <summary> Initializes a new instance of the exception class with a specified error message. </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:wclWiFi.wclEWiFiDirect">
+            <summary> The WiFi direct exceptions. </summary>
+            <seealso cref="T:wclWiFi.wclEWiFi" />
+        </member>
+        <member name="M:wclWiFi.wclEWiFiDirect.#ctor(System.String)">
+            <summary> Initializes a new instance of the exception class with a specified error message. </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:wclWiFi.wclEWiFiNlm">
+            <summary> The Network List Manager exceptions. </summary>
+            <seealso cref="T:wclWiFi.wclEWiFi" />
+        </member>
+        <member name="M:wclWiFi.wclEWiFiNlm.#ctor(System.String)">
             <summary> Initializes a new instance of the exception class with a specified error message. </summary>
             <param name="message">The message that describes the error.</param>
         </member>
@@ -3197,6 +3221,13 @@
         </member>
         <member name="M:wclWiFi.wclWiFiEvents.#ctor">
             <summary> Creates a new <c>wclWiFiEvents</c> component. </summary>
+        </member>
+        <member name="P:wclWiFi.wclWiFiEvents.MessageProcessing">
+            <summary> Gets and sets a message processing method that should be
+              used by the WiFi Events. </summary>
+            <value> The message processing method. </value>
+            <seealso cref="T:wclCommon.wclMessageProcessingMethod" />
+            <exception cref="T:wclWiFi.wclEWiFiEvents" />
         </member>
         <member name="E:wclWiFi.wclWiFiEvents.OnAcmAdHocNetworkStateChange">
             <summary> The event fires when a state change has occurred for an
@@ -7110,6 +7141,18 @@
               <see cref="F:wclCommon.wclErrors.WCL_E_SUCCESS" />. Otherwise the method returns one of
               the WCL error codes. </returns>
         </member>
+        <member name="P:wclWiFi.wclNetworkListManager.Active">
+            <summary> Gets the Network List Manager status. </summary>
+            <value> <c>True</c> if the NLM was opened. <c>False</c>
+              otherwise. </value>
+        </member>
+        <member name="P:wclWiFi.wclNetworkListManager.MessageProcessing">
+            <summary> Gets and sets a message processing method that should be
+              used by the WiFi Sniffer. </summary>
+            <value> The message processing method. </value>
+            <seealso cref="T:wclCommon.wclMessageProcessingMethod" />
+            <exception cref="T:wclWiFi.wclEWiFiNlm" />
+        </member>
         <member name="E:wclWiFi.wclNetworkListManager.AfterOpen">
             <summary> The event fires after Network List Manager opened. </summary>
         </member>
@@ -7538,6 +7581,106 @@
               the Microsoft Network Monitor 3.4 by the following link:
               https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
               <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
+            <summary> The class allows your application to capture raw packets
+              from your WiFi adapter. </summary>
+            <remarks> <para> Please note, that not all WiFi adapters can capture the
+              raw packets. To be able to do that your adapter must support Monitor
+              Mode. </para>
+              <para> The component requires Microsoft Network Monitor 3.4 filter
+              driver to be installed on your system. You can download and install
+              the Microsoft Network Monitor 3.4 by the following link:
+              https://www.microsoft.com/en-us/download/details.aspx?id=4865 </para>
+              <para> NOTE: The component is not thread-safe. </para> </remarks>
         </member>
         <member name="M:wclWiFi.wclWiFiSniffer.DoAfterOpen">
             <summary> Fires the <c>AfterOpen</c> event. </summary>
@@ -7638,6 +7781,13 @@
               If this property is <c>False</c> (the default value) the Sniffer will
               try to switch the given WiFi hardware interface to the
               monitoring mode. </remarks>
+            <exception cref="T:wclWiFi.wclEWiFiSniffer" />
+        </member>
+        <member name="P:wclWiFi.wclWiFiSniffer.MessageProcessing">
+            <summary> Gets and sets a message processing method that should be
+              used by the WiFi Sniffer. </summary>
+            <value> The message processing method. </value>
+            <seealso cref="T:wclCommon.wclMessageProcessingMethod" />
             <exception cref="T:wclWiFi.wclEWiFiSniffer" />
         </member>
         <member name="E:wclWiFi.wclWiFiSniffer.AfterOpen">
@@ -7762,6 +7912,13 @@
         </member>
         <member name="M:wclWiFi.wclCustomWiFiDirectComponent.#ctor">
             <summary> Creates a new WiFi Direct Advertiser component. </summary>
+        </member>
+        <member name="P:wclWiFi.wclCustomWiFiDirectComponent.MessageProcessing">
+            <summary> Gets and sets a message processing method that should be
+              used by the WiFi Sniffer. </summary>
+            <value> The message processing method. </value>
+            <seealso cref="T:wclCommon.wclMessageProcessingMethod" />
+            <exception cref="T:wclWiFi.wclEWiFiDirect" />
         </member>
         <member name="T:wclWiFi.wclWiFiDirectAdvertiser">
             <summary> The class allows to publish WiFi Direct
@@ -8601,6 +8758,13 @@
             <summary> Gets the Soft AP status. </summary>
             <value> <c>True</c> if the Soft AP is running. <c>False</c>
               otherwise. </value>
+        </member>
+        <member name="P:wclWiFi.wclWiFiSoftAP.MessageProcessing">
+            <summary> Gets and sets a message processing method that should be
+              used by the WiFi Events. </summary>
+            <value> The message processing method. </value>
+            <seealso cref="T:wclCommon.wclMessageProcessingMethod" />
+            <exception cref="T:wclWiFi.wclEWiFiDirect" />
         </member>
         <member name="E:wclWiFi.wclWiFiSoftAP.OnDeviceAccept">
             <summary> The event fires when new device is tring to connected to the

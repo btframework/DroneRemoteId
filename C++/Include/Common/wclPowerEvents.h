@@ -125,7 +125,8 @@ namespace wclCommon
 		DISABLE_COPY(CwclPowerEventsMonitor);
 		
 	private:
-		CwclMessageReceiver*	FReceiver;
+		wclMessageProcessingMethod	FMessageProcessing;
+		CwclMessageReceiver*		FReceiver;
 
 		/* APM DLL. */
 		
@@ -210,6 +211,23 @@ namespace wclCommon
 		/// <value> <c>true</c> if the power state monitor is listening for power
 		///   state changes. <c>false</c> otherwise. </value>
 		__declspec(property(get = GetActive)) bool Active;
+
+		/// <summary> Gets the monitor's message processing method. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets the monitor's message processing method. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEPowerEvents"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets the monitor's message processing
+		///  method. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEPowerEvents" />
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> The event fires when the system's power state has been
 		///   changed. </summary>

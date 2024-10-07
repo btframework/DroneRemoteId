@@ -456,6 +456,7 @@ namespace wclWiFi
 
 	private:
 		NlmApi::INetworkListManager*	FManager;
+		wclMessageProcessingMethod		FMessageProcessing;
 		CwclMessageReceiver*			FReceiver;
 
 		// Connection points.
@@ -621,6 +622,34 @@ namespace wclWiFi
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
 		int DeleteNetwork(const GUID& NetworkId);
+
+		/// <summary> Gets the Network List Manager status. </summary>
+		/// <returns> <c>True</c> if the NLM was opened. <c>False</c>
+		///   otherwise. </returns>
+		bool GetActive() const;
+		/// <summary> Gets the Network List Manager status. </summary>
+		/// <value> <c>True</c> if the NLM was opened. <c>False</c>
+		///   otherwise. </value>
+		__declspec(property(get = GetActive)) bool Active;
+
+		/// <summary> Gets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiNlm"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiNlm"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			 wclMessageProcessingMethod MessageProcessing;
 		
 		/// <summary> The event fires after Network List Manager opened. </summary>
 		/// <param name="Sender"> The object initiates the event. </param>

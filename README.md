@@ -15,6 +15,6 @@ Please do not hesitate to contact us at support@btframework.com if you have any 
 * .NET samples is designed for .NET Framework 4.0 and above and created in Visual Studio 2015
 
 Required:
-* Bluetooth Framework **7.18.2.0** or above. You can download Bluetooth Framework [here](https://www.btframework.com/bluetoothframework.htm)
-* WiFi Framework **7.11.4.0** or above. You can download WiFi Framework [here](https://www.btframework.com/wififramework.htm)ework](https://www.btframework.com/wififramework.htm) 7.11.0 or newer.
+* Bluetooth Framework **7.19.0.0** or above. You can download Bluetooth Framework [here](https://www.btframework.com/bluetoothframework.htm)
+* WiFi Framework **7.12.0.0** or above. You can download WiFi Framework [here](https://www.btframework.com/wififramework.htm)ework](https://www.btframework.com/wififramework.htm) 7.11.0 or newer.
 

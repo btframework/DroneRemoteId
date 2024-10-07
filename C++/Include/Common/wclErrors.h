@@ -145,6 +145,8 @@ namespace wclCommon
 	/// <summary> Unable to create asynchronous message processing thread
 	///   termination event. </summary>
 	const int WCL_E_MR_UNABLE_CREATE_TERM_EVENT = WCL_E_MR_BASE + 0x0008;
+	/// <summary> Invalid or unsupported message processing method. </summary>
+	const int WCL_E_MR_INVALID_MESSAGE_PROCESSING_METHOD = WCL_E_MR_BASE + 0x0009;
 
 	/* Message broadcaster error codes. */
 
@@ -323,6 +325,16 @@ namespace wclCommon
 		/// <summary> Creates new exception object. </summary>
 		/// <param name="msg"> The exception message. </param>
 		wclEOutOfMemory(const char* msg) : wclException(msg) { };
+	};
+
+	/// <summary> The Power Events Monitor exceptions class. </summary>
+	/// <seealso cref="wclException" />
+	class wclEPowerEvents : public wclException
+	{
+	public:
+		/// <summary> Creates new exception object. </summary>
+		/// <param name="msg"> The exception message. </param>
+		wclEPowerEvents(const char* msg) : wclException(msg) { };
 	};
 
 	/// <summary> Failed to open file. </summary>

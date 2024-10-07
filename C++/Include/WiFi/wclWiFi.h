@@ -1037,8 +1037,9 @@ namespace wclWiFi
 	private:
 		typedef std::list<void*> IFACES;
 
-		CwclMessageReceiver*	FReceiver;
-		IFACES*					FIfaces;
+		CwclMessageReceiver*		FReceiver;
+		wclMessageProcessingMethod	FMessageProcessing;
+		IFACES*						FIfaces;
 		
 		void MessageReceived(const CwclMessage* const Message);
 
@@ -1394,7 +1395,27 @@ namespace wclWiFi
 		/// <summary> Creates a new <c>CwclWiFiEvents</c> component. </summary>
 		CwclWiFiEvents();
 
+		/// <summary> Gets a message processing method that should be
+		///   used by the WiFi Events. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method that should be
+		///   used by the WiFi Events. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiEvents"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod MessageProcessing);
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Events. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiEvents"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
+
 		/* ACM events. */
+
 		/// <summary> The event fires when a state change has occurred for an
 		///   ad-hoc network. </summary>
 		/// <param name="Sender"> The object initiates the event. </param>
@@ -5018,13 +5039,14 @@ namespace wclWiFi
 		DISABLE_COPY(CwclWiFiSniffer);
 
 	private:
-		tstring					FDeviceName;
-		bool					FDoNotChangeMode;
-		HANDLE					FEngine;
-		CwclWiFiInterface*		FIface;
-		ULONG					FIndex; // Adapters index.
-		wclWiFiOperationMode	FMode; // Old operation mode.
-		CwclMessageReceiver*	FReceiver;
+		tstring						FDeviceName;
+		bool						FDoNotChangeMode;
+		HANDLE						FEngine;
+		CwclWiFiInterface*			FIface;
+		ULONG						FIndex; // Adapters index.
+		wclMessageProcessingMethod	FMessageProcessing;
+		wclWiFiOperationMode		FMode; // Old operation mode.
+		CwclMessageReceiver*		FReceiver;
 
 		static void __stdcall wclNmFrameCallback(HANDLE hCaptureEngine,
 			ULONG ulAdapterIndex, void* pCallerContext, HANDLE hFrame);
@@ -5180,6 +5202,25 @@ namespace wclWiFi
 		/// <exception cref="wclEWiFiSniffer"></exception>
 		__declspec(property(get = GetDoNotChangeMode, put = SetDoNotChangeMode))
 			bool DoNotChangeMode;
+
+		/// <summary> Gets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiSniffer"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiSniffer"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> The event fires after the Sniffer was opened with
 		///   success. </summary>
@@ -5462,9 +5503,10 @@ namespace wclWiFi
 		DISABLE_COPY(CwclCustomWiFiDirectComponent);
 		
 	private:
-		HANDLE					FHandle; // WLAN handle.
-		bool					FHardwareAvailable;
-		CwclMessageReceiver*	FReceiver;
+		HANDLE						FHandle; // WLAN handle.
+		bool						FHardwareAvailable;
+		wclMessageProcessingMethod	FMessageProcessing;
+		CwclMessageReceiver*		FReceiver;
 
 	protected:
 		/// <summary> The method called when WiFi hardware has been switched off
@@ -5518,6 +5560,25 @@ namespace wclWiFi
 		CwclCustomWiFiDirectComponent();
 		/// <summary> Frees the WiFi Direct Advertiser component. </summary>
 		virtual ~CwclCustomWiFiDirectComponent();
+
+		/// <summary> Gets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiDirect"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Sniffer. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiDirect"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 	};
 
 	/// <summary> The WiFi Direct Advertiser's <c>OnAcceptDevice</c> event handler
@@ -6399,6 +6460,25 @@ namespace wclWiFi
 		/// <value> <c>True</c> if the Soft AP is running. <c>False</c>
 		///   otherwise. </value>
 		__declspec(property(get = GetActive)) bool Active;
+
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Events. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Events. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiDirect"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method that should be
+		///   used by the WiFi Events. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEWiFiDirect"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> The event fires when new device is trying to connected to the
 		///   WiFI Direct Soft AP. </summary>

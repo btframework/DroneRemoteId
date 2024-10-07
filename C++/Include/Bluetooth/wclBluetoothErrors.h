@@ -1122,6 +1122,16 @@ namespace wclBluetooth
 		wclEBluetooth(const char* msg) : wclException(msg) { };
 	};
 
+	/// <summary> The Bluetooth Manager exceptions. </summary>
+	/// <seealso cref="wclEBluetooth" />
+	class wclEBluetoothManager : public wclEBluetooth
+	{
+	public:
+		/// <summary> Creates new exception object. </summary>
+		/// <param name="msg"> The exception message. </param>
+		wclEBluetoothManager(const char* msg) : wclEBluetooth(msg) { };
+	};
+
 	/// <summary> The Bluetooth clients exceptions. </summary>
 	/// <seealso cref="wclEBluetooth" />
 	class wclEBluetoothClient : public wclEBluetooth
@@ -1162,7 +1172,7 @@ namespace wclBluetooth
 		wclEGattServer(const char* msg) : wclEBluetoothServer(msg) { };
 	};
 
-	/// <summary> The Bluetooth LE beacon exception. </summary>
+	/// <summary> The Bluetooth LE beacon exceptions. </summary>
 	/// <seealso cref="wclEBluetooth" />
 	class wclEBluetoothLeBeacon : public wclEBluetooth
 	{
@@ -1170,5 +1180,15 @@ namespace wclBluetooth
 		/// <summary> Creates new exception object. </summary>
 		/// <param name="msg"> The exception message. </param>
 		wclEBluetoothLeBeacon(const char* msg) : wclEBluetooth(msg) { };
+	};
+
+	/// <summary> The Bluetooth LE Sniffer exceptions. </summary>
+	/// <seealso cref="wclEBluetooth" />
+	class wclEBluetoothLeSniffer : public wclEBluetooth
+	{
+	public:
+		/// <summary> Creates new exception object. </summary>
+		/// <param name="msg"> The exception message. </param>
+		wclEBluetoothLeSniffer(const char* msg) : wclEBluetooth(msg) { };
 	};
 }

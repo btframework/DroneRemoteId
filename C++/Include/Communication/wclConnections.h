@@ -20,6 +20,7 @@
 
 #include "wclConnectionErrors.h"
 
+using wclCommon::wclMessageProcessingMethod;
 using wclCommon::CwclMessage;
 using wclCommon::CwclMessageReceiver;
 
@@ -65,6 +66,17 @@ namespace wclCommunication
 		CwclCustomConnection();
 		/// <summary> Frees the connection. </summary>
 		virtual ~CwclCustomConnection();
+
+		/// <summary> Gets the message processing method used by the
+		///   connection. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Gets the message processing method used by the
+		///   connection. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		__declspec(property(get = GetMessageProcessing)) wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> Gets the connection message receiver object. </summary>
 		/// <returns> The internal message receiver object. </returns>
@@ -239,6 +251,8 @@ namespace wclCommunication
 		virtual~CwclClientConnection();
 
 		/// <summary> Connects to a remote device. </summary>
+		/// <param name="MessageProcessing"> Specifies a message processing method
+		///   that should be used by the connection. </param>
 		/// <param name="Timeout"> The connect timeout in milliseconds. The
 		///   default value is 10000 milliseconds. </param>
 		/// <returns> If the function succeed the return value is
@@ -249,7 +263,9 @@ namespace wclCommunication
 		///   established. That just means that the connection operation was
 		///   started. The real connection result will be passed to the
 		///   <c>OnConnect</c> event handler. </remarks>
-		int Connect(const unsigned long Timeout = 10000);
+		/// <seealso cref="wclMessageProcessingMethod" />
+		int Connect(const wclMessageProcessingMethod MessageProcessing,
+			const unsigned long Timeout = 10000);
 		/// <summary> Disconnects from the connected remote device. </summary>
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
@@ -847,10 +863,13 @@ namespace wclCommunication
 		///   the <c>Listen</c> method. The method is not thread-safe. </remarks>
 		int Close();
 		/// <summary> The method starts listening for client connections. </summary>
+		/// <param name="MessageProcessing"> A message processing method that should
+		///   be used by the server. </param>
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		int Listen();
+		/// <seealso cref="wclMessageProcessingMethod" />
+		int Listen(const wclMessageProcessingMethod MessageProcessing);
 		
 		/// <summary> Gets a connected client by its index. </summary>
 		/// <param name="Index"> Client's index. </param>

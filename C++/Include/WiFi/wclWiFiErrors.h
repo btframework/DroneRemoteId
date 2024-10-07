@@ -1336,6 +1336,16 @@ namespace wclWiFi
 		wclEWiFi(const char* msg) : wclException(msg) { };
 	};
 
+	/// <summary> The wclWiFiEvents exceptions. </summary>
+	/// <seealso cref="wclEWiFi" />
+	class wclEWiFiEvents : public wclEWiFi
+	{
+	public:
+		/// <summary> Creates new exception object. </summary>
+		/// <param name="msg"> The exception message. </param>
+		wclEWiFiEvents(const char* msg) : wclEWiFi(msg) { };
+	};
+
 	/// <summary> The WiFi Sniffer exceptions. </summary>
 	  /// <seealso cref="wclEWiFi" />
 	class wclEWiFiSniffer : public wclEWiFi
@@ -1344,6 +1354,26 @@ namespace wclWiFi
 		/// <summary> Creates new exception object. </summary>
 		/// <param name="msg"> The exception message. </param>
 		wclEWiFiSniffer(const char* msg) : wclEWiFi(msg) { };
+	};
+
+	/// <summary> The WiFi direct exceptions. </summary>
+	/// <seealso cref="wclEWiFi" />
+	class wclEWiFiDirect : public wclEWiFi
+	{
+	public:
+		/// <summary> Creates new exception object. </summary>
+		/// <param name="msg"> The exception message. </param>
+		wclEWiFiDirect(const char* msg) : wclEWiFi(msg) { };
+	};
+	
+	/// <summary> The Network List Manager exceptions. </summary>
+	/// <seealso cref="wclEWiFi" />
+	class wclEWiFiNlm : public wclEWiFi
+	{
+	public:
+		/// <summary> Creates new exception object. </summary>
+		/// <param name="msg"> The exception message. </param>
+		wclEWiFiNlm(const char* msg) : wclEWiFi(msg) { };
 	};
 
 	/// <summary> The function allocates error space for the WiFi subsystem. </summary>

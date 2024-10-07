@@ -2580,6 +2580,14 @@ namespace wclBluetooth
 		DISABLE_COPY(CwclBluetoothRadio);
 
 	private:
+		friend class CwclRfCommClientConnection;
+		friend class CwclRfCommServerConnection;
+		friend class CwclGattClientConnection;
+		friend class CwclGattServerConnection;
+		friend class CwclBluetoothLeBeaconWatcherConnection;
+		friend class CwclBluetoothLeAdvertiserConnection;
+		friend class CwclWiiRemoteClientConnection;
+
 		friend class CwclRfCommClient;
 		friend class CwclRfCommServer;
 		friend class CwclGattClient;
@@ -2587,7 +2595,7 @@ namespace wclBluetooth
 		friend class CwclBluetoothLeAdvertiser;
 		friend class CwclBluetoothLeBeaconWatcher;
 		friend class CwclWiiRemoteClient;
-
+		
 		typedef std::list<CwclCustomConnection*>	CONNECTIONS;
 
 		friend class CwclBluetoothManager;
@@ -3457,6 +3465,17 @@ namespace wclBluetooth
 		///   classic discovering is executing. </value>
 		__declspec(property(get = GetLeDiscovering)) bool LeDiscovering;
 
+		/// <summary> Gets the message processing method used by the
+		///   Radio. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Gets the message processing method used by the
+		///   Radio. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		__declspec(property(get = GetMessageProcessing)) wclMessageProcessingMethod MessageProcessing;
+
 		/// <summary> Gets the message receiver object. </summary>
 		/// <returns> A <see cref="CwclMessageReceiver" /> object used in
 		///   radio. </returns>
@@ -3469,6 +3488,17 @@ namespace wclBluetooth
 		/// <remarks> For internal use only. </remarks>
 		/// <seealso cref="CwclMessageReceiver" />
 		__declspec(property(get = GetReceiver)) CwclMessageReceiver* Receiver;
+
+		/// <summary> Gets the ID of the thread in which Radio was created. It is
+		///   the same thread that was used to call BluetoothManager.Open()
+		///   method. </summary>
+		/// <returns> The thread ID. </returns>
+		UINT GetThreadId() const;
+		/// <summary> Gets the ID of the thread in which Radio was created. It is
+		///   the same thread that was used to call BluetoothManager.Open()
+		///   method. </summary>
+		/// <value> The thread ID. </value>
+		__declspec(property(get = GetThreadId)) UINT ThreadId;
 
 		/// <summary> Gets the pairing device address for manual pairing. </summary>
 		/// <returns> A pairing device address. </returns>
@@ -4098,13 +4128,15 @@ namespace wclBluetooth
 
 		typedef std::list<CwclBluetoothRadio*>	RADIOS;
 
-		bool					FActive;
-		bool					FHandlePairing;
-		RTL_CRITICAL_SECTION	FCS;
-		HANDLE					FInstance;
-		RADIOS*					FRadios;
-		CwclMessageReceiver*	FReceiver;
-		bool					FUseBled112;
+		bool						FActive;
+		RTL_CRITICAL_SECTION		FCS;
+		bool						FHandlePairing;
+		HANDLE						FInstance;
+		wclMessageProcessingMethod	FMessageProcessing;
+		RADIOS*						FRadios;
+		CwclMessageReceiver*		FReceiver;
+		UINT						FThreadId;
+		bool						FUseBled112;
 
 		void MessageReceived(const CwclMessage* const Message);
 
@@ -4362,6 +4394,25 @@ namespace wclBluetooth
 		/// <remarks> This flag doe snot affect <c>Bled112</c> USB dongle because
 		///   it does not have any support from the OS. </remarks>
 		__declspec(property(get = GetHandlePairing)) bool HandlePairing;
+
+		/// <summary> Gets message processing method used by the Bluetooth
+		///  Framework. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Gets and sets message processing method used by the Bluetooth
+		///  Framework. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEBluetoothManager"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets message processing method used by the Bluetooth
+		///  Framework. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEBluetoothManager"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> Gets the Bluetooth Radio by its index. </summary>
 		/// <returns> The <see cref="CwclBluetoothRadio" /> object. </returns>
@@ -12534,13 +12585,14 @@ namespace wclBluetooth
 		DISABLE_COPY(CwclBleSniffer);
 		
 	private:
-		unsigned char			FChannel;
-		tstring					FDevicePath;
-		HANDLE					FInitEvent;
-		int						FInitResult;
-		CwclMessageReceiver*	FReceiver;
-		HANDLE					FTermEvent;
-		HANDLE					FThread;
+		unsigned char				FChannel;
+		tstring						FDevicePath;
+		HANDLE						FInitEvent;
+		int							FInitResult;
+		wclMessageProcessingMethod	FMessageProcessing;
+		CwclMessageReceiver*		FReceiver;
+		HANDLE						FTermEvent;
+		HANDLE						FThread;
 
 		tstring FindDevice();
 
@@ -12754,6 +12806,25 @@ namespace wclBluetooth
 		/// <summary> Gets the current device's path. </summary>
 		/// <value> The device's path. </value>
 		__declspec(property(get = GetDevicePath)) tstring DevicePath;
+
+		/// <summary> Gets a message processing method used by the
+		///   Sniffer. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method used by the
+		///   Sniffer. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEBluetoothLeSniffer"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method used by the
+		///   Sniffer. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEBluetoothLeSniffer"></exception>
+		__declspec(property(get  = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> The event fires when the <c>ADV_DIRECT_IND</c> PDU
 		///   received. </summary>

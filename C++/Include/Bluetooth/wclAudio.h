@@ -180,6 +180,7 @@ namespace wclAudio
 	private:
 		AudioApi::IMMDeviceEnumerator*		FEnumerator;
 		AudioApi::IMMNotificationClient*	FEventHandler;
+		wclMessageProcessingMethod			FMessageProcessing;
 		CwclMessageReceiver*				FReceiver;
 
 	protected:
@@ -257,6 +258,25 @@ namespace wclAudio
 		/// <value> <c>True</c> if the Audio Switcher is active. <c>False</c>
 		///   otherwsie. </value>
 		__declspec(property(get = GetActive)) bool Active;
+
+		/// <summary> Gets a message processing method that should be used
+		///   by the Audio component. </summary>
+		/// <returns> The message processing method. </returns>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method that should be used
+		///   by the Audio component. </summary>
+		/// <param name="Value"> The message processing method. </param>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEAudio"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method that should be used
+		///   by the Audio component. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEAudio"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
 
 		/// <summary> The event fires when the Audio Switcher was closed. </summary>
 		/// <param name="Sender"> The object that initiated the event. </param>

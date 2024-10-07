@@ -346,7 +346,7 @@ namespace wclCommon
 		mpSync
 	} wclMessageProcessingMethod;
 
-	/* Message Receivers. */
+	/* Message Receiver. */
 
 	/// <summary> The <c>OnMessage</c> event handler prototype. </summary>
 	/// <param name="Message"> The <see cref="CwclMessage" /> object represented
@@ -359,72 +359,93 @@ namespace wclCommon
 	#define wclMessageEvent(_event_name_) \
 		__event void _event_name_(const CwclMessage* const Message)
 
-	/// <summary> The base class for Wireless Communication Library message
-	///   receivers. </summary>
+	/// <summary> The Wireless Communication Library message receiver. </summary>
 	class CwclMessageReceiver
 	{
 		DISABLE_COPY(CwclMessageReceiver);
 
 	private:
+		/* Some type definitions */
+
 		friend class CwclMessageBroadcaster;
 
 		typedef std::list<CwclMessage*> MESSAGES;
 
+		/* Common fields */
+
 		// Messages queue critical section.
-		RTL_CRITICAL_SECTION	FCS;
+		RTL_CRITICAL_SECTION		FCS;
 		// Recevier's ID.
-		long					FId;
+		long						FId;
 		// A message receiver status.
-		bool					FListening;
+		bool						FListening;
+		// Message processing methods.
+		wclMessageProcessingMethod	FMethod;
 		// Id of the thread that used to call the Open method.
-		ULONG					FThreadId;
+		ULONG						FOpenThreadId;
 		// Messages queue.
-		MESSAGES*				FQueue;
+		MESSAGES*					FQueue;
+
+		/* Asynchronous message processing fields */
+
+		// New message/thread termination auto reset event.
+		HANDLE						FEvent;
+		// Termination event.
+		HANDLE						FTermEvent;
+		// Termination flag.
+		bool						FTerminated;
+		// Message processing thread.
+		HANDLE						FThread;
+		// We also need thread ID.
+		unsigned int				FThreadId;
+
+		/* Synchronous message processing fields */
+
+		// Message ID used for synchronization.
+		UINT						FMsg;
+		// Receiver's Window handle.
+		HWND						FWnd;
+
+		/* Common message processing methods */
+
+		int Initialize();
+		int Uninitialize();
+
+		int ProcessMessages();
+		void DispatchMessages();
+
+		int Synchronize();
+
+		/* Asynchronous message processing methods */
+
+		static UINT __stdcall _AsyncThreadProc(LPVOID lpParam);
+		void AsyncThreadProc();
+		
+		int AsyncInitialize();
+		int AsyncUninitialize();
+		int AsyncSynchronize();
+		int AsyncProcessMessages();
+
+		/* Synchronous message processing methods */
+
+		static LRESULT __stdcall _SyncWndProc(HWND hWnd, UINT uMsg, WPARAM wParam,
+			LPARAM lParam);
+		bool SyncWndProc(const HWND hWnd, const UINT uMsg, const WPARAM wParam,
+			const LPARAM lParam);
+
+		int SyncInitialize();
+		int SyncUninitialize();
+		int SyncSynchronize();
+		int SyncProcessMessages();
 		
 	protected:
-		/// <summary> Dispatches the messages in the messages queue. </summary>
-		/// <remarks> A derived class must call this method when a synchronization
-		///   signal received. </remarks>
-		void DispatchMessages();
-		
+
 		/// <summary> Calls the <c>OnMessage</c> event </summary>
 		/// <param name="Message"> The <see cref="CwclMessage" /> object. </param>
 		/// <remarks> The <c>Message</c> parameter is valid only inside the
 		///   method. </remarks>
 		/// <seealso cref="CwclMessage" />
 		virtual void DoMessage(const CwclMessage* const Message);
-		
-		/// <summary> Initializes the message receiver. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		/// <remarks> A derived class must override this method to provide
-		///   message processing method specific initialization code. </remarks>
-		virtual int Initialize() = 0;
-		/// <summary> Uninitializes the message receiver. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		/// <remarks> A derived class must override this method to provide
-		///   message processing method specific uninitialization code. </remarks>
-		virtual int Uninitialize() = 0;
-		
-		/// <summary> Sends a synchronization signal to a message processing
-		///   code. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		/// <remarks> A derived class must override this method to provide
-		///   message processing method specific synchronization code. </remarks>
-		virtual int Synchronize() = 0;
-		
-		/// <summary> Processes all messages in the messages queue. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		/// <remarks> A derived class must override this method to provide
-		///   specific code to force message processing. </remarks>
-		virtual int ProcessMessage() = 0;
 		
 	public:
 		/// <summary> Creates new message receiver object. </summary>
@@ -438,10 +459,13 @@ namespace wclCommon
 		///   the WCL error codes. </returns>
 		int Close();
 		/// <summary> Opens the message receiver. </summary>
+		/// <param name="Method"> The message processing method that should be used
+		///   by the Message Receiver. </param>
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		int Open();
+		/// <seealso cref="TwclMessageProcessingMethod" />
+		int Open(const wclMessageProcessingMethod Method);
 		
 		/// <summary> Places a message to the messages queue and starts processing
 		///   the messages. </summary>
@@ -468,7 +492,7 @@ namespace wclCommon
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		int ProcessAllMessage();
+		int ProcessAllMessages();
 
 		/// <summary> Gets the receiver's ID. </summary>
 		/// <returns> Unique message receiver ID. </returns>
@@ -492,7 +516,7 @@ namespace wclCommon
 		/// <remarks> A derived class must override this method to provide
 		///   information about supported message processing method. </remarks>
 		/// <seealso cref="wclMessageProcessingMethod" />
-		virtual wclMessageProcessingMethod GetMethod() const = 0;
+		wclMessageProcessingMethod GetMethod() const;
 		/// <summary> Gets a message processing method supported by the message
 		///   receiver. </summary>
 		/// <value> A message processing method. </value>
@@ -502,11 +526,11 @@ namespace wclCommon
 		/// <summary> Gets an ID of a thread that was used to call the <c>Open</c>
 		///   method. </summary>
 		/// <returns> Thread ID. </returns>
-		ULONG GetThreadId() const;
+		ULONG GetOpenThreadId() const;
 		/// <summary> Gets an ID of a thread that was used to call the <c>Open</c>
 		///   method. </summary>
 		/// <value> Thread ID. </value>
-		__declspec(property(get = GetThreadId)) ULONG ThreadId;
+		__declspec(property(get = GetOpenThreadId)) ULONG OpenThreadId;
 		
 		/// <summary> The event called when new message was received. </summary>
 		/// <param name="Message"> The <see cref="CwclMessage" /> object represented
@@ -517,118 +541,6 @@ namespace wclCommon
 		///   handler. </para> </remarks>
 		/// <seealso cref="CwclMessage" />
 		wclMessageEvent(OnMessage);
-	};
-
-	/// <summary> Asyncrhonous message receiver. </summary>
-	/// <seealso cref="CwclMessageReceiver" />
-	class CwclAsyncMessageReceiver : public CwclMessageReceiver
-	{
-		DISABLE_COPY(CwclAsyncMessageReceiver);
-		
-	private:
-		// New message/thread termination auto reset event.
-		HANDLE			FEvent;
-		// Termination event.
-		HANDLE			FTermEvent;
-		// Termination flag.
-		bool			FTerminated;
-		// Message processing thread.
-		HANDLE			FThread;
-		// We also need thread ID.
-		unsigned int	FThreadId;
-		
-		// Message processing thread procedure.
-		static UINT __stdcall _ThreadProc(LPVOID lpParam);
-		void ThreadProc();
-		
-	protected:
-		/// <summary> Initializes the message receiver. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int Initialize() override;
-		/// <summary> Uninitializes the message receiver. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int Uninitialize() override;
-		
-		/// <summary> Sends a synchronization signal to a message processing
-		///   code. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int Synchronize() override;
-		
-		/// <summary> Processes all messages in the messages queue. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int ProcessMessage() override;
-		
-	public:
-		/// <summary> Creates new message receiver object. </summary>
-		CwclAsyncMessageReceiver();
-
-		/// <summary> Get a message processing method supported by the message
-		///   receiver. </summary>
-		/// <returns> A message processing method. </returns>
-		/// <seealso cref="wclMessageProcessingMethod" />
-		virtual wclMessageProcessingMethod GetMethod() const override;
-	};
-
-	/// <summary> Synchronous message receiver. </summary>
-	/// <seealso cref="CwclMessageReceiver" />
-	class CwclSyncMessageReceiver : public CwclMessageReceiver
-	{
-		DISABLE_COPY(CwclSyncMessageReceiver);
-		
-	private:
-		// Message ID used for synchronization.
-		UINT	FMsg;
-		// Receiver's Window handle.
-		HWND	FWnd;
-		
-		// Window procedure.
-		static LRESULT __stdcall _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam,
-			LPARAM lParam);
-		bool WndProc(const HWND hWnd, const UINT uMsg, const WPARAM wParam,
-			const LPARAM lParam);
-		
-	protected:
-		/// <summary> Initializes the message receiver. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int Initialize() override;
-		/// <summary> Uninitializes the message receiver. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int Uninitialize() override;
-		
-		/// <summary> Sends a synchronization signal to a message processing
-		///   code. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int Synchronize() override;
-		
-		/// <summary> Processes all messages in the messages queue. </summary>
-		/// <returns> If the function succeed the return value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
-		///   the WCL error codes. </returns>
-		virtual int ProcessMessage() override;
-		
-	public:
-		/// <summary> Creates new message receiver object. </summary>
-		CwclSyncMessageReceiver();
-
-		/// <summary> Get a message processing method supported by the message
-		///   receiver. </summary>
-		/// <returns> A message processing method. </returns>
-		/// <seealso cref="wclMessageProcessingMethod" />
-		virtual wclMessageProcessingMethod GetMethod() const override;
 	};
 
 	/* Message Broadcaster. */
@@ -702,24 +614,6 @@ namespace wclCommon
 		///   receivers. </remarks>
 		virtual ~CwclMessageBroadcaster();
 
-		/// <summary> Creates a message receiver for specified message processing
-		///   method. </summary>
-		/// <param name="Method"> A message processing method. </param>
-		/// <returns> If the method completed with success returns new message
-		///   receiver object instance. If the method failed returns
-		///   <c>nil</c>. </returns>
-		/// <seealso cref="wclMessageProcessingMethod" />
-		/// <seealso cref="CwclMessageReceiver" />
-		static CwclMessageReceiver* CreateMessageReceiver(
-			const wclMessageProcessingMethod Method);
-		/// <summary> Creates a message receiver for the default message processing
-		///   method. </summary>
-		/// <returns> If the method completed with success returns new message
-		///   receiver object instance. If the method failed returns
-		///   <c>nil</c>. </returns>
-		/// <seealso cref="CwclMessageReceiver" />
-		static CwclMessageReceiver* CreateMessageReceiver();
-		
 		/// <summary> Broadcasts a Message to all message receivers. </summary>
 		/// <param name="Message"> The <see cref="CwclMessage" /> object represented
 		///   the message. A caller is responsible to free the <c>Message</c> object
@@ -748,21 +642,6 @@ namespace wclCommon
 		/// <remarks> This function can be used to force WCL message processing in
 		///   case if your execution thread is blocked. </remarks>
 		static int ProcessMessages();
-		
-		/// <summary> Gets the current message processing method. </summary>
-		/// <returns> The current message processing method. </returns>
-		/// <seealso cref="wclMessageProcessingMethod" />
-		static wclMessageProcessingMethod GetMessageProcessingMethod();
-		/// <summary> Changes the current message processing method. </summary>
-		/// <param name="Method"> The new message processing method. </param>
-		/// <returns> If the function succeed the returns value is
-		///   <see cref="WCL_E_SUCCESS" />. Otherwise the function returns one
-		///   of the WCL error codes. </returns>
-		/// <remarks> An application must call this method to change the current
-		///   message processing method before any other calls to
-		///   WCL. </remarks>
-		/// <seealso cref="wclMessageProcessingMethod" />
-		static int SetMessageProcessingMethod(const wclMessageProcessingMethod Method);
 	};
 
 	/* Predefined WCL message IDs. */
