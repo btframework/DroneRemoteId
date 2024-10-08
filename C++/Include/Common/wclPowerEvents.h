@@ -225,7 +225,7 @@ namespace wclCommon
 		///  method. </summary>
 		/// <value> The message processing method. </value>
 		/// <seealso cref="wclMessageProcessingMethod" />
-		/// <exception cref="wclEPowerEvents" />
+		/// <exception cref="wclEPowerEvents"></exception>
 		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
 			wclMessageProcessingMethod MessageProcessing;
 

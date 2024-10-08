@@ -1405,7 +1405,7 @@ namespace wclWiFi
 		/// <param name="Value"> The message processing method. </param>
 		/// <seealso cref="wclMessageProcessingMethod" />
 		/// <exception cref="wclEWiFiEvents"></exception>
-		void SetMessageProcessing(const wclMessageProcessingMethod MessageProcessing);
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
 		/// <summary> Gets and sets a message processing method that should be
 		///   used by the WiFi Events. </summary>
 		/// <value> The message processing method. </value>
