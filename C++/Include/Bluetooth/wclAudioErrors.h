@@ -108,6 +108,80 @@ namespace wclAudio
 	/// <summary> Unable to set audio endpoint mute status. </summary>
 	const int WCL_E_AUDIO_VOLUME_SET_MUTE_FAILED = WCL_E_AUDIO_VOLUME_BASE + 0x0004;
 
+	/* Bluetooth Audio error codes. */
+	
+	/// <summary> The base error code for Bluetooth Audio errors. </summary>
+	const int WCL_E_BT_AUDIO_BASE = WCL_E_AUDIO_BASE + 0x4000;
+	/// <summary> This Bluetooth audio feature is not supported on this
+	///   platform. </summary>
+	const int WCL_E_BT_AUDIO_FEATURE_NOT_SUPPORTED = WCL_E_BT_AUDIO_BASE + 0x0000;
+	
+	/* Bluetooth Audio Device Watcher error codes. */
+
+	/// <summary> The base error code for Bluetooth Audio Watcher
+	///   errors. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_BASE = WCL_E_BT_AUDIO_BASE + 0x0100;
+	/// <summary> Bluetooth Audio Watcher already started. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_STARTED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0000;
+	/// <summary> Bluetooth Audio Watcher already stopped. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_STOPPED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0001;
+	/// <summary> Unable to create Bluetooth Audio Watcher initialization
+	///   event. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_CREATE_INIT_EVENT_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0002;
+	/// <summary> Create Bluetooth Audio Watcher termination event
+	///   failed. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_CREATE_TERM_EVENT_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0003;
+	/// <summary> Unable to start Bluetooth Audio Watcher working
+	///   thread. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_START_THREAD_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0004;
+	/// <summary> Unable to get Bluetooth Audio Device selector. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_GET_SELECTOR_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0005;
+	/// <summary> Create device watcher failed. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_CREATE_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0006;
+	/// <summary> Set Device Added event handler failed. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_SET_ADDED_EVENT_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0007;
+	/// <summary> Set Device Removed event handler failed. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_SET_REMOVED_EVENT_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0008;
+	/// <summary> Unable to start Bluetooth Audio device watcher. </summary>
+	const int WCL_E_BT_AUDIO_WATCHER_START_FAILED = WCL_E_BT_AUDIO_WATCHER_BASE + 0x0009;
+	
+	/* Bluetooth Audio Receiver error codes. */
+
+	/// <summary> The base error code for Bluetooth Audio Receiver
+	///   errors. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_BASE = WCL_E_BT_AUDIO_BASE + 0x0200;
+	/// <summary> The audio receiver is closed. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_CLOSED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0000;
+	/// <summary> The audio receiver is opened closed. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_OPENED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0001;
+	/// <summary> Unable to create Bluetooth Audio Receiver initialization
+	///   event. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_CREATE_INIT_EVENT_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0002;
+	/// <summary> Create Bluetooth Audio Receiver termination event
+	///   failed. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_CREATE_TERM_EVENT_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0003;
+	/// <summary> Unable to start Bluetooth Audio Receiver working
+	///   thread. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_START_THREAD_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0004;
+	/// <summary> Unable to create Audio Connection Listener for the specified
+	///   Bluetooth Audio device. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_CREATE_CONNECTION_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0005;
+	/// <summary> Unable to add Audio Connect Listener event handler. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_SET_EVENT_HANDLER_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0006;
+	/// <summary> Enable incoming Bluetooth Audio connection failed. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_ENABLE_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0007;
+	/// <summary> A Bluetooth audio device is already connected. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_DEVICE_CONNECTED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0008;
+	/// <summary> Start Bluetooth Audio connection failed. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_START_CONNECT_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x0009;
+	/// <summary> Start Bluetooth Audio connection timedout. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_START_TIMEOUT = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x000A;
+	/// <summary> Start Bluetooth Audio connection denied by system. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_START_DENIED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x000B;
+	/// <summary> Unknow error occured during starting Bluetooth Audio
+	///   connection. </summary>
+	const int WCL_E_BT_AUDIO_RECEIVER_START_UNKNOWN_FAILED = WCL_E_BT_AUDIO_RECEIVER_BASE + 0x000C;
+
 	/// <summary> The base exception class for all Audio exceptions. </summary>
 	/// <seealso cref="wclCommon::wclException" />
 	class wclEAudio : public wclException

@@ -857,5 +857,96 @@ namespace wclAudio
 			virtual HRESULT STDMETHODCALLTYPE SetEchoCancellationRenderEndpoint(
 				LPCWSTR endpointId) = 0;
 		};
+
+		/* WinRT Audio API */
+
+		#define AudioPlaybackConnectionName	_T("Windows.Media.Audio.AudioPlaybackConnection")
+		
+		typedef enum
+		{
+			AudioPlaybackConnectionState_Closed = 0,
+			AudioPlaybackConnectionState_Opened = 1
+		} AudioPlaybackConnectionState;
+		
+		typedef enum
+		{
+			AudioPlaybackConnectionOpenResultStatus_Success = 0,
+			AudioPlaybackConnectionOpenResultStatus_RequestTimedOut = 1,
+			AudioPlaybackConnectionOpenResultStatus_DeniedBySystem = 2,
+			AudioPlaybackConnectionOpenResultStatus_UnknownFailure = 3
+		} AudioPlaybackConnectionOpenResultStatus;
+
+		// Forward declarations
+		interface IAudioPlaybackConnection;
+		interface IAudioPlaybackConnectionOpenAsyncOperation;
+
+		MIDL_INTERFACE("4e656aef-39f9-5fc9-a519-a5bbfd9fe921")
+		IAudioPlaybackConnectionOpenResult : public wclCommon::WinApi::IInspectable
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE get_Status(
+				AudioPlaybackConnectionOpenResultStatus* value) = 0;
+			virtual HRESULT STDMETHODCALLTYPE get_ExtendedError(HRESULT* value) = 0;
+		};
+
+		MIDL_INTERFACE("56ddb54d-eb8d-5ffb-a54b-8faf918c8031")
+		IAudioPlaybackConnectionOpenAsyncOperationCompletedHandler : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE Invoke(
+				IAudioPlaybackConnectionOpenAsyncOperation* asyncInfo,
+				wclCommon::WinApi::AsyncStatus asyncStatus) = 0;
+		};
+
+		MIDL_INTERFACE("f5245f8a-3dd1-56b2-829b-9888251d689c")
+		IAudioPlaybackConnectionOpenAsyncOperation : public wclCommon::WinApi::IInspectable
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE put_Completed(
+				IAudioPlaybackConnectionOpenAsyncOperationCompletedHandler* handler) = 0;
+			virtual HRESULT STDMETHODCALLTYPE get_Completed(
+				IAudioPlaybackConnectionOpenAsyncOperationCompletedHandler** result) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetResults(
+				IAudioPlaybackConnectionOpenResult** result) = 0;
+		};
+
+		MIDL_INTERFACE("0e389b05-31a6-58f1-9ea4-0c1e4d70a7b8")
+		IAudioPlaybackConnectionEventHandler : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE Invoke(IAudioPlaybackConnection* sender,
+				wclCommon::WinApi::IInspectable* args) = 0;
+		};
+
+		MIDL_INTERFACE("1a4c1dea-cafc-50e7-8718-ea3f81cbfa51")
+		IAudioPlaybackConnection : public wclCommon::WinApi::IInspectable
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE Start() = 0;
+			virtual HRESULT STDMETHODCALLTYPE StartAsync(
+				wclCommon::WinApi::IAsyncAction** operation) = 0;
+			virtual HRESULT STDMETHODCALLTYPE get_DeviceId(
+				wclCommon::WinApi::HSTRING* value) = 0;
+			virtual HRESULT STDMETHODCALLTYPE get_State(AudioPlaybackConnectionState* value) = 0;
+			virtual HRESULT STDMETHODCALLTYPE Open(IAudioPlaybackConnectionOpenResult** result) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OpenAsync(
+				IAudioPlaybackConnectionOpenAsyncOperation** operation) = 0;
+			virtual HRESULT STDMETHODCALLTYPE add_StateChanged(
+				IAudioPlaybackConnectionEventHandler* handler,
+				wclCommon::WinApi::EventRegistrationToken* token) = 0;
+			virtual HRESULT STDMETHODCALLTYPE remove_StateChanged(
+				wclCommon::WinApi::EventRegistrationToken token) = 0;
+		};
+
+		MIDL_INTERFACE("e60963a2-69e6-5ffc-9e13-824a85213daf")
+		IAudioPlaybackConnectionStatics : public wclCommon::WinApi::IInspectable
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE GetDeviceSelector(
+				wclCommon::WinApi::HSTRING* result) = 0;
+			virtual HRESULT STDMETHODCALLTYPE TryCreateFromId(
+				wclCommon::WinApi::HSTRING id,
+				IAudioPlaybackConnection** result) = 0;
+		};
 	}
 }

@@ -203,6 +203,21 @@ namespace wclBluetooth
 		GUID LongUuid;
 	} wclGattUuid;
 
+	/// <summary> Compares <see cref="wclGattUuid" /> structures. </summary>
+	/// <param name="u1"> First <see cref="wclGattUuid" /> structure. </param>
+	/// <param name="u2"> Second <see cref="wclGattUuid" /> structure. </param>
+	/// <returns> Returns <c>true</c> if the structures are equal. Returns <c>false</c>
+	///   otherwise. </returns>
+	/// <seealso cref="wclGattUuid" />
+	bool operator ==(const wclGattUuid& u1, const wclGattUuid& u2);
+	/// <summary> Compares <see cref="wclGattUuid" /> structures. </summary>
+	/// <param name="u1"> First <see cref="wclGattUuid" /> structure. </param>
+	/// <param name="u2"> Second <see cref="wclGattUuid" /> structure. </param>
+	/// <returns> Returns <c>false</c> if the structures are equal. Returns <c>true</c>
+	///   otherwise. </returns>
+	/// <seealso cref="wclGattUuid" />
+	bool operator !=(const wclGattUuid& u1, const wclGattUuid& u2);
+
 	/// <summary> The structure describes a Bluetooth Low Energy (LE) generic
 	///   attribute (GATT) profile service. </summary>
 	typedef struct
@@ -590,17 +605,17 @@ namespace wclBluetooth
 	typedef struct
 	{
 		/// <summary> The descriptor's UUID. </summary>
-		unsigned short			Uuid;
+		unsigned short Uuid;
 		/// <summary> The read protection level of the descriptor. </summary>
 		/// <seealso cref="wclGattProtectionLevel" />
-		wclGattProtectionLevel	ReadProtectionLevel;
+		wclGattProtectionLevel ReadProtectionLevel;
 		/// <summary> The write protection level of the descriptor. </summary>
 		/// <seealso cref="wclGattProtectionLevel" />
-		wclGattProtectionLevel	WriteProtectionLevel;
+		wclGattProtectionLevel WriteProtectionLevel;
 		/// <summary> The descriptor's data. </summary>
-		unsigned char*			Data;
+		unsigned char* Data;
 		/// <summary> The descriptor's data size. </summary>
-		unsigned char			Size;
+		unsigned char Size;
 	} wclGattLocalDescriptor;
 	/// <summary> GATT local descriptors array. </summary>
 	/// <seealso cref="wclGattLocalDescriptor" />
@@ -818,11 +833,11 @@ namespace wclBluetooth
 	{
 		/// <summary> A 128-bit cryptographic key used for two-way
 		///   authentication. </summary>
-		BYTE	C[16];
+		unsigned char C[16];
 		/// <summary> A randomly generated number used for one-way authentication.
 		///   If this number is not provided by the device initiating the OOB
 		///   session, this value is 0. </summary>
-		BYTE	R[16];
+		unsigned char R[16];
 	} wclBluetoothOobData;
 
 	/// <summary> Describes the Bluetooth address type. </summary>
@@ -962,6 +977,475 @@ namespace wclBluetooth
 		/// <seealso cref="wclBluetoothLeConnectionPhyInfo" />
 		wclBluetoothLeConnectionPhyInfo Transmit;
 	} wclBluetoothLeConnectionPhy;
+
+	/// <summary> The record contains basic information about Bluetooth LE
+	///   advertisement frame. </summary>
+	typedef struct
+	{
+		/// <summary> The Bluetooth LE advertiser's MAC address. </summary>
+		__int64 Address;
+		/// <summary> The frame's timestamp in Universal Time format. </summary>
+		__int64 Timestamp;
+		/// <summary> The measured RSSI value in dBm at range between -100 dBm and
+		///   +20 dBm at 1 dBm resolution. </summary>
+		char Rssi;
+	} wclBluetoothLeAdvertisementInfo;
+
+	/// <summary> The record contains Apple Airdrop Bluetooth LE advertisement
+	///   data. </summary>
+	typedef struct
+	{
+		/// <summary> Message prefix. </summary>
+		unsigned char Prefix[8];
+		/// <summary> Version. </summary>
+		unsigned char Version;
+		/// <summary> Truncated SHA256 hash of apple ID. </summary>
+		unsigned short AppleId;
+		/// <summary> Truncated SHA256 hash of phone number. </summary>
+		unsigned short PhoneNumber;
+		/// <summary> Truncated SHA256 hash of E-Mail. </summary>
+		unsigned short Email;
+		/// <summary> Truncated SHA256 hash of E-Mail 2. </summary>
+		unsigned short Email2;
+		/// <summary> Suffix. </summary>
+		unsigned char Suffix;
+	} wclBluetoothLeAppleAirdropFrameData;
+	
+	/// <summary> The record contains Apple Airplay source Bluetooth LE
+	///   advertisement data. </summary>
+	typedef struct
+	{
+		/// <summary> The data byte. </summary>
+		unsigned char Data;
+	} wclBluetoothLeAppleAirplaySourceFrameData;
+	
+	/// <summary> The record contains Apple Airplay target Bluetooth LE
+	///   advertisement data. </summary>
+	typedef struct
+	{
+		/// <summary> AirPlay flags. </summary>
+		unsigned char Flags;
+		/// <summary> AirPlay configuration seed. </summary>
+		unsigned char Seed;
+		/// <summary> IPv4 address. </summary>
+		unsigned long Address;
+	} wclBluetoothLeAppleAirplayTargetFrameData;
+
+	/// <summary> The record contains Apple Airprint Bluetooth LE advertisement
+	///   data. </summary>
+	typedef struct
+	{
+		/// <summary> Address type. </summary>
+		unsigned char AddressType;
+		/// <summary> Path resource type. </summary>
+		unsigned char ResourceType;
+		/// <summary> Security type. </summary>
+		unsigned char SecurityType;
+		/// <summary> QID or TCP port. </summary>
+		unsigned short Port;
+		/// <summary> IPv4 or IPv6 address. </summary>
+		unsigned char Address[16];
+		/// <summary> Measured Power. </summary>
+		char Power;
+	} wclBluetoothLeAppleAirprintFrameData;
+
+	/// <summary> The record contains Apple Find My Bluetooth LE advertisement
+	///   data. </summary>
+	/// <remarks> The Find My message is broadcast by apple devices that are
+	///   marked as lost by the user or that do not have internet connectivity.
+	///   This message includes the x-coordinate of the currently active elliptic
+	///   curve public key for the disconnected device. Because BLE advertisements
+	///   are limited to 31 total bytes, some of which are used to encode the
+	///   company identifier and other metadata, Apple encodes part of the key in
+	///   the BLE Advertising Address, with the remaining public key included in
+	///   the advertisement payload. When a nearby internet-connected apple device
+	///   sees this BLE message, it sends a location report using its own GPS to
+	///   Apple Servers. This location report is encrypted with the advertised
+	///   public key so that only the device owner can decrypt the location
+	///   report. The owner of the lost device will then see the lost device's
+	///   location appear on their Find My app.  </remarks>
+	typedef struct
+	{
+		/// <summary> <para> Find My status: </para>
+		///   <para> 0x00 - Owner did not connect within key rotation
+		///                 period (15 min.) </para>
+		///   <para> 0x24 - Owner connected with key roation period,
+		///                 Battery Full </para>
+		///   <para> 0x64 - Owner connected with key roation period,
+		///                 Battery Medium </para>
+		///   <para> 0xA4 - Owner connected with key roation period,
+		///                 Battery Low </para>
+		///   <para> 0xE4 - Owner connected with key roation period,
+		///                 Battery Critically Low </para> </summary>
+		unsigned char Status;
+		/// <summary> Public key. </summary>
+		unsigned char Key[22];
+		/// <summary> <para> Public key bits: </para>
+		///   <para> 0x00 - bits 6 and 7 not set in public key </para>
+		///   <para> 0x01 - bit 6 set in public key </para>
+		///   <para> 0x02 - bit 7 set in public key </para>
+		///   <para> 0x03 - bits 6 and 7 set in public key </para> </summary>
+		unsigned char KeyBits;
+		/// <summary> Byte 5 of BT_ADDR of the primary key. </summary>
+		unsigned char Hint;
+	} wclBluetoothLeAppleFindMyFrameData;
+
+	/// <summary> The record contains Apple Handoff Bluetooth LE advertisement
+	///   data. </summary>
+	/// <remarks> Handoff Messages enable users to start tasks on one iOS or macOS
+	///   device and finish them on another. Handoff is supported with the Apple
+	///   Calendar, Contacts, Mail, Maps, Messages, Notes, Reminders, Safari,
+	///   Pages, Numbers, Keynote applications, as well as certain third-party
+	///   applications that are designed to support Handoff by their
+	///   developers. </remarks>
+	typedef struct
+	{
+		/// <summary> A clipboard status. Indicates copy/cut operation. </summary>
+		bool Clipboard;
+		/// <summary> Sequence number. </summary>
+		unsigned short Sequence;
+		/// <summary> AES-GCM Auth Tag. </summary>
+		unsigned char AuthTag;
+		/// <summary> Encrypted Handoff data. </summary>
+		unsigned char Data[10];
+	} wclBluetoothLeAppleHandoffFrameData;
+
+	/// <summary> The record contains Apple Hey Siri Bluetooth LE
+	///   advertisement data. </summary>
+	/// <remarks> 'Hey Siri' messages are emitted by a device when the voice
+	///   assistant Siri is used. Of note, a perceptual hash of the voice command
+	///   is included in the packet. </remarks>
+	typedef struct
+	{
+		/// <summary> Perceptual Hash. </summary>
+		unsigned short Hash;
+		/// <summary> Signal-to-Noise Ration. </summary>
+		char Snr;
+		/// <summary> <para> Wrist confidence level: </para>
+		///   <para> 0x03 - Not on Wrist </para>
+		///   <para> 0x1F - Wrist detection disabled </para>
+		///   <para> 0x3F - On Wrist </para> </summary>
+		unsigned char Confidence;
+		/// <summary> <para> Device Class: </para>
+		///   <para> 0x0002 - iPhone </para>
+		///   <para> 0x0003 - iPad </para>
+		///   <para> 0x0007 - HomePod </para>
+		///   <para> 0x0009 - MacBook </para>
+		///   <para> 0x000A - Watch </para> </summary>
+		unsigned short DeviceClass;
+		/// <summary> Random byte. </summary>
+		unsigned char Rand;
+	} wclBluetoothLeAppleHeySiriFrameData;
+
+	/// <summary> The record contains Apple Home Kit Bluetooth LE advertisement
+	///   data. </summary>
+	typedef struct
+	{
+		/// <summary> Status flags. </summary>
+		unsigned char Status;
+		/// <summary> A device ID. </summary>
+		unsigned char DeviceId[6];
+		/// <summary> <para> HomeKit device category: </para>
+		///   <para> 0x0000 - Unknown </para>
+		///   <para> 0x0001 - Other </para>
+		///   <para> 0x0002 - Bridge </para>
+		///   <para> 0x0003 - Fan </para>
+		///   <para> 0x0004 - Garage Door Opener </para>
+		///   <para> 0x0005 - Lightbulb </para>
+		///   <para> 0x0006 - Door Lock </para>
+		///   <para> 0x0007 - Outlet </para>
+		///   <para> 0x0008 - Switch </para>
+		///   <para> 0x0009 - Thermostat </para>
+		///   <para> 0x000A - Sensor </para>
+		///   <para> 0x000B - Security System </para>
+		///   <para> 0x000C - Door </para>
+		///   <para> 0x000D - Window </para>
+		///   <para> 0x000E - Window Covering </para>
+		///   <para> 0x000F - Programmable Switch </para>
+		///   <para> 0x0010 - Range Extender </para>
+		///   <para> 0x0011 - IP Camera </para>
+		///   <para> 0x0012 - Video Doorbell </para>
+		///   <para> 0x0013 - Air Purifier </para>
+		///   <para> 0x0014 - Heater </para>
+		///   <para> 0x0015 - Air Conditioner </para>
+		///   <para> 0x0016 - Humidifier </para>
+		///   <para> 0x0017 - Dehumidifier </para>
+		///   <para> 0x001C - Sprinklers </para>
+		///   <para> 0x001D - Faucets </para>
+		///   <para> 0x001E - Shower Systems </para> </summary>
+		unsigned short Category;
+		/// <summary> State number. </summary>
+		unsigned short StateNumber;
+		/// <summary> Config number. </summary>
+		unsigned char ConfigNumber;
+		/// <summary> Compatible version. </summary>
+		unsigned char Version;
+	} wclBluetoothLeAppleHomeKitFrameData;
+
+	/// <summary> The record contains Apple iBeacon Bluetooth LE advertisement
+	///   data. </summary>
+	typedef struct
+	{
+		/// <summary> The beacon's UUID. </summary>
+		GUID Uuid;
+		/// <summary> The beacon's Minor value. </summary>
+		unsigned short Minor;
+		/// <summary> The beacon's Major value. </summary>
+		unsigned short Major;
+		/// <summary> The beacon's RSSI value in dBm at range between -100 dBm and
+		///   +20 dBm at 1 dBm resolution measured at 1 meter distance. </summary>
+		char TxRssi;
+	} wclBluetoothLeAppleiBeaconFrameData;
+
+	/// <summary> The record contains Apple Magic Switch Bluetooth LE
+	///   advertisement data. </summary>
+	typedef struct
+	{
+		/// <summary> Message data. </summary>
+		unsigned short Data;
+		/// <summary> <para> Wrist confidence level: </para>
+		///   <para> 0x03 - Not on Wrist </para>
+		///   <para> 0x1F - Wrist detection disabled </para>
+		///   <para> 0x3F - On Wrist </para> </summary>
+		unsigned char Confidence;
+	} wclBluetoothLeAppleMagicSwitchFrameData;
+
+	/// <summary> The record contains Apple Nearby Action Bluetooth LE
+	///   advertisement data. </summary>
+	typedef struct
+	{
+		/// <summary> Action flags. </summary>
+		unsigned char Flags;
+		/// <summary> <para> Action type. Known values: </para>
+		///   <para> 0x01 - Apple TV Setup </para>
+		///   <para> 0x04 - Mobile Backup </para>
+		///   <para> 0x05 - Watch Setup </para>
+		///   <para> 0x06 - Apple TV Pair </para>
+		///   <para> 0x07 - Internet Relay </para>
+		///   <para> 0x08 - WiFi Password </para>
+		///   <para> 0x09 - iOS Setup </para>
+		///   <para> 0x0A - Repair </para>
+		///   <para> 0x0B - Speaker Setupd </para>
+		///   <para> 0x0C - Apple Pay </para>
+		///   <para> 0x0D - Whole Home Audio Setup </para>
+		///   <para> 0x0E - Developer Tools Pairing Request </para>
+		///   <para> 0x0F - Answered Call </para>
+		///   <para> 0x10 - Ended Call </para>
+		///   <para> 0x11 - DD Ping </para>
+		///   <para> 0x12 - DD Pong </para>
+		///   <para> 0x13 - Remote Auto Fill </para>
+		///   <para> 0x14 - Companion Link Proximity </para>
+		///   <para> 0x15 - Remote Management </para>
+		///   <para> 0x16 - Remote Auto Fill Pong </para>
+		///   <para> 0x17 - Remote Display </para> </summary>
+		unsigned char Action;
+		/// <summary> Authentication tag. </summary>
+		unsigned long Tag;
+		/// <summary> <para> Action device class. Known values: </para>
+		///   <para> 0x02 - iPhone </para>
+		///   <para> 0x04 - iPod </para>
+		///   <para> 0x06 - iPad </para>
+		///   <para> 0x08 - Audio accessory (HomePod) </para>
+		///   <para> 0x0A - Mac </para>
+		///   <para> 0x0C - AppleTV </para>
+		///   <para> 0x0E - Watch </para> </summary>
+		unsigned char Device;
+		/// <summary> Action parameters. The structure of the Nearby Action
+		///   Parameters field is dependent upon the Action Type value. </summary>
+		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
+		wclBluetoothLeAdvertisementFrameRawData Params;
+	} wclBluetoothLeAppleNearbyActionFrameData;
+
+	/// <summary> The record contains Apple Nearby Info Bluetooth LE advertisement
+	///   data. </summary>
+	typedef struct
+	{
+		/// <summary> <para> Status flags. Used as a bitmask, more than one may be
+		///   enabled at any time. Known values: </para>
+		///   <para> 0x01 - Indicates if this is the primary iCloud account
+		///                 device </para>
+		///   <para> 0x04 - Indicates whether AirDrop Receiving is
+		///                 enabled </para> </summary>
+		unsigned char Status;
+		/// <summary> <para> Action flags. Indicates the action state of the
+		///   device. Known values: </para>
+		///   <para> 0x00 - Activity level unknown </para>
+		///   <para> 0x01 - Activity reporting disabled </para>
+		///   <para> 0x03 - Idle user </para>
+		///   <para> 0x05 - Audio playing while screen locked </para>
+		///   <para> 0x07 - Active user (screen on) </para>
+		///   <para> 0x09 - Screen on with video playing </para>
+		///   <para> 0x0A - Watch on wrist and unlocked </para>
+		///   <para> 0x0B - Recent user interaction </para>
+		///   <para> 0x0D - User is driving a vehicle </para>
+		///   <para> 0x0E - Phone or Facetime Call </para> </summary>
+		unsigned char Action;
+		/// <summary> <para> Indicates current device state. Used as a bitmask, more
+		///   than one may be enabled at any time. Known values: </para>
+		///   <para> 0x01 - Indicates if AirPods are connected and the screen is
+		///                 on </para>
+		///   <para> 0x02 - Indicates if the Authentication Tag is 4 bytes </para>
+		///   <para> 0x04 - Indicates whether WiFi is on or off </para>
+		///   <para> 0x10 - Indicates whether the Authentication Tag is present or
+		///                 not </para>
+		///   <para> 0x20 - Indicates whether the Apple Watch is locked or not </para>
+		///   <para> 0x40 - Indicates whether Auto Unlock on the Apple Watch is
+		///                 enabled or not </para>
+		///   <para> 0x80 - Indicates whether Auto Unlock is enabled or
+		///                 not </para> </summary>
+		unsigned char Flags;
+		/// <summary> Authentication tag. </summary>
+		unsigned long Tag;
+	} wclBluetoothLeAppleNearbyInfoFrameData;
+
+	/// <summary> The record contains Apple Proximity Pairing Bluetooth LE
+	///   advertisement data. </summary>
+	/// <remarks> Proximity Pairing is an Apple technology that is used to pair
+	///   AirPods and iOS devices. These messages carry unencrypted information
+	///   detailing the status, model, and color of the audio device as well as
+	///   the power and charging status. </remarks>
+	typedef struct
+	{
+		/// <summary> Proximity Pairing message prefix. </summary>
+		unsigned char Prefix;
+		/// <summary> <para> Device model: </para>
+		///   <para> 0x2002 - AirPods </para>
+		///   <para> 0x2003 - Powerbeats 3 </para>
+		///   <para> 0x2005 - BeatsX </para>
+		///   <para> 0x2006 - Beats Solo 3 </para>
+		///   <para> 0x2007 - Beats Studio 3 </para>
+		///   <para> 0x2009 - Beats Studio 3 </para>
+		///   <para> 0x200A - AirPods Max </para>
+		///   <para> 0x200B - Powerbeats Pro </para>
+		///   <para> 0x200C - Beats Solo Pro </para>
+		///   <para> 0x200D - Powerbeats 4 </para>
+		///   <para> 0x200E - AirPods Pro </para>
+		///   <para> 0x200F - AirPods 2 </para>
+		///   <para> 0x2010 - Beats Flex </para>
+		///   <para> 0x2011 - Beats Studio Buds </para>
+		///   <para> 0x2012 - Beats Fit Pro </para>
+		///   <para> 0x2013 - AirPods 3 </para>
+		///   <para> 0x2014 - AirPods Pro 2 </para> </summary>
+		unsigned short DeviceModel;
+		/// <summary> <para> Device status: </para>
+		///   <para> 0x01 - AirPods: Both out of case, not in ear </para>
+		///   <para> 0x02 - Right in ear, Left in case </para>
+		///   <para> 0x03 - AirPods: Right in ear, Left out of case </para>
+		///   <para> 0x0B - Both AirPods in ear </para>
+		///   <para> 0x11 - AirPods: Right out of case, Left in case </para>
+		///   <para> 0x13 - AirPods: Right in ear, Left in case </para>
+		///   <para> 0x21 - Both taken out of ears, Pause Audio </para>
+		///   <para> 0x22 - Left in ear, Right in case </para>
+		///   <para> 0x23 - AirPods: Left in ear, Right out of case </para>
+		///   <para> 0x2B - Both AirPods in ear </para>
+		///   <para> 0x31 - AirPods: Left out of case, Right in case </para>
+		///   <para> 0x33 - AirPods: Left in ear, Right in case </para>
+		///   <para> 0x51 - Case: Left out of case, Right in case </para>
+		///   <para> 0x53 - Case: Left in ear, Right in case </para>
+		///   <para> 0x55 - Case: Both AirPods in case </para>
+		///   <para> 0x71 - Case: Right out of case, Left in case </para>
+		///   <para> 0x73 - Case: Right in ear, Left in case </para>
+		///   <para> 0x75 - Case: Both AirPods in case </para> </summary>
+		unsigned char Status;
+		/// <summary> Battery of left pod. </summary>
+		unsigned char LeftBattery;
+		/// <summary> Battery of right pod. </summary>
+		unsigned char RightBattery;
+		/// <summary> Whether the case is charging. </summary>
+		bool CaseCharging;
+		/// <summary> Whether right pod is charging. </summary>
+		bool RightCharging;
+		/// <summary> Whether left pod is charging. </summary>
+		bool LeftCharging;
+		/// <summary> Case battery. </summary>
+		unsigned char CaseBattery;
+		/// <summary> Lid open counter. </summary>
+		unsigned char Counter;
+		/// <summary> <para> Device color: </para>
+		///   <para> 0x00 - White </para>
+		///   <para> 0x01 - Black </para>
+		///   <para> 0x02 - Red </para>
+		///   <para> 0x03 - Blue </para>
+		///   <para> 0x04 - Pink </para>
+		///   <para> 0x05 - Gray </para>
+		///   <para> 0x06 - Silver </para>
+		///   <para> 0x07 - Gold </para>
+		///   <para> 0x08 - Rose Gold </para>
+		///   <para> 0x09 - Space Gray </para>
+		///   <para> 0x0A - Dark Blue </para>
+		///   <para> 0x0B - Light Blue </para>
+		///   <para> 0x0C - Yellow </para> </summary>
+		unsigned char Color;
+		/// <summary> Proximity Pairing message suffix. </summary>
+		unsigned char Suffix;
+		/// <summary> Encrypted data. </summary>
+		unsigned char Data[16];
+	} wclBluetoothLeAppleProximityPairingFrameData;
+
+	/// <summary> The record contains Apple Tethering Source Bluetooth LE
+	///   advertisement data. </summary>
+	/// <remarks> The Tethering Source Continuity message is broadcast in response
+	///   to a Tethering Target message generated by another device (typically a
+	///   MacBook) linked to the same iCloud account as the iPhone or iPad that is
+	///   to be used as a hotspot. The Tethering Source message contains
+	///   information pertaining to the battery life, and type and quality of
+	///   cellular service the hotspot device has. Some of this information is
+	///   listed in the 'available WiFi networks' listed on the Tethering Target
+	///   device when searching for the hotspot. </remarks>
+	typedef struct
+	{
+		/// <summary> Version. </summary>
+		unsigned char Version;
+		/// <summary> Flags. </summary>
+		unsigned char Flags;
+		/// <summary> Battery status. </summary>
+		unsigned char Battery;
+		/// <summary> <para> Cell service type: </para>
+		///   <para> 0x0000 - 4G (GSM) </para>
+		///   <para> 0x0001 - 1xRTT </para>
+		///   <para> 0x0002 - GPRS </para>
+		///   <para> 0x0003 - EDGE </para>
+		///   <para> 0x0004 - 3G (EV-DO) </para>
+		///   <para> 0x0005 - 3G </para>
+		///   <para> 0x0006 - 4G </para>
+		///   <para> 0x0007 - LTE </para> </summary>
+		unsigned short CellType;
+		/// <summary> Cell Service Quality (Bars). </summary>
+		unsigned char Bars;
+	} wclBluetoothLeAppleTetheringSourceFrameData;
+	
+	/// <summary> The record contains Apple Tethering Target Bluetooth LE
+	///   advertisement data. </summary>
+	/// <remarks> The Tethering Target Continuity message is broadcast in order to
+	///   elicit a response from a device to be used as a hotspot, which will
+	///   reply with a Tethering Source message. In a typical usage example, a
+	///   user clicks on the menu button that displays the list of available WiFi
+	///   networks on a MacBook. This action generates a stream of Tethering
+	///   Target messages that continue for the duration of the period in which
+	///   the available networks tab is opened. In response, a hotspot-capable
+	///   device linked to the same iCloud account (an iPhone or iPad with
+	///   cellular connection) responds with Tethering Source messages to
+	///   advertise its presence and connection capabilities, including battery
+	///   status, type of cellular connection, and strength of cellular
+	///   signal.  </remarks>
+	typedef struct
+	{
+		/// <summary> iCloud ID. </summary>
+		/// <remarks> Derived from user's iCloud DSID. Rotates every 24 hours.
+		///   Constant across all devices on same iCloud Account </remarks>
+		unsigned long Id;
+	} wclBluetoothLeAppleTetheringTargetFrameData;
+
+	/// <summary> The record contains an unknown Apple specified Bluetooth LE
+	///   advertisement data. </summary>
+	typedef struct
+	{
+		/// <summary> An Apple message ID. </summary>
+		unsigned char Id;
+		/// <summary> An Apple message payload. </summary>
+		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
+		wclBluetoothLeAdvertisementFrameRawData Payload;
+	} wclBluetoothLeAppleUnknownFrameData;
 	
 	/// <summary> The Microsoft CDP Beacon device type. </summary>
 	typedef enum
@@ -1697,8 +2181,9 @@ namespace wclBluetooth
 	///   pairing. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothConfirmEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, bool& Confirm)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, bool& Confirm)
 	/// <summary> The common event for notifications when a remote device's
 	///   MAC address required. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1707,8 +2192,9 @@ namespace wclBluetooth
 	/// <param name="Address"> A remote device's MAC address. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothDeviceEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address)
 	/// <summary> The common event handler prototype used for a remote
 	///   Bluetooth device's operations result notifications. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1718,8 +2204,9 @@ namespace wclBluetooth
 	/// <param name="Error"> An operation result code. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothDeviceResultEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, const int Error)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, const int Error)
 	/// <summary> The <c>OnIoCapabilityRequest</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1736,16 +2223,18 @@ namespace wclBluetooth
 	/// <seealso cref="wclBluetoothMitmProtection" />
 	/// <seealso cref="wclBluetoothIoCapability" />
 	#define wclBluetoothIoCapabilityRequestEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, wclBluetoothMitmProtection& Mitm, \
-		wclBluetoothIoCapability& IoCapability, bool& OobPresent)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, wclBluetoothMitmProtection& Mitm, \
+			wclBluetoothIoCapability& IoCapability, bool& OobPresent)
 	/// <summary> The common Bluetooth event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Radio"> A <see cref="CwclBluetoothRadio" /> object
 	///   represents a Bluetooth driver that fired the event. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio)
 	/// <summary> The <c>OnNumericComparison</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Radio"> A <see cref="CwclBluetoothRadio" /> object
@@ -1758,8 +2247,9 @@ namespace wclBluetooth
 	///   pairing. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothNumericComparisonEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, const unsigned long Number, bool& Confirm)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, const unsigned long Number, bool& Confirm)
 	/// <summary> The <c>OnOobDataRequest</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Radio"> A <see cref="CwclBluetoothRadio" /> object
@@ -1770,8 +2260,9 @@ namespace wclBluetooth
 	/// <seealso cref="CwclBluetoothRadio" />
 	/// <seealso cref="wclBluetoothOobData" />
 	#define wclBluetoothOobDataRequestEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, wclBluetoothOobData& OobData)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, wclBluetoothOobData& OobData)
 	/// <summary> The <c>OnPasskeyNotification</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1782,8 +2273,9 @@ namespace wclBluetooth
 	///   Bluetooth device. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothPasskeyNotificationEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, const unsigned long Passkey)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, const unsigned long Passkey)
 	/// <summary> The <c>OnPasskeyRequest</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Radio"> A <see cref="CwclBluetoothRadio" /> object
@@ -1792,8 +2284,9 @@ namespace wclBluetooth
 	/// <param name="Passkey"> A Passkey provided by an application. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothPasskeyRequestEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, unsigned long& Passkey)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, unsigned long& Passkey)
 	/// <summary> The <c>OnPinRequest</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Radio"> A <see cref="CwclBluetoothRadio" /> object
@@ -1802,8 +2295,9 @@ namespace wclBluetooth
 	/// <param name="Pin"> A PIN code provided by an application. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothPinRequestEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, tstring& Pin)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, tstring& Pin)
 	/// <summary> The <c>OnProtectionLevelRequest</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1815,8 +2309,9 @@ namespace wclBluetooth
 	/// <seealso cref="CwclBluetoothRadio" />
 	/// <seealso cref="wclBluetoothLeProtectionLevel" />
 	#define wclBluetoothProtectionLevelRequestEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const __int64 Address, wclBluetoothLeProtectionLevel& Protection)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const __int64 Address, wclBluetoothLeProtectionLevel& Protection)
 	/// <summary> The common Bluetooth result even handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Radio"> A <see cref="CwclBluetoothRadio" /> object
@@ -1824,8 +2319,9 @@ namespace wclBluetooth
 	/// <param name="Error"> An operation result code. </param>
 	/// <seealso cref="CwclBluetoothRadio" />
 	#define wclBluetoothResultEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclBluetoothRadio* const Radio, \
-		const int Error)
+		__event void _event_name_( \
+			void* Sender, CwclBluetoothRadio* const Radio, \
+			const int Error)
 
 	/// <summary> The <c>GetSdpAttributes</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1851,9 +2347,10 @@ namespace wclBluetooth
 	/// <seealso cref="wclBluetoothSdpProfiles" />
 	/// <seealso cref="wclBluetoothSdpFormats" />
 	#define wclBluetoothGetSdpAttributesEvent(_event_name_) \
-		__event void _event_name_(void* Sender, wclBluetoothSdpProtocols& Protocols, \
-		wclBluetoothSdpProfiles& Profiles, wclBluetoothSdpFormats& Formats, \
-		unsigned long& Cod)
+		__event void _event_name_( \
+			void* Sender, wclBluetoothSdpProtocols& Protocols, \
+			wclBluetoothSdpProfiles& Profiles, wclBluetoothSdpFormats& Formats, \
+			unsigned long& Cod)
 
 	/// <summary> The prototype of the <c>OnConnect</c> event handler for RFCOMM
 	///   server. </summary>
@@ -1868,8 +2365,9 @@ namespace wclBluetooth
 	///   not connected. </param>
 	/// <seealso cref="CwclRfCommServerClientConnection" />
 	#define wclRfCommServerConnectEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclRfCommServerClientConnection* const Client, \
-		const int Error)
+		__event void _event_name_( \
+			void* Sender, CwclRfCommServerClientConnection* const Client, \
+			const int Error)
 	/// <summary> A server connection <c>OnData</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object that initiated the event. </param>
@@ -1885,8 +2383,9 @@ namespace wclBluetooth
 	///   is greater than 0. </param>
 	/// <seealso cref="CwclRfCommServerClientConnection" />
 	#define wclRfCommServerDataEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclRfCommServerClientConnection* const Client, \
-		const void* const Data, const unsigned long Size)
+		__event void _event_name_( \
+			void* Sender, CwclRfCommServerClientConnection* const Client, \
+			const void* const Data, const unsigned long Size)
 	/// <summary> The prototype of the <c>OnDisconnect</c> event handler for
 	///   server connections. </summary>
 	/// <param name="Sender"> The object that initiated the event. </param>
@@ -1899,8 +2398,9 @@ namespace wclBluetooth
 	///   reason. </param>
 	/// <seealso cref="CwclRfCommServerClientConnection" />
 	#define wclRfCommServerDisconnectEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclRfCommServerClientConnection* const Client, \
-		const int Reason)
+		__event void _event_name_( \
+			void* Sender, CwclRfCommServerClientConnection* const Client, \
+			const int Reason)
 
 	/// <summary> The <c>OnCharacteristicChanged</c> event handler
 	///   prototype. </summary>
@@ -1912,8 +2412,9 @@ namespace wclBluetooth
 	///   handler. If an application needs to use it outside the event handler
 	///   it must be copied. </remarks>
 	#define wclGattCharacteristicChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const unsigned short Handle, \
-		const unsigned char* const Value, unsigned long const Length)
+		__event void _event_name_( \
+			void* Sender, const unsigned short Handle, \
+			const unsigned char* const Value, unsigned long const Length)
 
 	/// <summary> The <c>OnAdvertisementAppearanceFrame</c> event handler
 	///   prototype. </summary>
@@ -1926,8 +2427,9 @@ namespace wclBluetooth
 	/// <param name="Appearance"> The Bluetooth LE device appearance
 	///   value. </param>
 	#define wclBluetoothLeAdvertisementAppearanceFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned short Appearance)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned short Appearance)
 	/// <summary> The <c>OnAdvertisementFrameInformation</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1944,10 +2446,11 @@ namespace wclBluetooth
 	/// <seealso cref="wclBluetoothLeAdvertisementType" />
 	/// <seealso cref="wclBluetoothLeAdvertisementFlags" />
 	#define wclBluetoothLeAdvertisementFrameInformationEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const tstring& Name, \
-		const wclBluetoothLeAdvertisementType PacketType, \
-		const wclBluetoothLeAdvertisementFlags& Flags)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const tstring& Name, \
+			const wclBluetoothLeAdvertisementType PacketType, \
+			const wclBluetoothLeAdvertisementFlags& Flags)
 	/// <summary> The <c>OnAdvertisementExtFrameInformation</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1965,9 +2468,10 @@ namespace wclBluetooth
 	/// <seealso cref="wclBluetoothAddressType" />
 	/// <seealso cref="wclBluetoothLeExtendedFrameFlags" />
 	#define wclBluetoothLeAdvertisementExtFrameInformationEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, const __int64 Timestamp, \
-		const char Rssi, const wclBluetoothAddressType AddressType, const char TxPower, \
-		const wclBluetoothLeExtendedFrameFlags& Flags)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, const __int64 Timestamp, \
+			const char Rssi, const wclBluetoothAddressType AddressType, const char TxPower, \
+			const wclBluetoothLeExtendedFrameFlags& Flags)
 	/// <summary> The <c>OnAdvertisementRawFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1981,9 +2485,10 @@ namespace wclBluetooth
 	///   value is <c>NULL</c>. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeAdvertisementRawFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned char DataType, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned char DataType, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnAdvertisementReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -1996,9 +2501,10 @@ namespace wclBluetooth
 	///   value is <c>nil</c>. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeAdvertisementReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnService16DataFrame</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
@@ -2009,9 +2515,10 @@ namespace wclBluetooth
 	/// <param name="Data"> The service data. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeAdvertisementService16DataFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned short Uuid, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned short Uuid, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnService32DataFrame</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
@@ -2023,9 +2530,10 @@ namespace wclBluetooth
 	/// <param name="Data"> The service data. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeAdvertisementService32DataFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned long Uuid, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned long Uuid, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnService128DataFrame</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
@@ -2037,9 +2545,10 @@ namespace wclBluetooth
 	/// <param name="Data"> The service data. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeAdvertisementService128DataFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const GUID& Uuid, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const GUID& Uuid, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnServiceSol16Frame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2050,8 +2559,9 @@ namespace wclBluetooth
 	///   dBm and +20 dBm at 1 dBm resolution. </param>
 	/// <param name="Uuid"> The 16 bits service UUID. </param>
 	#define wclBluetoothLeAdvertisementServiceSol16FrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned short Uuid)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned short Uuid)
 	/// <summary> The <c>OnServiceSol32Frame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2062,8 +2572,9 @@ namespace wclBluetooth
 	///   dBm and +20 dBm at 1 dBm resolution. </param>
 	/// <param name="Uuid"> The 32 bits service UUID. </param>
 	#define wclBluetoothLeAdvertisementServiceSol32FrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned long Uuid)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned long Uuid)
 	/// <summary> The <c>OnServiceSol128Frame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2074,8 +2585,9 @@ namespace wclBluetooth
 	///   dBm and +20 dBm at 1 dBm resolution. </param>
 	/// <param name="Uuid"> The 128 bits service UUID. </param>
 	#define wclBluetoothLeAdvertisementServiceSol128FrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const GUID& Uuid)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const GUID& Uuid)
 	/// <summary> The <c>OnAdvertisementTxPowerLevelFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2087,8 +2599,9 @@ namespace wclBluetooth
 	/// <param name="TxPower"> The TX power level in range from -127 to 128
 	///   dBm. </param>
 	#define wclBluetoothLeAdvertisementTxPowerLevelFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const char TxPower)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const char TxPower)
 	/// <summary> The <c>OnAdvertisementUuidFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2099,8 +2612,9 @@ namespace wclBluetooth
 	///   dBm and +20 dBm at 1 dBm resolution. </param>
 	/// <param name="Uuid"> The advertised UUID value. </param>
 	#define wclBluetoothLeAdvertisementUuidFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const GUID& Uuid)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const GUID& Uuid)
 	/// <summary> The <c>OnAltBeaconFrame</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
@@ -2121,11 +2635,12 @@ namespace wclBluetooth
 	/// <param name="Data"> The additional frame data. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeAltBeaconFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned short CompanyId, \
-		const unsigned short Major, const unsigned short Minor, const GUID& Uuid, \
-		const char TxRssi, const unsigned char Reserved, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned short CompanyId, \
+			const unsigned short Major, const unsigned short Minor, const GUID& Uuid, \
+			const char TxRssi, const unsigned char Reserved, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnDriAsdMessage</c> event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Address"> The drone's MAC address. </param>
@@ -2135,8 +2650,9 @@ namespace wclBluetooth
 	///   dBm and +20 dBm at 1 dBm resolution. </param>
 	/// <param name="Raw"> The raw DRI ASD messages data. </param>
 	#define wclBluetoothLeDriAsdMessageEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const wclDriRawData& Raw)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const wclDriRawData& Raw)
 	/// <summary> The <c>OnEddystoneTlmFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2161,10 +2677,11 @@ namespace wclBluetooth
 	/// <param name="Data"> The additional frame data. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeEddystoneTlmFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned long AdvCnt, \
-		const unsigned short Batt, const unsigned long SecCnt, const double Temp, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned long AdvCnt, \
+			const unsigned short Batt, const unsigned long SecCnt, const double Temp, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnEddystoneUidFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2181,9 +2698,10 @@ namespace wclBluetooth
 	/// <param name="Data"> The additional frame data. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeEddystoneUidFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const char TxRssi, const GUID& Uuid, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const char TxRssi, const GUID& Uuid, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
 	/// <summary> The <c>OnEddystoneUrlFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2197,9 +2715,10 @@ namespace wclBluetooth
 	///   distance. </param>
 	/// <param name="Url"> The Eddystone URL. </param>
 	#define wclBluetoothLeEddystoneUrlFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const char TxRssi, \
-		const tstring& Url)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const char TxRssi, \
+			const tstring& Url)
 	/// <summary> The <c>OnManufacturerRawFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2214,32 +2733,185 @@ namespace wclBluetooth
 	///   there is no any data available in the frame. </param>
 	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 	#define wclBluetoothLeManufacturerRawFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned short CompanyId, \
-		const wclBluetoothLeAdvertisementFrameRawData& Data)
-	/// <summary> The <c>OnProximityBeaconFrame</c> event handler
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, const unsigned short CompanyId, \
+			const wclBluetoothLeAdvertisementFrameRawData& Data)
+	/// <summary> The <c>OnAppleAirdropFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
-	/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
-	/// <param name="Timestamp"> The frame's timestamp in Universal Time
-	///   format. </param>
-	/// <param name="Rssi"> The measured RSSI value in dBm at range between -100
-	///   dBm and +20 dBm at 1 dBm resolution. </param>
-	/// <param name="CompanyId"> The beacon's manufacturer ID as defined in the
-	///   Bluetooth SIG Assigned Numbers. </param>
-	/// <param name="Major"> The beacon's Major value. </param>
-	/// <param name="Minor"> The beacon's Minor value. </param>
-	/// <param name="Uuid"> The beacon's UUID. </param>
-	/// <param name="TxRssi"> The beacon's RSSI value in dBm at range between -100
-	///   dBm and +20 dBm at 1 dBm resolution measured at 1 meter
-	///   distance. </param>
-	/// <param name="Data"> The additional frame data. </param>
-	/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
-	#define wclBluetoothLeProximityBeaconFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, const unsigned short CompanyId, \
-		const unsigned short Major, const unsigned short Minor, const GUID& Uuid, \
-		const char TxRssi, const wclBluetoothLeAdvertisementFrameRawData& Data)
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleAirdropFrameData" />
+	#define wclBluetoothLeAppleAirdropFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleAirdropFrameData& Data)
+	/// <summary> The <c>OnAppleAirplaySourceFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleAirplaySourceFrameData" />
+	#define wclBluetoothLeAppleAirplaySourceFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleAirplaySourceFrameData& Data)
+	/// <summary> The <c>OnAppleAirplayTargetFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleAirplayTargetFrameData" />
+	#define wclBluetoothLeAppleAirplayTargetFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleAirplayTargetFrameData& Data)
+	/// <summary> The <c>OnAppleAirprintFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleAirprintFrameData" />
+	#define wclBluetoothLeAppleAirprintFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleAirprintFrameData& Data)
+	/// <summary> The <c>OnAppleFindMyFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleFindMyFrameData" />
+	#define wclBluetoothLeAppleFindMyFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleFindMyFrameData& Data)
+	/// <summary> The <c>OnAppleHandoffFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleHandoffFrameData" />
+	#define wclBluetoothLeAppleHandoffFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleHandoffFrameData& Data)
+	/// <summary> The <c>OnAppleHeySiriFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="TwclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+	#define wclBluetoothLeAppleHeySiriFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleHeySiriFrameData& Data)
+	/// <summary> The <c>OnAppleHomeKitFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleHomeKitFrameData" />
+	#define wclBluetoothLeAppleHomeKitFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleHomeKitFrameData& Data)
+	/// <summary> The <c>OnAppleiBeaconFrame</c> event handler prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleiBeaconFrameData" />
+	#define wclBluetoothLeAppleiBeaconFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleiBeaconFrameData& Data)
+	/// <summary> The <c>OnAppleMagicSwitchFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleMagicSwitchFrameData" />
+	#define wclBluetoothLeAppleMagicSwitchFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleMagicSwitchFrameData& Data);
+	/// <summary> The <c>OnAppleNearbyActionFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleNearbyActionFrameData" />
+	#define wclBluetoothLeAppleNearbyActionFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleNearbyActionFrameData& Data)
+	/// <summary> The <c>OnAppleNearbyInfoFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleNearbyInfoFrameData" />
+	#define wclBluetoothLeAppleNearbyInfoFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleNearbyInfoFrameData& Data)
+	/// <summary> The <c>OnApplePriximityPairingFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleProximityPairingFrameData" />
+	#define wclBluetoothLeAppleProximityPairingFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleProximityPairingFrameData& Data)
+	/// <summary> The <c>OnAppleTetheringSourceFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleTetheringSourceFrameData" />
+	#define wclBluetoothLeAppleTetheringSourceFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleTetheringSourceFrameData& Data)
+	/// <summary> The <c>OnAppleTetheringTargetFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleTetheringTargetFrameData" />
+	#define wclBluetoothLeAppleTetheringTargetFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleTetheringTargetFrameData& Data);
+	/// <summary> The <c>OnAppleUnknownFrame</c> event handler
+	///   prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+	/// <param name="Data"> The advertisement frame decoded data. </param>
+	/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+	/// <seealso cref="wclBluetoothLeAppleUnknownFrameData" />
+	#define wclBluetoothLeAppleUnknownFrameEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisementInfo& Info, \
+			const wclBluetoothLeAppleUnknownFrameData& Data)
 	/// <summary> The <c>OnMicrosoftCdpBeaconFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2265,13 +2937,14 @@ namespace wclBluetooth
 	/// <seealso cref="wclBluetoothLeCdpBeaconExtendedDeviceStatuses" />
 	/// <seealso cref="wclBluetoothLeCdpBeaconHash" />
 	#define wclBluetoothLeMicrosoftCdpBeaconFrameEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const __int64 Address, \
-		const __int64 Timestamp, const char Rssi, \
-		const wclBluetoothLeCdpBeaconScenarioType ScenarioType, \
-		const unsigned char Version, const wclBluetoothLeCdpBeaconDeviceType DeviceType, \
-		const unsigned char SubVersion, const bool ShareNearBy, const bool AddressAsDeviceId, \
-		const wclBluetoothLeCdpBeaconExtendedDeviceStatuses& ExtendedDeviceStatus, \
-		const wclBluetoothLeCdpBeaconSalt& Salt, const wclBluetoothLeCdpBeaconHash& Hash)
+		__event void _event_name_( \
+			void* Sender, const __int64 Address, \
+			const __int64 Timestamp, const char Rssi, \
+			const wclBluetoothLeCdpBeaconScenarioType ScenarioType, \
+			const unsigned char Version, const wclBluetoothLeCdpBeaconDeviceType DeviceType, \
+			const unsigned char SubVersion, const bool ShareNearBy, const bool AddressAsDeviceId, \
+			const wclBluetoothLeCdpBeaconExtendedDeviceStatuses& ExtendedDeviceStatus, \
+			const wclBluetoothLeCdpBeaconSalt& Salt, const wclBluetoothLeCdpBeaconHash& Hash)
 
 	/// <summary> The GATT server client event handlers prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2282,7 +2955,8 @@ namespace wclBluetooth
 	///   GATT server. </remarks>
 	/// <seealso cref="CwclGattServerClient" />
 	#define wclGattServerClientEvent(_event_name_) \
-		__event void _event_name_(void* Sender, CwclGattServerClient* const Client)
+		__event void _event_name_( \
+			void* Sender, CwclGattServerClient* const Client)
 	/// <summary> The <c>OnRead</c> characteristic's event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Client"> The <see cref="CwclGattServerClient" /> object that
@@ -2294,10 +2968,10 @@ namespace wclBluetooth
 	/// <seealso cref="CwclGattLocalCharacteristic" />
 	/// <seealso cref="TwclGattLocalCharacteristicReadRequest" />
 	#define wclGattLocalCharacteristicReadEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		CwclGattServerClient* const Client, \
-		CwclGattLocalCharacteristic* const Characteristic, \
-		CwclGattLocalCharacteristicReadRequest* const Request)
+		__event void _event_name_( \
+			void* Sender, CwclGattServerClient* const Client, \
+			CwclGattLocalCharacteristic* const Characteristic, \
+			CwclGattLocalCharacteristicReadRequest* const Request)
 	/// <summary> The <c>OnWrite</c> characteristic's event handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Client"> The <see cref="CwclGattServerClient" /> object that
@@ -2309,10 +2983,10 @@ namespace wclBluetooth
 	/// <seealso cref="CwclGattLocalCharacteristic" />
 	/// <seealso cref="TwclGattLocalCharacteristicWriteRequest" />
 	#define wclGattLocalCharacteristicWriteEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		CwclGattServerClient* const Client, \
-		CwclGattLocalCharacteristic* const Characteristic, \
-		CwclGattLocalCharacteristicWriteRequest* const Request)
+		__event void _event_name_( \
+			void* Sender, CwclGattServerClient* const Client, \
+			CwclGattLocalCharacteristic* const Characteristic, \
+			CwclGattLocalCharacteristicWriteRequest* const Request)
 	/// <summary> The <c>OnClientSubscribed</c> and <c>OnClientUnsubscribed</c>
 	///   events handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2323,8 +2997,9 @@ namespace wclBluetooth
 	/// <seealso cref="CwclGattServerClient" />
 	/// <seealso cref="CwclGattLocalCharacteristic" />
 	#define wclGattLocalCharacteristicSubscribedClientsChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		CwclGattServerClient* const Client, CwclGattLocalCharacteristic* const Characteristic)
+		__event void _event_name_( \
+			void* Sender, CwclGattServerClient* const Client, \
+			CwclGattLocalCharacteristic* const Characteristic)
 
 	/// <summary> The Wii Remote <c>OnAccelChanged</c> event handler
 	///   prototype. </summary>
@@ -2332,7 +3007,8 @@ namespace wclBluetooth
 	/// <param name="Accel"> The current accelerometer data. </param>
 	/// <seealso cref="wclWiiRemoteAccel" />
 	#define wclWiiRemoteAccelChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteAccel& Accel)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteAccel& Accel)
 	/// <summary> The Wii Remote <c>OnBalanceBoardChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2340,7 +3016,8 @@ namespace wclBluetooth
 	///   state. </param>
 	/// <seealso cref="wclWiiRemoteBalanceBoard" />
 	#define wclWiiRemoteBalanceBoardChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteBalanceBoard& Board)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteBalanceBoard& Board)
 	/// <summary> The Wii Remote <c>OnButtonsChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2348,7 +3025,8 @@ namespace wclBluetooth
 	///   buttons. </param>
 	/// <seealso cref="wclWiiRemoteButtons" />
 	#define wclWiiRemoteButtonsChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteButtons& Buttons)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteButtons& Buttons)
 	/// <summary> The Wii Remote <c>OnClassicControllerChanged</c> event
 	///   handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2356,35 +3034,40 @@ namespace wclBluetooth
 	///   Controller extension. </param>
 	/// <seealso cref="wclWiiRemoteClassicController" />
 	#define wclWiiRemoteClassicControllerChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteClassicController& Controller)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteClassicController& Controller)
 	/// <summary> The Wii Remote <c>OnDrumsChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Drums"> The current state of the Drums extension. </param>
 	/// <seealso cref="wclWiiRemoteDrums" />
 	#define wclWiiRemoteDrumsChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteDrums& Drums)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteDrums& Drums)
 	/// <summary> The Wii Remote <c>OnGuitarChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Guitar"> The current Guitar extension state. </param>
 	/// <seealso cref="wclWiiRemoteGuitar" />
 	#define wclWiiRemoteGuitarChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteGuitar& Guitar)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteGuitar& Guitar)
 	/// <summary> The Wii Remote <c>OnIrChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Ir"> The IR sensor data. </param>
 	/// <seealso cref="wclWiiRemoteIrSensors" />
 	#define wclWiiRemoteIrChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteIrSensors& Ir)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteIrSensors& Ir)
 	/// <summary> The Wii Remote <c>OnNunchukChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Nunchuk"> The current Nunchuk extension state. </param>
 	/// <seealso cref="wclWiiRemoteNunchuk" />
 	#define wclWiiRemoteNunchukChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const wclWiiRemoteNunchuk& Nunchuk)
+		__event void _event_name_( \
+			void* Sender, const wclWiiRemoteNunchuk& Nunchuk)
 	/// <summary> The Wii Remote <c>OnStatusChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2392,8 +3075,8 @@ namespace wclBluetooth
 	/// <param name="Leds"> The We Do Remote LEDs state. </param>
 	/// <seealso cref="wclWiiRemoteLeds" />
 	#define wclWiiRemoteStatusChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const double Batt, \
-		const wclWiiRemoteLeds& Leds)
+		__event void _event_name_( \
+			void* Sender, const double Batt, const wclWiiRemoteLeds& Leds)
 
 	/// <summary> The BLE sniffer <c>OnAdvDirectIndReceived</c> event handler
 	///   prototype. </summary>
@@ -2412,9 +3095,9 @@ namespace wclBluetooth
 	///   supports the LE Channel Selection Algorithm #2 feature. </remarks>
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	#define wclBleSnifferAdvDirectIndReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 AdvA, const __int64 TargetA)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 AdvA, const __int64 TargetA)
 	/// <summary> The BLE sniffer <c>OnAdvIndReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2432,10 +3115,10 @@ namespace wclBluetooth
 	///   feature. </remarks>
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	#define wclBleSnifferAdvIndReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 AdvA, const unsigned char* const AdvData, \
-		const unsigned char AdvDataLen)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 AdvA, const unsigned char* const AdvData, \
+			const unsigned char AdvDataLen)
 	/// <summary> The BLE sniffer <c>OnAdvNonConnIndReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2450,10 +3133,10 @@ namespace wclBluetooth
 	///   parameter is public (TxAdd = False) or random (TxAdd = True). </remarks>
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	#define wclBleSnifferAdvNonConnIndReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 AdvA, const unsigned char* const AdvData, \
-		const unsigned char AdvDataLen)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 AdvA, const unsigned char* const AdvData, \
+			const unsigned char AdvDataLen)
 	/// <summary> The BLE sniffer <c>OnAdvScanIndReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2468,10 +3151,10 @@ namespace wclBluetooth
 	///   parameter is public (TxAdd = False) or random (TxAdd = True). </remarks>
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	#define wclBleSnifferAdvScanIndReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 AdvA, const unsigned char* const AdvData, \
-		const unsigned char AdvDataLen)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 AdvA, const unsigned char* const AdvData, \
+			const unsigned char AdvDataLen)
 	/// <summary> The BLE sniffer <c>OnConnectIndReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2490,10 +3173,9 @@ namespace wclBluetooth
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	/// <seealso cref="wclBleSnifferLlData" />
 	#define wclBleSnifferConnectIndReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 InitA, const __int64 AdvA, \
-		const wclBleSnifferLlData& LlData)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 InitA, const __int64 AdvA, const wclBleSnifferLlData& LlData)
 	/// <summary> The BLE sniffer <c>OnScanReqReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2509,9 +3191,9 @@ namespace wclBluetooth
 	///   public (RxAdd = False) or random (RxAdd = True). </remarks>
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	#define wclBleSnifferScanReqReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 ScanA, const __int64 AdvA)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 ScanA, const __int64 AdvA)
 	/// <summary> The BLE sniffer <c>OnScanRspReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2527,10 +3209,10 @@ namespace wclBluetooth
 	///   parameter is public (TxAdd = False) or random (TxAdd = True). </remarks>
 	/// <seealso cref="wclBluetoothLeAdvertisingPduHeader" />
 	#define wclBleSnifferScanRspReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
-		const __int64 AdvA, const unsigned char* const ScanRspData, \
-		const unsigned char ScanRspDataLen)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLeAdvertisingPduHeader& PduHeader, \
+			const __int64 AdvA, const unsigned char* const ScanRspData, \
+			const unsigned char ScanRspDataLen)
 	/// <summary> The BLE sniffer <c>OnRawPacketReceived</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -2542,9 +3224,9 @@ namespace wclBluetooth
 	/// <param name="Size"> The payload size (length) in bytes. </param>
 	/// <seealso cref="wclBluetoothLePacketHeader" />
 	#define wclBleSnifferRawPacketReceivedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, \
-		const wclBluetoothLePacketHeader& Header, \
-		const unsigned char* const Payload, const unsigned short Size)
+		__event void _event_name_( \
+			void* Sender, const wclBluetoothLePacketHeader& Header, \
+			const unsigned char* const Payload, const unsigned short Size)
 
 	/* General Bluetooth classes and components */
 
@@ -7086,25 +7768,66 @@ namespace wclBluetooth
 
 		void ResetScanParams();
 
-		/* Parsers. */
+		/* Apple frame parsers. */
+		
+		void ParseAppleAirdrop(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleAirplaySource(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleAirplayTarget(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleAirprint(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleFindMy(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleHandoff(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleHeySiri(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleHomeKit(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleiBeacon(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleMagicSwitch(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleNearbyAction(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleNearbyInfo(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleProximityPairing(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleTetheringSource(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleTetheringTarget(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void ParseAppleUnknownFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const size_t Ndx, const wclBluetoothLeAdvertisementFrameRawData& Data);
+
+		void ParseAppleAdvertisement(const __int64 Address, const __int64 Timestamp,
+			const char Rssi, const wclBluetoothLeAdvertisementFrameRawData& Data);
+
+		/* Microsoft frame parsers. */
+
+		void ParseMsCdpBeacon(const __int64 Address, const __int64 Timestamp,
+			const char Rssi, const wclBluetoothLeAdvertisementFrameRawData& Data);
+
+		/* Manufacturer frame parsers. */
+
+		void ParseAltBeacon(__int64 Address, const __int64 Timestamp,
+			const char Rssi, const unsigned short CompanyId,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+
+		void ParseManufacturerRawFrame(const __int64 Address,
+			const __int64 Timestamp, const char Rssi, const unsigned short CompanyId,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+
+		/* Other frame parsers. */
 
 		void ParseDriAsdMessage(const __int64 Address, const __int64 Timestamp,
 			const char Rssi, const unsigned short Uuid,
 			const wclBluetoothLeAdvertisementFrameRawData& Data);
 		void ParseEddystoneBeacons(const __int64 Address, const __int64 Timestamp,
 			const char Rssi, const unsigned short Uuid,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
-		bool TryParseiBeacon(const __int64 Address, const __int64 Timestamp,
-			const char Rssi, const unsigned short CompanyId,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
-		bool TryParseAltBeacon(__int64 Address, const __int64 Timestamp,
-			const char Rssi, const unsigned short CompanyId,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
-		bool TryParseMsCdpBeacon(const __int64 Address, const __int64 Timestamp,
-			const char Rssi, const unsigned short CompanyId,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
-		void ParseManufacturerRawFrame(const __int64 Address,
-			const __int64 Timestamp, const char Rssi, const unsigned short CompanyId,
 			const wclBluetoothLeAdvertisementFrameRawData& Data);
 
 	protected:
@@ -7305,6 +8028,121 @@ namespace wclBluetooth
 			const unsigned short CompanyId, const unsigned short Major, const unsigned short Minor,
 			const GUID& Uuid, const char TxRssi, const unsigned char Reserved,
 			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		/// <summary> Fires the <c>OnAppleAirdropFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirdropFrameData" />
+		virtual void DoAppleAirdropFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirdropFrameData& Data);
+		/// <summary> Fires the <c>OnAppleAirplaySourceFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplaySourceFrameData" />
+		virtual void DoAppleAirplaySourceFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirplaySourceFrameData& Data);
+		/// <summary> Fires the <c>OnAppleAirplayTargetFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplayTargetFrameData" />
+		virtual void DoAppleAirplayTargetFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirplayTargetFrameData& Data);
+		/// <summary> Fires the <c>OnAppleAirprintFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirprintFrameData" />
+		virtual void DoAppleAirprintFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirprintFrameData& Data);
+		/// <summary> Fires the <c>OnAppleFindMyFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleFindMyFrameData" />
+		virtual void DoAppleFindMyFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleFindMyFrameData& Data);
+		/// <summary> Fires the <c>OnAppleHandoffFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+		virtual void DoAppleHandoffFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHandoffFrameData& Data);
+		/// <summary> Fires the <c>OnAppleHeySiriFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+		virtual void DoAppleHeySiriFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHeySiriFrameData& Data);
+		/// <summary> Fires the <c>OnAppleHomeKitFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHomeKitFrameData" />
+		virtual void DoAppleHomeKitFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHomeKitFrameData& Data);
+		/// <summary> Fires the <c>OnAppleiBeaconFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleiBeaconFrameData" />
+		virtual void DoAppleiBeaconFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleiBeaconFrameData& Data);
+		/// <summary> Fires the <c>OnAppleMagicSwitchFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleMagicSwitchFrameData" />
+		virtual void DoAppleMagicSwitchFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleMagicSwitchFrameData& Data);
+		/// <summary> Fires the <c>OnAppleNearbyActionFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyActionFrameData" />
+		virtual void DoAppleNearbyActionFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleNearbyActionFrameData& Data);
+		/// <summary> Fires the <c>OnAppleNearbyInfoFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyInfoFrameData" />
+		virtual void DoAppleNearbyInfoFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleNearbyInfoFrameData& Data);
+		/// <summary> Fires the <c>OnAppleProximityPairingFrame</c>
+		///   event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleProximityPairingFrameData" />
+		virtual void DoAppleProximityPairingFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleProximityPairingFrameData& Data);
+		/// <summary> Fires the <c>OnAppleTetheringSourceFrame</c>
+		///   event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringSourceFrameData" />
+		virtual void DoAppleTetheringSourceFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleTetheringSourceFrameData& Data);
+		/// <summary> Fires the <c>OnAppleTetheringTargetFrame</c>
+		///   event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringTargetFrameData" />
+		virtual void DoAppleTetheringTargetFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleTetheringTargetFrameData& Data);
+		/// <summary> Fires the <c>OnAppleUnknownFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleUnknownFrameData" />
+		virtual void DoAppleUnknownFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleUnknownFrameData& Data);
 		/// <summary> Fires the <c>OnDriAsdMessage</c> event. </summary>
 		/// <param name="Address"> The drone's MAC address. </param>
 		/// <param name="Timestamp"> The message's timestamp in Universal Time
@@ -7415,27 +8253,6 @@ namespace wclBluetooth
 			const bool AddressAsDeviceId,
 			const wclBluetoothLeCdpBeaconExtendedDeviceStatuses& ExtendedDeviceStatus,
 			const wclBluetoothLeCdpBeaconSalt& Salt, const wclBluetoothLeCdpBeaconHash& Hash);
-		/// <summary> Fires the <c>OnProximityBeaconFrame</c> event. </summary>
-		/// <param name="Address"> The Bluetooth LE advertiser's MAC
-		///   address. </param>
-		/// <param name="Timestamp"> The frame's timestamp in Universal Time
-		///   format. </param>
-		/// <param name="Rssi"> The measured RSSI value in dBm at range between -100
-		///   dBm and +20 dBm at 1 dBm resolution. </param>
-		/// <param name="CompanyId"> The beacon's manufacturer ID as defined in the
-		///   Bluetooth SIG Assigned Numbers. </param>
-		/// <param name="Major"> The beacon's Major value. </param>
-		/// <param name="Minor"> The beacon's Minor value. </param>
-		/// <param name="Uuid"> The beacon's UUID. </param>
-		/// <param name="TxRssi"> The beacon's RSSI value in dBm at range between
-		///   -100 dBm and +20 dBm at 1 dBm resolution measured at 1 meter
-		///   distance. </param>
-		/// <param name="Data"> The additional frame data. </param>
-		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
-		virtual void DoProximityBeaconFrame(const __int64 Address, const __int64 Timestamp,
-			const char Rssi, const unsigned short CompanyId, const unsigned short Major,
-			const unsigned short Minor, const GUID& Uuid, const char TxRssi,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
 		
 		/// <summary> Fires the <c>OnStarted</c> event. </summary>
 		virtual void DoStarted();
@@ -7734,6 +8551,134 @@ namespace wclBluetooth
 		/// <param name="Data"> The additional frame data. </param>
 		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 		wclBluetoothLeAltBeaconFrameEvent(OnAltBeaconFrame);
+		/// <summary> The event fires when an Apple Airdrop advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirdropFrameData" />
+		wclBluetoothLeAppleAirdropFrameEvent(OnAppleAirdropFrame);
+		/// <summary> The event fires when an Apple Airplay Source advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplaySourceFrameData" />
+		wclBluetoothLeAppleAirplaySourceFrameEvent(OnAppleAirplaySourceFrame);
+		/// <summary> The event fires when an Apple Airplay Target advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplayTargetFrameData" />
+		wclBluetoothLeAppleAirplayTargetFrameEvent(OnAppleAirplayTargetFrame);
+		/// <summary> The event fires when an Apple Airprint advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirprintFrameData" />
+		wclBluetoothLeAppleAirprintFrameEvent(OnAppleAirprintFrame);
+		/// <summary> The event fires when an Apple Find My advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleFindMyFrameData" />
+		wclBluetoothLeAppleFindMyFrameEvent(OnAppleFindMyFrame);
+		/// <summary> The event fires when an Apple Handoff advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHandoffFrameData" />
+		wclBluetoothLeAppleHandoffFrameEvent(OnAppleHandoffFrame);
+		/// <summary> The event fires when an Apple Hey Siri advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="TwclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+		wclBluetoothLeAppleHeySiriFrameEvent(OnAppleHeySiriFrame);
+		/// <summary> The event fires when an Apple HomeKit advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHomeKitFrameData" />
+		wclBluetoothLeAppleHomeKitFrameEvent(OnAppleHomeKitFrame);
+		/// <summary> The event fires when an Apple iBeacon advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleiBeaconFrameData" />
+		wclBluetoothLeAppleiBeaconFrameEvent(OnAppleiBeaconFrame);
+		/// <summary> The event fires when an Apple Magic Switch advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleMagicSwitchFrameData" />
+		wclBluetoothLeAppleMagicSwitchFrameEvent(OnAppleMagicSwitchFrame);
+		/// <summary> The event fires when an Apple Nearby Action advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyActionFrameData" />
+		wclBluetoothLeAppleNearbyActionFrameEvent(OnAppleNearbyActionFrame);
+		/// <summary> The event fires when an Apple Nearby Info advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyInfoFrameData" />
+		wclBluetoothLeAppleNearbyInfoFrameEvent(OnAppleNearbyInfoFrame);
+		/// <summary> The event fires when an Apple Proximity Pairing advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleProximityPairingFrameData" />
+		wclBluetoothLeAppleProximityPairingFrameEvent(OnAppleProximityPairingFrame);
+		/// <summary> The event fires when an Tethering Source advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringSourceFrameData" />
+		wclBluetoothLeAppleTetheringSourceFrameEvent(OnAppleTetheringSourceFrame);
+		/// <summary> The event fires when an Tethering Target advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringTargetFrameData" />
+		wclBluetoothLeAppleTetheringTargetFrameEvent(OnAppleTetheringTargetFrame);
+		/// <summary> The event fires when an unknown Apple advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleUnknownFrameData" />
+		wclBluetoothLeAppleUnknownFrameEvent(OnAppleUnknownFrame);
 		/// <summary> The event fires when a Drone Remote ID ASD message
 		///   received. </summary>
 		/// <param name="Sender"> The object initiates the event. </param>
@@ -7835,25 +8780,6 @@ namespace wclBluetooth
 		/// <seealso cref="wclBluetoothLeCdpBeaconExtendedDeviceStatuses" />
 		/// <seealso cref="wclBluetoothLeCdpBeaconHash" />
 		wclBluetoothLeMicrosoftCdpBeaconFrameEvent(OnMicrosoftCdpBeaconFrame);
-		/// <summary> The <c>OnProximityBeaconFrame</c> event handler
-		///   prototype. </summary>
-		/// <param name="Sender"> The object initiates the event. </param>
-		/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
-		/// <param name="Timestamp"> The frame's timestamp in Universal Time
-		///   format. </param>
-		/// <param name="Rssi"> The measured RSSI value in dBm at range between -100
-		///   dBm and +20 dBm at 1 dBm resolution. </param>
-		/// <param name="CompanyId"> The beacon's manufacturer ID as defined in the
-		///   Bluetooth SIG Assigned Numbers. </param>
-		/// <param name="Major"> The beacon's Major value. </param>
-		/// <param name="Minor"> The beacon's Minor value. </param>
-		/// <param name="Uuid"> The beacon's UUID. </param>
-		/// <param name="TxRssi"> The beacon's RSSI value in dBm at range between -100
-		///   dBm and +20 dBm at 1 dBm resolution measured at 1 meter
-		///   distance. </param>
-		/// <param name="Data"> The additional frame data. </param>
-		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
-		wclBluetoothLeProximityBeaconFrameEvent(OnProximityBeaconFrame);
 		/// <summary> The event fires when the Bluetooth LE beacon monitoring
 		///   started. </summary>
 		/// <param name="Sender"> The object initiates the event. </param>
@@ -10171,8 +11097,7 @@ namespace wclBluetooth
 		
 		int CheckSubscriptionMethod(const wclGattSubscribeKind SubscribeKind,
 			wclGattCharacteristic& Characteristic);
-		bool CompareUuid(const wclGattUuid& u1, const wclGattUuid& u2);
-	    
+		
 		// Client events.
 		void ClientCharacteristicChanged(void* Sender, const unsigned short Handle,
 			const unsigned char* const Value, const unsigned long Length);
@@ -11150,6 +12075,38 @@ namespace wclBluetooth
 			const char Rssi, const unsigned short CompanyId, const unsigned short Major,
 			const unsigned short Minor, const GUID& Uuid, const char TxRssi,
 			const unsigned char Reserved, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		void WatcherAppleAirdropFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirdropFrameData& Data);
+		void WatcherAppleAirplaySourceFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirplaySourceFrameData& Data);
+		void WatcherAppleAirplayTargetFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirplayTargetFrameData& Data);
+		void WatcherAppleAirprintFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirprintFrameData& Data);
+		void WatcherAppleFindMyFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleFindMyFrameData& Data);
+		void WatcherAppleHandoffFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHandoffFrameData& Data);
+		void WatcherAppleHeySiriFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHeySiriFrameData& Data);
+		void WatcherAppleHomeKitFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHomeKitFrameData& Data);
+		void WatcherAppleiBeaconFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleiBeaconFrameData& Data);
+		void WatcherAppleMagicSwitchFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleMagicSwitchFrameData& Data);
+		void WatcherAppleNearbyActionFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleNearbyActionFrameData& Data);
+		void WatcherAppleNearbyInfoFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleNearbyInfoFrameData& Data);
+		void WatcherAppleProximityPairingFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleProximityPairingFrameData& Data);
+		void WatcherAppleTetheringSourceFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleTetheringSourceFrameData& Data);
+		void WatcherAppleTetheringTargetFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleTetheringTargetFrameData& Data);
+		void WatcherAppleUnknownFrame(void* Sender, const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleUnknownFrameData& Data);
 		void WatcherDriAsdMessage(void* Sender, const __int64 Address, const __int64 Timestamp,
 			const char Rssi, const wclDriRawData& Raw);
 		void WatcherEddystoneTlmFrame(void* Sender, const __int64 Address,
@@ -11171,10 +12128,6 @@ namespace wclBluetooth
 			const bool ShareNearBy, const bool AddressAsDeviceId,
 			const wclBluetoothLeCdpBeaconExtendedDeviceStatuses& ExtendedDeviceStatus,
 			const wclBluetoothLeCdpBeaconSalt& Salt, const wclBluetoothLeCdpBeaconHash& Hash);
-		void WatcherProximityBeaconFrame(void* Sender, const __int64 Address, const __int64 Timestamp,
-			const char Rssi, const unsigned short CompanyId, const unsigned short Major,
-			const unsigned short Minor, const GUID& Uuid, const char TxRssi,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
 		
 		void WatcherStarted(void* Sender);
 		void WatcherStopped(void* Sender);
@@ -11367,6 +12320,121 @@ namespace wclBluetooth
 			const char Rssi, const unsigned short CompanyId, const unsigned short Major,
 			const unsigned short Minor, const GUID& Uuid, const char TxRssi,
 			const unsigned char Reserved, const wclBluetoothLeAdvertisementFrameRawData& Data);
+		/// <summary> Fires the <c>OnAppleAirdropFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirdropFrameData" />
+		virtual void DoAppleAirdropFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirdropFrameData& Data);
+		/// <summary> Fires the <c>OnAppleAirplaySourceFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplaySourceFrameData" />
+		virtual void DoAppleAirplaySourceFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirplaySourceFrameData& Data);
+		/// <summary> Fires the <c>OnAppleAirplayTargetFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplayTargetFrameData" />
+		virtual void DoAppleAirplayTargetFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirplayTargetFrameData& Data);
+		/// <summary> Fires the <c>OnAppleAirprintFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirprintFrameData" />
+		virtual void DoAppleAirprintFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleAirprintFrameData& Data);
+		/// <summary> Fires the <c>OnAppleFindMyFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleFindMyFrameData" />
+		virtual void DoAppleFindMyFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleFindMyFrameData& Data);
+		/// <summary> Fires the <c>OnAppleHandoffFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+		virtual void DoAppleHandoffFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHandoffFrameData& Data);
+		/// <summary> Fires the <c>OnAppleHeySiriFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+		virtual void DoAppleHeySiriFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHeySiriFrameData& Data);
+		/// <summary> Fires the <c>OnAppleHomeKitFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHomeKitFrameData" />
+		virtual void DoAppleHomeKitFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleHomeKitFrameData& Data);
+		/// <summary> Fires the <c>OnAppleiBeaconFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleiBeaconFrameData" />
+		virtual void DoAppleiBeaconFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleiBeaconFrameData& Data);
+		/// <summary> Fires the <c>OnAppleMagicSwitchFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleMagicSwitchFrameData" />
+		virtual void DoAppleMagicSwitchFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleMagicSwitchFrameData& Data);
+		/// <summary> Fires the <c>OnAppleNearbyActionFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyActionFrameData" />
+		virtual void DoAppleNearbyActionFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleNearbyActionFrameData& Data);
+		/// <summary> Fires the <c>OnAppleNearbyInfoFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyInfoFrameData" />
+		virtual void DoAppleNearbyInfoFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleNearbyInfoFrameData& Data);
+		/// <summary> Fires the <c>OnAppleProximityPairingFrame</c>
+		///   event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleProximityPairingFrameData" />
+		virtual void DoAppleProximityPairingFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleProximityPairingFrameData& Data);
+		/// <summary> Fires the <c>OnAppleTetheringSourceFrame</c>
+		///   event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringSourceFrameData" />
+		virtual void DoAppleTetheringSourceFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleTetheringSourceFrameData& Data);
+		/// <summary> Fires the <c>OnAppleTetheringTargetFrame</c>
+		///   event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringTargetFrameData" />
+		virtual void DoAppleTetheringTargetFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleTetheringTargetFrameData& Data);
+		/// <summary> Fires the <c>OnAppleUnknownFrame</c> event. </summary>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleUnknownFrameData" />
+		virtual void DoAppleUnknownFrame(const wclBluetoothLeAdvertisementInfo& Info,
+			const wclBluetoothLeAppleUnknownFrameData& Data);
 		/// <summary> Fires the <c>OnDriAsdMessage</c> event. </summary>
 		/// <param name="Address"> The drone's MAC address. </param>
 		/// <param name="Timestamp"> The message's timestamp in Universal Time
@@ -11476,27 +12544,6 @@ namespace wclBluetooth
 			const unsigned char SubVersion, const bool ShareNearBy, const bool AddressAsDeviceId,
 			const wclBluetoothLeCdpBeaconExtendedDeviceStatuses& ExtendedDeviceStatus,
 			const wclBluetoothLeCdpBeaconSalt& Salt, const wclBluetoothLeCdpBeaconHash& Hash);
-		/// <summary> Fires the <c>OnProximityBeaconFrame</c> event. </summary>
-		/// <param name="Address"> The Bluetooth LE advertiser's MAC
-		///   address. </param>
-		/// <param name="Timestamp"> The frame's timestamp in Universal Time
-		///   format. </param>
-		/// <param name="Rssi"> The measured RSSI value in dBm at range between -100
-		///   dBm and +20 dBm at 1 dBm resolution. </param>
-		/// <param name="CompanyId"> The beacon's manufacturer ID as defined in the
-		///   Bluetooth SIG Assigned Numbers. </param>
-		/// <param name="Major"> The beacon's Major value. </param>
-		/// <param name="Minor"> The beacon's Minor value. </param>
-		/// <param name="Uuid"> The beacon's UUID. </param>
-		/// <param name="TxRssi"> The beacon's RSSI value in dBm at range between
-		///   -100 dBm and +20 dBm at 1 dBm resolution measured at 1 meter
-		///   distance. </param>
-		/// <param name="Data"> The additional frame data. </param>
-		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
-		virtual void DoProximityBeaconFrame(const __int64 Address, const __int64 Timestamp,
-			const char Rssi, const unsigned short CompanyId, const unsigned short Major,
-			const unsigned short Minor, const GUID& Uuid, const char TxRssi,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
 		
 		/// <summary> Fires the <c>OnStarted</c> event. </summary>
 		virtual void DoStarted();
@@ -11804,6 +12851,134 @@ namespace wclBluetooth
 		/// <param name="Data"> The additional frame data. </param>
 		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
 		wclBluetoothLeAltBeaconFrameEvent(OnAltBeaconFrame);
+		/// <summary> The event fires when an Apple Airdrop advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirdropFrameData" />
+		wclBluetoothLeAppleAirdropFrameEvent(OnAppleAirdropFrame);
+		/// <summary> The event fires when an Apple Airplay Source advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplaySourceFrameData" />
+		wclBluetoothLeAppleAirplaySourceFrameEvent(OnAppleAirplaySourceFrame);
+		/// <summary> The event fires when an Apple Airplay Target advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirplayTargetFrameData" />
+		wclBluetoothLeAppleAirplayTargetFrameEvent(OnAppleAirplayTargetFrame);
+		/// <summary> The event fires when an Apple Airprint advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleAirprintFrameData" />
+		wclBluetoothLeAppleAirprintFrameEvent(OnAppleAirprintFrame);
+		/// <summary> The event fires when an Apple Find My advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleFindMyFrameData" />
+		wclBluetoothLeAppleFindMyFrameEvent(OnAppleFindMyFrame);
+		/// <summary> The event fires when an Apple Handoff advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHandoffFrameData" />
+		wclBluetoothLeAppleHandoffFrameEvent(OnAppleHandoffFrame);
+		/// <summary> The event fires when an Apple Hey Siri advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="TwclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHeySiriFrameData" />
+		wclBluetoothLeAppleHeySiriFrameEvent(OnAppleHeySiriFrame);
+		/// <summary> The event fires when an Apple HomeKit advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleHomeKitFrameData" />
+		wclBluetoothLeAppleHomeKitFrameEvent(OnAppleHomeKitFrame);
+		/// <summary> The event fires when an Apple iBeacon advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleiBeaconFrameData" />
+		wclBluetoothLeAppleiBeaconFrameEvent(OnAppleiBeaconFrame);
+		/// <summary> The event fires when an Apple Magic Switch advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleMagicSwitchFrameData" />
+		wclBluetoothLeAppleMagicSwitchFrameEvent(OnAppleMagicSwitchFrame);
+		/// <summary> The event fires when an Apple Nearby Action advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyActionFrameData" />
+		wclBluetoothLeAppleNearbyActionFrameEvent(OnAppleNearbyActionFrame);
+		/// <summary> The event fires when an Apple Nearby Info advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleNearbyInfoFrameData" />
+		wclBluetoothLeAppleNearbyInfoFrameEvent(OnAppleNearbyInfoFrame);
+		/// <summary> The event fires when an Apple Proximity Pairing advertisement
+		///   frame received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleProximityPairingFrameData" />
+		wclBluetoothLeAppleProximityPairingFrameEvent(OnAppleProximityPairingFrame);
+		/// <summary> The event fires when an Tethering Source advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringSourceFrameData" />
+		wclBluetoothLeAppleTetheringSourceFrameEvent(OnAppleTetheringSourceFrame);
+		/// <summary> The event fires when an Tethering Target advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleTetheringTargetFrameData" />
+		wclBluetoothLeAppleTetheringTargetFrameEvent(OnAppleTetheringTargetFrame);
+		/// <summary> The event fires when an unknown Apple advertisement frame
+		///   received. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Info"> The Bluetooth LE advertisement information. </param>
+		/// <param name="Data"> The advertisement frame decoded data. </param>
+		/// <seealso cref="wclBluetoothLeAdvertisementInfo" />
+		/// <seealso cref="wclBluetoothLeAppleUnknownFrameData" />
+		wclBluetoothLeAppleUnknownFrameEvent(OnAppleUnknownFrame);
 		/// <summary> The event fires when a Drone Remote ID ASD message
 		///   received. </summary>
 		/// <param name="Sender"> The object initiates the event. </param>
@@ -11905,25 +13080,6 @@ namespace wclBluetooth
 		/// <seealso cref="wclBluetoothLeCdpBeaconExtendedDeviceStatuses" />
 		/// <seealso cref="wclBluetoothLeCdpBeaconHash" />
 		wclBluetoothLeMicrosoftCdpBeaconFrameEvent(OnMicrosoftCdpBeaconFrame);
-		/// <summary> The <c>OnProximityBeaconFrame</c> event handler
-		///   prototype. </summary>
-		/// <param name="Sender"> The object initiates the event. </param>
-		/// <param name="Address"> The Bluetooth LE advertiser's MAC address. </param>
-		/// <param name="Timestamp"> The frame's timestamp in Universal Time
-		///   format. </param>
-		/// <param name="Rssi"> The measured RSSI value in dBm at range between -100
-		///   dBm and +20 dBm at 1 dBm resolution. </param>
-		/// <param name="CompanyId"> The beacon's manufacturer ID as defined in the
-		///   Bluetooth SIG Assigned Numbers. </param>
-		/// <param name="Major"> The beacon's Major value. </param>
-		/// <param name="Minor"> The beacon's Minor value. </param>
-		/// <param name="Uuid"> The beacon's UUID. </param>
-		/// <param name="TxRssi"> The beacon's RSSI value in dBm at range between -100
-		///   dBm and +20 dBm at 1 dBm resolution measured at 1 meter
-		///   distance. </param>
-		/// <param name="Data"> The additional frame data. </param>
-		/// <seealso cref="wclBluetoothLeAdvertisementFrameRawData" />
-		wclBluetoothLeProximityBeaconFrameEvent(OnProximityBeaconFrame);
 		/// <summary> The event fires when the Bluetooth LE beacon monitoring
 		///   started. </summary>
 		/// <param name="Sender"> The object initiates the event. </param>
@@ -12956,4 +14112,19 @@ namespace wclBluetooth
 		/// <param name="Sender"> The object that initiated the event. </param>
 		wclNotifyEvent(OnStopped);
 	};
+
+	/// <summary> Creates new <see cref="wclGattUuid"/> structure that represents
+	///   GATT short (16-bit) UUID. </summary>
+	/// <param name="Uuid"> A GATT short UUID. </param>
+	/// <returns> Returns new <see cref="wclGattUuid"/> structure that represents
+	///   GATT short (16-bit) UUID. </summary>
+	/// <seealso cref="wclGattUuid" />
+	wclGattUuid wclGattMakeUuid(const unsigned short Uuid);
+	/// <summary> Creates new <see cref="wclGattUuid"/> structure that represents
+	///   GATT long (128-bit) UUID. </summary>
+	/// <param name="Uuid"> A GATT long UUID. </param>
+	/// <returns> Returns new <see cref="wclGattUuid"/> structure that represents
+	///   GATT long (128-bit) UUID. </summary>
+	/// <seealso cref="wclGattUuid" />
+	wclGattUuid wclGattMakeUuid(const GUID& Uuid);
 }

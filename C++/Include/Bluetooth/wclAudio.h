@@ -134,6 +134,23 @@ namespace wclAudio
 	/// <seealso cref="wclAudioDevice" />
 	typedef std::vector<wclAudioDevice> wclAudioDevices;
 
+	/// <summary> A Bluetooth audio receiver state. </summary>
+	typedef enum
+	{
+		/// <summary> A receiver is closed. </summary>
+		arClosed,
+		/// <summary> A receiver is opening. </summary>
+		arOpening,
+		/// <summary> A receiver is listening. </summary>
+		arListen,
+		/// <summary> A receiver is connecting to a remote audio device. </summary>
+		arConnecting,
+		/// <summary> A remote device is connected to a receiver. </summary>
+		arConnected,
+		/// <summary> A receiver is closing. </summary>
+		arClosing
+	} wclBluetoothAudioReceiverState;
+
 	/// <summary> The Audio Switcher <c>OnDefaultDeviceChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -143,14 +160,16 @@ namespace wclAudio
 	/// <seealso cref="wclAudioDeviceDataFlow" />
 	/// <seealso cref="wclAudioDeviceRole" />
 	#define wclAudioDefaultDeviceChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const tstring& Id, \
-		const wclAudioDeviceDataFlow Flow, const wclAudioDeviceRole Role)
+		__event void _event_name_( \
+			void* Sender, const tstring& Id, const wclAudioDeviceDataFlow Flow, \
+			const wclAudioDeviceRole Role)
 	/// <summary> The Audio Switcher <c>OnDeviceAdded</c> and
 	///   <c>OnDeviceRemoved</c> events handler prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
 	/// <param name="Id"> The device ID. </param>
 	#define wclAudioDeviceEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const tstring& Id);
+		__event void _event_name_( \
+			void* Sender, const tstring& Id)
 	/// <summary> The Audio Switcher <c>OnStateChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -158,8 +177,8 @@ namespace wclAudio
 	/// <param name="State"> The new device state. </param>
 	/// <seealso cref="wclAudioDeviceState" />
 	#define wclAudioDeviceStateChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const tstring& Id, \
-		const wclAudioDeviceState State);
+		__event void _event_name_( \
+			void* Sender, const tstring& Id, const wclAudioDeviceState State)
 	/// <summary> The Audio Volume <c>OnChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -167,8 +186,25 @@ namespace wclAudio
 	/// <param name="Volume"> The master volume. </param>
 	/// <param name="Volumes"> The channel volumes. </param>
 	#define wclAudioVolumeChangedEvent(_event_name_) \
-		__event void _event_name_(void* Sender, const bool Muted, \
-		const float Volume, const wclAudioPeakValues& Volumes);
+		__event void _event_name_( \
+			void* Sender, const bool Muted, const float Volume, \
+			const wclAudioPeakValues& Volumes)
+
+	/// <summary> The Bluetooth audio device watcher <c>OnDeviceAdded</c> event
+	///   handler prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Id"> An audio device ID. </param>
+	/// <param name="Name"> An audio device name. </param>
+	#define wclBluetoothAudioDeviceAddedEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const tstring& Id, const tstring& Name)
+	/// <summary> The Bluetooth audio device watcher <c>OnDeviceRemoved</c> event
+	///   handler prototype. </summary>
+	/// <param name="Sender"> The object initiates the event. </param>
+	/// <param name="Id"> An audio device ID. </param>
+	#define wclBluetoothAudioDeviceRemovedEvent(_event_name_) \
+		__event void _event_name_( \
+			void* Sender, const tstring& Id)
 
 	/// <summary> The custom Audio component. </summary>
 	/// <remarks> The class implements the basic Audio features for all Audio
@@ -715,5 +751,230 @@ namespace wclAudio
 		/// <param name="Volume"> The master volume. </param>
 		/// <param name="Volumes"> The channel volumes. </param>
 		wclAudioVolumeChangedEvent(OnChanged);
+	};
+
+	/// <summary> The Bluetooth Audio device watcher class. </summary>
+	/// <remarks> <para> The class helps to find Audio devices that can accept
+	///   incoming audio stream from extract Bluetooth devices. </para>
+	///   <para> <c>The class is not thread-safe.</c> </para> </remarks>
+	class CwclBluetoothAudioWatcher
+	{
+		DISABLE_COPY(CwclBluetoothAudioWatcher);
+
+	private:
+		wclMessageProcessingMethod	FMessageProcessing;
+		CwclMessageReceiver*		FReceiver;
+		
+		HANDLE						FInitEvent;
+		int							FInitResult;
+		HANDLE						FTermEvent;
+		HANDLE						FThread;
+		
+		static UINT __stdcall _ThreadProc(LPVOID Param);
+		void ThreadProc();
+		
+	protected:
+		/// <summary> The method called when a new notification message
+		///   received. </summary>
+		/// <param name="Message"> A <see cref="TwclMessage" /> object
+		///   represents a notification message. </param>
+		/// <remarks> <para> This method is for internal use only. </para>
+		///   <para> If a derived class overrides this method it must always call
+		///   the inherited implementation first. </para> </remarks>
+		/// <seealso cref="CwclMessage" />
+		virtual void MessageReceived(const CwclMessage* const Message);
+		
+		/// <summary> Calls the <c>OnDeviceAdded</c> event. </summary>
+		/// <param name="Id"> A device's ID. </param>
+		/// <param name="Name"> A device's name. </param>
+		virtual void DoDeviceAdded(const tstring& Id, const tstring& Name);
+		/// <summary> Calls the <c>OnDeviceRemoved</c> event. </summary>
+		/// <param name="Id"> A device's ID. </param>
+		virtual void DoDeviceRemoved(const tstring& Id);
+		/// <summary> Calls the <c>OnStarted</c> event. </summary>
+		virtual void DoStarted();
+		/// <summary> Calls the <c>OnStopped</c> event. </summary>
+		virtual void DoStopped();
+		
+	public:
+		/// <summary> Creates new class. </summary>
+		CwclBluetoothAudioWatcher();
+		/// <summary> Frees the class. </summary>
+		virtual ~CwclBluetoothAudioWatcher();
+		
+		/// <summary> Starts the Bluetooth audio watcher. </summary>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int Start();
+		/// <summary> Stops the Bluetooth audio watcher. </summary>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int Stop();
+		
+		/// <summary> Gets the Bluetooth audio watcher state. </summary>
+		/// <value> <c>True</c> if the watcher is active. <c>False</c>
+		///   otherwise. </value>
+		bool GetActive() const;
+		__declspec(property(get = GetActive)) bool Active;
+		
+		/// <summary> Gets and sets a message processing method that should be used
+		///   by the audio component. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEAudio"></exception>
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
+		
+		/// <summary> The event called when new Bluetooth audio device added
+		///   (found). </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Id"> An audio device ID. </param>
+		/// <param name="Name"> An audio device name. </param>
+		wclBluetoothAudioDeviceAddedEvent(OnDeviceAdded);
+		/// <summary> The event called when new Bluetooth audio device
+		///   removed. </summary>
+		/// <param name="Sender"> The object initiates the event. </param>
+		/// <param name="Id"> An audio device ID. </param>
+		wclBluetoothAudioDeviceRemovedEvent(OnDeviceRemoved);
+		/// <summary> The event called when the Bluetooth audio watcher was
+		///   started. </summary>
+		/// <param name="Sender"> The object that initiated the event. </param>
+		wclNotifyEvent(OnStarted);
+		/// <summary> The event called when the Bluetooth audio watcher was
+		///   stopped. </summary>
+		/// <param name="Sender"> The object that initiated the event. </param>
+		wclNotifyEvent(OnStopped);
+	};
+
+	/// <summary> A Bluetooth audio Receiver. </summary>
+	/// <remarks> <para> This class switches your PC to a Bluetooth speaker
+	///   that can receiver an audio stream from remote Bluetooth device and play
+	///   it through PC speaker. </para>
+	///   <para> <c>The class is not thread-safe.</c> </para> </remarks>
+	class CwclBluetoothAudioReceiver
+	{
+		DISABLE_COPY(CwclBluetoothAudioReceiver);
+		
+	private:
+		tstring								FId;
+		wclMessageProcessingMethod			FMessageProcessing;
+		CwclMessageReceiver*				FReceiver;
+		wclBluetoothAudioReceiverState		FState;
+		
+		AudioApi::IAudioPlaybackConnection*	FConnection;
+		WinApi::EventRegistrationToken		FToken;
+		
+		HANDLE								FInitEvent;
+		int									FInitResult;
+		HANDLE								FTermEvent;
+		HANDLE								FThread;
+		
+		int CreateConnection();
+		int AddEventHandler();
+		
+		void RemoveEventHandler();
+		void DestroyConnection();
+		
+		static UINT __stdcall _ThreadProc(LPVOID Param);
+		void ThreadProc();
+		
+	protected:
+		/// <summary> The method called when a new notification message
+		///   received. </summary>
+		/// <param name="Message"> A <see cref="CwclMessage" /> object
+		///   represents a notification message. </param>
+		/// <remarks> <para> This method is for internal use only. </para>
+		///   <para> If a derived class overrides this method it must always call
+		///   the inherited implementation first. </para> </remarks>
+		/// <seealso cref="CwclMessage" />
+		virtual void MessageReceived(const CwclMessage* const Message);
+		
+		/// <summary> Calls the <c>OnClosed</c> event. </summary>
+		virtual void DoClosed();
+		/// <summary> Calls the <c>OnConnected</c> event. </summary>
+		virtual void DoConnected();
+		/// <summary> Calls the <c>OnDisconnected</c> event. </summary>
+		virtual void DoDisconnected();
+		/// <summary> Calls the <c>OnListen</c> event. </summary>
+		virtual void DoListen();
+		
+	public:
+		/// <summary> Creates new component. </summary>
+		CwclBluetoothAudioReceiver();
+		/// <summary> Frees the component. </summary>
+		virtual ~CwclBluetoothAudioReceiver();
+		
+		/// <summary> Closes the Bluetooth audio receiver and stops listening for
+		///   audio connections. </summary>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int Close();
+		/// <summary> Initializes the Bluetooth audio receiver and starts listening
+		///   for audio connections. </summary>
+		/// <param name="Id"> A Bluetooth audio device ID. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int Listen(const tstring& Id);
+		
+		/// <summary> Initiates a connection to an associated Bluetooth audio
+		///   device. </summary>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int Connect();
+		
+		/// <summary> Gets the Bluetooth audio device ID associated with the
+		///   receiver. </summary>
+		/// <value> A Bluetooth audio device ID. </value>
+		tstring GetId() const;
+		__declspec(property(get = GetId)) tstring Id;
+		
+		/// <summary> Gets the Bluetooth audio receiver state. </summary>
+		/// <value> A Bluetooth audio receiver state. </value>
+		/// <seealso cref="wclBluetoothAudioReceiverState" />
+		wclBluetoothAudioReceiverState GetState() const;
+		__declspec(property(get = GetState)) wclBluetoothAudioReceiverState State;
+		
+		/// <summary> Gets a message processing method that should be used
+		///   by the Audio component. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		wclMessageProcessingMethod GetMessageProcessing() const;
+		/// <summary> Sets a message processing method that should be used
+		///   by the Audio component. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEAudio"></exception>
+		void SetMessageProcessing(const wclMessageProcessingMethod Value);
+		/// <summary> Gets and sets a message processing method that should be used
+		///   by the Audio component. </summary>
+		/// <value> The message processing method. </value>
+		/// <seealso cref="wclMessageProcessingMethod" />
+		/// <exception cref="wclEAudio"></exception>
+		__declspec(property(get = GetMessageProcessing, put = SetMessageProcessing))
+			wclMessageProcessingMethod MessageProcessing;
+		
+		/// <summary> The event called when a Bluetooth audio receiver is
+		///   closed. </summary>
+		/// <param name="Sender"> The object that initiated the event. </param>
+		wclNotifyEvent(OnClosed);
+		/// <summary> The event called when a remote Bluetooth audio device is
+		///   connected to the receiver. </summary>
+		/// <param name="Sender"> The object that initiated the event. </param>
+		wclNotifyEvent(OnConnected);
+		/// <summary> The event called when a remote Bluetooth audio device is
+		///   disconnected from the receiver. </summary>
+		/// <param name="Sender"> The object that initiated the event. </param>
+		wclNotifyEvent(OnDisconnected);
+		/// <summary> The event called when the receiver is started listeting for
+		///   audio connections. </summary>
+		/// <param name="Sender"> The object that initiated the event. </param>
+		wclNotifyEvent(OnListen);
 	};
 }
