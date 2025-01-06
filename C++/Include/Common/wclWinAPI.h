@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2024 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -2606,6 +2606,8 @@ namespace wclCommon
 
 		int wclWinRtCreateInstance(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
 		int wclWinRtActivateFactory(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
+
+		int wclWinRtWaitAsync(IAsyncInfo* Async, const HANDLE Event, const DWORD Timeout);
 		int wclWinRtWaitAsync(IAsyncInfo* Async, const HANDLE Event);
 		int wclWinRtWaitAsync(IAsyncInfo* Async);
 

@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2024 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -213,6 +213,8 @@ namespace wclCommon
 	const int WCL_E_WINRT_ASYNC_OPERATION_ERROR = WCL_E_WINRT_BASE + 0x0009;
 	/// <summary> Unable to detach raw buffer. </summary>
 	const int WCL_E_WINRT_DETACH_BUFFER_FAILED = WCL_E_WINRT_BASE + 0x000A;
+	/// <summary> An asynchronous operation timed out. </summary>
+	const int WCL_E_WINRT_ASYNC_OPERATION_TIMEOUT = WCL_E_WINRT_BASE + 0x000B;
 
 	/* WinUSB subsystem error codes. */
 

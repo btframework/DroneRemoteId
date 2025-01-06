@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2024 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -837,8 +837,8 @@ namespace wclBluetooth
 	/// <summary> Other instance of the GATT server is already running. Only
 	///   one instance of the GATT server is allowed. </summary>
 	const int WCL_E_BLUETOOTH_LE_GATT_SERVER_OTHER_INSTANCE_RUNNING = WCL_E_BLUETOOTH_LE_BASE + 0x00A6;
-	/// <summary> The operation requires administrative rights. </summary>
-	const int WCL_E_BLUETOOTH_LE_ADMIN_RIGHTS_REQUIRED = WCL_E_BLUETOOTH_LE_BASE + 0x00A7;
+	/// <summary> A client is not connected to a Bluetooth device. </summary>
+	const int WCL_E_BLUETOOTH_LE_CLIENT_NOT_CONNECTED = WCL_E_BLUETOOTH_LE_BASE + 0x00A7;
 	/// <summary> Unexpected or unknown error. </summary>
 	const int WCL_E_BLUETOOTH_LE_UNEXPECTED = WCL_E_BLUETOOTH_LE_BASE + 0x00A8;
 	/// <summary> Unable to set Bluetooth LE scan parameters. </summary>
@@ -961,9 +961,7 @@ namespace wclBluetooth
 	const int WCL_E_BLUETOOTH_LE_GATT_SERVER_WRITE_WITHOUT_RESPONSE = WCL_E_BLUETOOTH_LE_BASE + 0x00DE;
 	/// <summary> The response was already sent. </summary>
 	const int WCL_E_BLUETOOTH_LE_GATT_SERVER_RESPONSE_ALREADY_SENT = WCL_E_BLUETOOTH_LE_BASE + 0x00DF;
-	/// <summary> A client is not connected to a Bluetooth device. </summary>
-	const int WCL_E_BLUETOOTH_LE_CLIENT_NOT_CONNECTED = WCL_E_BLUETOOTH_LE_BASE + 0x00E0;
-
+	
 	/* Wii Remote error codes. */
 
 	/// <summary> The base error code for Wii Remote errors. </summary>
