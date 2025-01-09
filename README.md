@@ -2,7 +2,7 @@
 
 ## What is DRI
 
-Remote ID is a system that allows drones to transmit identification and location information. This information can be received by other airspace participants, including authorities, pilots and the general public.
+Remote ID is a system that allows drones to transmit identification and location information. This information can be received by other airspace participants, including authorities, pilots, and the general public.
 
 DRI systems use WiFi or Bluetooth to broadcast Remote ID data to close surroundings. This samples show how to use [Bluetooth Framework](https://www.btframework.com/bluetoothframework.htm) and [WiFi Framework](https://www.btframework.com/wififramework.htm) to receive DRI. You can find more about Drone Remote ID on [our site](https://www.btframework.com/droneremoteid.htm).
 
