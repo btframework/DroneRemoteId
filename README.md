@@ -16,5 +16,4 @@ Please do not hesitate to contact us at support@btframework.com if you have any 
 
 Required:
 * Bluetooth Framework **7.19.0.0** or above. You can download Bluetooth Framework [here](https://www.btframework.com/bluetoothframework.htm)
-* WiFi Framework **7.12.0.0** or above. You can download WiFi Framework [here](https://www.btframework.com/wififramework.htm)ework](https://www.btframework.com/wififramework.htm) 7.11.0 or newer.
-
+* WiFi Framework **7.12.0.0** or above. You can download WiFi Framework [here](https://www.btframework.com/wififramework.htm)
