@@ -6761,6 +6761,7 @@ namespace wclBluetooth
 	private:
 		unsigned long	FOffset;
 		bool			FProcessed;
+		__int64			FTimestamp;
 		
 	protected:
 		/// <summary> Sets the processed flag. </summary>
@@ -6808,10 +6809,13 @@ namespace wclBluetooth
 		
 	public:
 		/// <summary> Creates new object. </summary>
+		/// <param name="Timestamp"> A high resolution (less than 1us) time stamp
+		///   when the request was received. </param>
 		/// <param name="Offset"> A data offset. </param>
 		/// <remarks> An application must not create this class. It is created
 		///   internally when needed. </remarks>
-		CwclGattLocalCharacteristicRequest(const unsigned long Offset);
+		CwclGattLocalCharacteristicRequest(const __int64 Timestamp,
+			const unsigned long Offset);
 		/// <summary> Frees the object. </summary>
 		/// <remarks> An application must not destroy this class. Instead of
 		///   calling destructor an application must call the <c>Release</c>
@@ -6856,6 +6860,15 @@ namespace wclBluetooth
 		/// <summary> Gets the data offset. </summary>
 		/// <value> The data offset. </value>
 		__declspec(property(get = GetOffset)) unsigned long Offset;
+
+		/// <summary> Gets the request time stamp. </summary>
+		/// <returns> A high resolution (<1us) time stamp when the request was
+		///   received. </returns>
+		__int64 GetTimestamp() const;
+		/// <summary> Gets the request time stamp. </summary>
+		/// <value> A high resolution (less than 1us) time stamp when the request was
+		///   received. </value>
+		__declspec(property(get = GetTimestamp)) __int64 Timestamp;
 	};
 
 	/// <summary> The class represents a GATT characteristic read
@@ -6885,12 +6898,14 @@ namespace wclBluetooth
 		
 	public:
 		/// <summary> Creates new object. </summary>
+		/// <param name="Timestamp"> A high resolution (less than 1us) time stamp when the
+		///   request was received. </param>
 		/// <param name="Offset"> A data offset. </param>
 		/// <param name="Size"> A read buffer size. </param>
 		/// <remarks> An application must not create this class. It is created
 		///   internally when needed. </remarks>
-		CwclGattLocalCharacteristicReadRequest(const unsigned long Offset,
-			const unsigned long Size);
+		CwclGattLocalCharacteristicReadRequest(const __int64 Timestamp,
+			const unsigned long Offset, const unsigned long Size);
 		
 		/// <summary> Sends the specified data to the connected client in respond to
 		///   a read request. </summary>
@@ -6936,14 +6951,17 @@ namespace wclBluetooth
 		
 	public:
 		/// <summary> Creates new object. </summary>
+		/// <param name="Timestamp"> A high resolution (less than 1us) time stamp when the
+		///   request was received. </param>
 		/// <param name="Offset"> A data offset. </param>
 		/// <param name="Data"> The pointer to the data. </param>
 		/// <param name="Size"> The data length. </param>
 		/// <param name="WithResponse"> The GATT write operation flag. </param>
 		/// <remarks> An application must not create this class. It is created
 		///   internally when needed. </remarks>
-		CwclGattLocalCharacteristicWriteRequest(const unsigned long Offset, void* const Data,
-			const unsigned long Size, const bool WithResponse);
+		CwclGattLocalCharacteristicWriteRequest(const __int64 Timestamp,
+			const unsigned long Offset, void* const Data, const unsigned long Size,
+			const bool WithResponse);
 		
 		/// <summary> Sends a response to the connected client in respond to a write
 		///   request. </summary>
