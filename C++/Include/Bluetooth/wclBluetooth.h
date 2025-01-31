@@ -6962,6 +6962,8 @@ namespace wclBluetooth
 		CwclGattLocalCharacteristicWriteRequest(const __int64 Timestamp,
 			const unsigned long Offset, void* const Data, const unsigned long Size,
 			const bool WithResponse);
+		/// <summary> Frees the write request. </summary>
+		virtual ~CwclGattLocalCharacteristicWriteRequest();
 		
 		/// <summary> Sends a response to the connected client in respond to a write
 		///   request. </summary>

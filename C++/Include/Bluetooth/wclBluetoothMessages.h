@@ -216,11 +216,14 @@ namespace wclBluetooth
 	private:
 		__int64	FAddress;
 
+	protected:
+		virtual __int64 UpdateAddress();
+
 	public:
 		CwclBluetoothRemoteDeviceMessage(const unsigned char Id,
 			const wclBluetoothApi Api,  const __int64 Address);
 
-		__int64 GetAddress() const;
+		__int64 GetAddress();
 		__declspec(property(get = GetAddress)) __int64 Address;
 	};
 
