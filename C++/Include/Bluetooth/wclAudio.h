@@ -765,9 +765,9 @@ namespace wclAudio
 		wclMessageProcessingMethod	FMessageProcessing;
 		CwclMessageReceiver*		FReceiver;
 		
-		HANDLE						FInitEvent;
+		CwclManualResetEvent*		FInitEvent;
 		int							FInitResult;
-		HANDLE						FTermEvent;
+		CwclManualResetEvent*		FTermEvent;
 		HANDLE						FThread;
 		
 		static UINT __stdcall _ThreadProc(LPVOID Param);
@@ -868,9 +868,9 @@ namespace wclAudio
 		AudioApi::IAudioPlaybackConnection*	FConnection;
 		WinApi::EventRegistrationToken		FToken;
 		
-		HANDLE								FInitEvent;
+		CwclManualResetEvent*				FInitEvent;
 		int									FInitResult;
-		HANDLE								FTermEvent;
+		CwclManualResetEvent*				FTermEvent;
 		HANDLE								FThread;
 		
 		int CreateConnection();

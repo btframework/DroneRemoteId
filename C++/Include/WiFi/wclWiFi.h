@@ -33,6 +33,7 @@
 #include _WCL_WIFI_WLAN_INCLUDE_FILE_ 
 
 using namespace wclDri;
+using namespace wclSync;
 
 namespace wclWiFi
 {
@@ -5340,18 +5341,18 @@ namespace wclWiFi
 
 		/* Device's properties. */
 		
-		tstring						FId;
-		bool						FLegacy;
-		tstring						FLocalAddress;
-		tstring						FName;
-		tstring						FRemoteAddress;
-		wclWiFiDirectDeviceState	FState;
-		tstring						FSystemDeviceId;
+		tstring										FId;
+		bool										FLegacy;
+		tstring										FLocalAddress;
+		tstring										FName;
+		tstring										FRemoteAddress;
+		wclWiFiDirectDeviceState					FState;
+		tstring										FSystemDeviceId;
 		
 		/* Internal fields. */
 		
-		long						FReceiverId;
-		LONG						FRefCount;
+		long										FReceiverId;
+		LONG										FRefCount;
 
 		/* WinRT WiFi Direct interfaces. */
 		
@@ -5361,9 +5362,9 @@ namespace wclWiFi
 		/* WinRT thread. */
 		
 		// Used to synchronize access to IWiFiDirectDevice object.
-		RTL_CRITICAL_SECTION FCS;
-		HANDLE	FTerminationEvent;
-		HANDLE	FThread;
+		CwclCriticalSection*						FCS;
+		CwclManualResetEvent*						FTerminationEvent;
+		HANDLE										FThread;
 		
 		/* Device property getters. */
 		
@@ -5847,16 +5848,16 @@ namespace wclWiFi
 		typedef std::list<CwclWiFiDirectDevice*> LIST;
 
 		LIST*										FDevices; // Connected devices list.
-		HANDLE										FMutex; // Indicates that WFD advertiser is running.
-		HANDLE										FStatusEvent; // Used in Status Changed event handler.
+		CwclMutex*									FMutex; // Indicates that WFD advertiser is running.
+		CwclManualResetEvent*						FStatusEvent; // Used in Status Changed event handler.
 		wclCommon::WinApi::EventRegistrationToken	FEventToken;
 
 		/* WinRT thread fields. */
 		
-		HANDLE	FThread; // WinRT thread.
-		HANDLE	FThreadInitEvent; // Thread initialization event.
-		HANDLE	FThreadTermEvent;  // Thread termination event.
-		int		FThreadResult; // Thread initialization result.
+		HANDLE										FThread; // WinRT thread.
+		CwclManualResetEvent*						FThreadInitEvent; // Thread initialization event.
+		CwclManualResetEvent*						FThreadTermEvent;  // Thread termination event.
+		int											FThreadResult; // Thread initialization result.
 		
 		/* WiFi Direct interfaces. */
 		
@@ -6543,13 +6544,13 @@ namespace wclWiFi
 		DISABLE_COPY(CwclWiFiDirectDeviceWatcher);
 
 	private:
-		HANDLE				FThread;
-		HANDLE				FThreadEvent;
-		HANDLE				FThreadInitEvent;
-		int					FThreadResult;
-		tstring				FDeviceId;
-		bool				FPaired;
-		WCL_WFD_DEVICES*	FPairedDevices;
+		HANDLE					FThread;
+		CwclManualResetEvent*	FThreadEvent;
+		CwclManualResetEvent*	FThreadInitEvent;
+		int						FThreadResult;
+		tstring					FDeviceId;
+		bool					FPaired;
+		WCL_WFD_DEVICES*		FPairedDevices;
 
 		int CanExecuteOperation();
 
@@ -6804,10 +6805,10 @@ namespace wclWiFi
 	private:
 		WlanApi::INetworkOperatorTetheringManager* FManager;
 		
-		HANDLE	FThread;
-		HANDLE	FThreadInitEvent;
-		int		FThreadInitResult;
-		HANDLE	FThreadTermEvent;
+		HANDLE										FThread;
+		CwclManualResetEvent*						FThreadInitEvent;
+		int											FThreadInitResult;
+		CwclManualResetEvent*						FThreadTermEvent;
 		
 		int StatusToError(const WlanApi::TetheringOperationStatus Status) const;
 		

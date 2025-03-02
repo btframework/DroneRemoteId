@@ -15,10 +15,12 @@
 
 #pragma once
 
-#include "..\Common\wclHelpers.h"
+#include "..\Common\wclSync.h"
 #include "..\Common\wclMessaging.h"
 
 #include "wclConnectionErrors.h"
+
+using namespace wclSync;
 
 using wclCommon::wclMessageProcessingMethod;
 using wclCommon::CwclMessage;
@@ -35,7 +37,7 @@ namespace wclCommunication
 		DISABLE_COPY(CwclCustomConnection);
 
 	private:
-		RTL_CRITICAL_SECTION	FCS;
+		CwclCriticalSection*	FCS;
 		CwclMessageReceiver*	FReceiver;
 		DWORD					FThreadId;
 		
@@ -49,18 +51,16 @@ namespace wclCommunication
 		///   the inherited implementation first. </para> </remarks>
 		/// <seealso cref="CwclMessage" />
 		virtual void MessageReceived(const CwclMessage* const Message);
-
-		/* Thread synchronization. */
-
-		/// <summary> Enters the connection's critical section. </summary>
-		/// <remarks> The method should be used to protect connection in
-		///   multi-threaded applications. </remarks>
-		void Enter();
-		/// <summary> Exists *leaves) the connection's critical section. </summary>
-		/// <remarks> The method should be used to protect connection in
-		///   multi-threaded applications. </remarks>
-		void Leave();
 		
+		/// <summary> Gets the connection critical section. </summary>
+		/// <returns> The connection critical section object. </returns>
+		/// <seealso cref="CwclCriticalSection" />
+		CwclCriticalSection* GetCS();
+		/// <summary> Gets the connection critical section. </summary>
+		/// <value> The connection critical section object. </value>
+		/// <seealso cref="CwclCriticalSection" />
+		__declspec(property(get = GetCS)) CwclCriticalSection* CS;
+
 	public:
 		/// <summary> Creates a new connection. </summary>
 		CwclCustomConnection();
@@ -144,16 +144,16 @@ namespace wclCommunication
 		DISABLE_COPY(CwclClientConnection);
 		
 	private:
-		wclClientState	FState;
-		unsigned long	FTimeout;
+		wclClientState			FState;
+		unsigned long			FTimeout;
 		
 		// Used to notify communication thread that the connection is ready for
 		// communicate and is in valid connected state.
-		HANDLE	FConnectedEvent;
+		CwclManualResetEvent*	FConnectedEvent;
 		// Communication thread termination event.
-		HANDLE	FDisconnectEvent;
+		CwclManualResetEvent*	FDisconnectEvent;
 		// Communication thread handle.
-		HANDLE	FThread;
+		HANDLE					FThread;
 		
 		// Internal communication thread routine. Calls HalConnect and if succeeded
 		// calls HalCommunicate.
@@ -213,7 +213,7 @@ namespace wclCommunication
 		///   communication and exit. </para>
 		///   <para> The default implementation simple waits for the <c>Event</c>
 		///   and exists when the events signaled. </para> </remarks>
-		virtual int HalCommunicate(const HANDLE Event);
+		virtual int HalCommunicate(CwclEvent* const Event);
 		/// <summary> Implements a hardware-dependent code that connects to a
 		///   remote device. </summary>
 		/// <param name="Event"> The system even object handle. </param>
@@ -230,7 +230,7 @@ namespace wclCommunication
 		///   <para> If connection to a remote device was terminated the method
 		///   must release all allocated resources because the <c>HalDisconnect</c>
 		///   will not be called. </para> </remarks>
-		virtual int HalConnect(const HANDLE Event) = 0;
+		virtual int HalConnect(CwclEvent* const Event) = 0;
 		/// <summary> Implements a hardware-dependent code that disconnects from the
 		///   connected remote device. </summary>
 		/// <returns> If the function succeed the return value is
@@ -506,9 +506,9 @@ namespace wclCommunication
 		
 		void*					FParams; // Custom connection parameters.
 		
-		HANDLE					FDisconnectEvent;
+		CwclManualResetEvent*	FDisconnectEvent;
 		HANDLE					FThread;
-		HANDLE					FThreadInitDoneEvent;
+		CwclManualResetEvent*	FThreadInitDoneEvent;
 		int						FThreadInitResult;
 		
 		// Internal communication thread routine. Calls HalConnect and if succeeded
@@ -594,7 +594,7 @@ namespace wclCommunication
 		///   communication and exit. </para>
 		///   <para> The default implementation simple waits for the <c>Event</c>
 		///   and exists when the events signaled. </para> </remarks>
-		virtual int HalCommunicate(const HANDLE Event);
+		virtual int HalCommunicate(CwclEvent* const Event);
 		/// <summary> Implements a hardware-dependent code that disconnects from the
 		///   connected remote device. </summary>
 		/// <returns> If the function succeed the return value is
@@ -722,20 +722,20 @@ namespace wclCommunication
 		typedef std::list<CwclServerClientConnection*> CLIENTS;
 
 		// Clients list.
-		CLIENTS*		FClients;
-		wclServerState	FState;
+		CLIENTS*					FClients;
+		wclServerState				FState;
 
 		// Client that should be deleted.
 		CwclServerClientConnection* FClientToDelete;
 		
 		// Communication thread termination event.
-		HANDLE			FCloseEvent;
+		CwclManualResetEvent*		FCloseEvent;
 		// Communication thread handle.
-		HANDLE			FThread;
+		HANDLE						FThread;
 		// Indicates the communication thread has been initialized.
-		HANDLE			FThreadInitDoneEvent;
+		CwclManualResetEvent*		FThreadInitDoneEvent;
 		// Indicates the thread initialization result.
-		int				FThreadInitResult;
+		int							FThreadInitResult;
 		
 		void ClientConnect(void* Sender, const int Error);
 		void ClientDisconnect(void* Sender, const int Reason);
@@ -821,7 +821,7 @@ namespace wclCommunication
 		/// <remarks> A derived class must override this method to implement
 		///   a hardware-dependent code for listening for incoming
 		///   connections. </remarks>
-		virtual int HalListen(const HANDLE Event) = 0;
+		virtual int HalListen(CwclEvent* const Event) = 0;
 		/// <summary> Implements a hardware-dependent method to stop
 		///   listening. </summary>
 		/// <returns> If the function succeed the return value is

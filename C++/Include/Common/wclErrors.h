@@ -17,7 +17,9 @@
 
 #include <exception>
 
-#include "wclHelpers.h"
+#include "wclSync.h"
+
+using namespace wclSync;
 
 namespace wclCommon
 {
@@ -45,7 +47,7 @@ namespace wclCommon
 
 	private:
 		bool					FComInitialized;
-		RTL_CRITICAL_SECTION	FCS;
+		CwclCriticalSection*	FCS;
 		
 		IXMLDOMDocument*		FDocument;
 		IXMLDOMElement*			FRootElement;

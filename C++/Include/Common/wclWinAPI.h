@@ -20,6 +20,8 @@
 
 #include "wclHelpers.h"
 
+using namespace wclSync;
+
 namespace wclCommon
 {
 	namespace WinApi
@@ -2607,8 +2609,8 @@ namespace wclCommon
 		int wclWinRtCreateInstance(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
 		int wclWinRtActivateFactory(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
 
-		int wclWinRtWaitAsync(IAsyncInfo* Async, const HANDLE Event, const DWORD Timeout);
-		int wclWinRtWaitAsync(IAsyncInfo* Async, const HANDLE Event);
+		int wclWinRtWaitAsync(IAsyncInfo* Async, CwclEvent* const Event, const DWORD Timeout);
+		int wclWinRtWaitAsync(IAsyncInfo* Async, CwclEvent* const Event);
 		int wclWinRtWaitAsync(IAsyncInfo* Async);
 
 		// ======================================================================
@@ -2830,7 +2832,7 @@ namespace wclCommon
 			DISABLE_COPY(CwclWinRtDeviceWatcherStoppedEventHandler);
 
 		private:
-			HANDLE	FEvent;
+			CwclEvent*	FEvent;
 
 		public:
 			/* IDeviceWatcherEventHandler */
@@ -2838,7 +2840,7 @@ namespace wclCommon
 			virtual HRESULT STDMETHODCALLTYPE Invoke(IDeviceWatcher* sender, IInspectable* e) override;
 
 		public:
-			CwclWinRtDeviceWatcherStoppedEventHandler(HANDLE Event);
+			CwclWinRtDeviceWatcherStoppedEventHandler(CwclEvent* const Event);
 		};
 
 		// Helper class implements WinRT iterator for strings array.

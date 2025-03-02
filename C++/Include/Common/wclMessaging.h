@@ -374,7 +374,7 @@ namespace wclCommon
 		/* Common fields */
 
 		// Messages queue critical section.
-		RTL_CRITICAL_SECTION		FCS;
+		CwclCriticalSection*		FCS;
 		// Recevier's ID.
 		long						FId;
 		// A message receiver status.
@@ -389,9 +389,9 @@ namespace wclCommon
 		/* Asynchronous message processing fields */
 
 		// New message/thread termination auto reset event.
-		HANDLE						FEvent;
+		CwclAutoResetEvent*			FEvent;
 		// Termination event.
-		HANDLE						FTermEvent;
+		CwclManualResetEvent*		FTermEvent;
 		// Termination flag.
 		bool						FTerminated;
 		// Message processing thread.
@@ -559,14 +559,14 @@ namespace wclCommon
 		typedef std::list<CwclMessageReceiver*> RECEIVERS;
 		
 		RECEIVERS*				FReceivers; // Subscribed receivers.
-		RTL_CRITICAL_SECTION	FReceiversCS; // Subscribers list synchronization.
+		CwclCriticalSection*	FReceiversCS; // Subscribers list synchronization.
 		
 		// Hardware monitoring.
-		bool		FCfgMgrLoaded;
-		HDEVNOTIFY	FDevNotify;
-		HANDLE		FThread;
-		HANDLE		FThreadEvent; // Thread ready event.
-		HWND		FWnd;
+		bool					FCfgMgrLoaded;
+		HDEVNOTIFY				FDevNotify;
+		HANDLE					FThread;
+		CwclManualResetEvent*	FThreadEvent; // Thread ready event.
+		HWND					FWnd;
 		
 		// Creation error.
 		int	FError;

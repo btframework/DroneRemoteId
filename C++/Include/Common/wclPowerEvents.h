@@ -137,7 +137,7 @@ namespace wclCommon
 		
 		HWND					FWnd;
 		HANDLE					FWndThread;
-		HANDLE					FWndThreadInitEvent;
+		CwclManualResetEvent*	FWndThreadInitEvent;
 		int						FWndThreadInitResult;
 
 		/* APM support. */

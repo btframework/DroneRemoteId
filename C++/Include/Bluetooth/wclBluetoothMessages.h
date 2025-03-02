@@ -793,12 +793,12 @@ namespace wclBluetooth
 		DISABLE_COPY(CwclBluetoothGattServerCharSyncMessage);
 		
 	private:
-		HANDLE	FEvent;
+		CwclEvent*	FEvent;
 		
 	public:
 		CwclBluetoothGattServerCharSyncMessage(const unsigned char Id, const wclBluetoothApi Api,
 			const __int64 Address, CwclBluetoothGattServerClientParams* const Params,
-			CwclGattLocalCharacteristic* const Characteristic, const HANDLE Event);
+			CwclGattLocalCharacteristic* const Characteristic, CwclEvent* const Event);
 		virtual ~CwclBluetoothGattServerCharSyncMessage();
 	};
 
@@ -814,7 +814,7 @@ namespace wclBluetooth
 	public:
 		CwclBluetoothLeGattServerWriteMessage(const wclBluetoothApi Api, const __int64 Address,
 			CwclBluetoothGattServerClientParams* const Params,
-			CwclGattLocalCharacteristic* const Characteristic, const HANDLE Event,
+			CwclGattLocalCharacteristic* const Characteristic, CwclEvent* const Event,
 			CwclGattLocalCharacteristicWriteRequest* const Request);
 		virtual ~CwclBluetoothLeGattServerWriteMessage();
 		
@@ -835,7 +835,7 @@ namespace wclBluetooth
 		CwclBluetoothLeGattServerReadMessage(const wclBluetoothApi Api, const __int64 Address,
 			CwclBluetoothGattServerClientParams* const Params,
 			CwclGattLocalCharacteristic* const Characteristic,
-			const HANDLE Event, CwclGattLocalCharacteristicReadRequest* const Request);
+			CwclEvent* const Event, CwclGattLocalCharacteristicReadRequest* const Request);
 		virtual ~CwclBluetoothLeGattServerReadMessage();
 		
 		CwclGattLocalCharacteristicReadRequest* GetRequest() const;
@@ -905,12 +905,12 @@ namespace wclBluetooth
 		DISABLE_COPY(CwclBluetoothMsBlePairParams);
 		
 	private:
-		HANDLE	FEvent;
-		LONG	FRefCount;
-		bool	FProcessed;
+		CwclEvent*	FEvent;
+		LONG		FRefCount;
+		bool		FProcessed;
 		
 	public:
-		CwclBluetoothMsBlePairParams(const HANDLE Event);
+		CwclBluetoothMsBlePairParams(CwclEvent* const Event);
 		virtual ~CwclBluetoothMsBlePairParams();
 		
 		void AddRef();
@@ -929,7 +929,7 @@ namespace wclBluetooth
 		tstring	FPin;
 		
 	public:
-		CwclBluetoothMsBlePinRequestParams(const HANDLE Event);
+		CwclBluetoothMsBlePinRequestParams(CwclEvent* const Event);
 		
 		tstring GetPin() const;
 		void SetPin(const tstring& Pin);
@@ -946,7 +946,7 @@ namespace wclBluetooth
 		bool	FConfirm;
 		
 	public:
-		CwclBluetoothMsBleConfirmParams(const HANDLE Event);
+		CwclBluetoothMsBleConfirmParams(CwclEvent* const Event);
 		
 		bool GetConfirm() const;
 		void SetConfirm(const bool Value);
@@ -963,7 +963,7 @@ namespace wclBluetooth
 		unsigned long	FPasskey;
 		
 	public:
-		CwclBluetoothMsBlePasskeyRequestParams(const HANDLE Event);
+		CwclBluetoothMsBlePasskeyRequestParams(CwclEvent* const Event);
 		
 		unsigned long GetPasskey() const;
 		void SetPasskey(const unsigned long value);
@@ -980,7 +980,7 @@ namespace wclBluetooth
 		wclBluetoothLeProtectionLevel FProtection;
 		
 	public:
-		CwclBluetoothMsBleProtectionRequestParams(const HANDLE Event);
+		CwclBluetoothMsBleProtectionRequestParams(CwclEvent* const Event);
 		
 		wclBluetoothLeProtectionLevel GetProtection() const;
 		void SetProtection(const wclBluetoothLeProtectionLevel value);
@@ -1000,7 +1000,7 @@ namespace wclBluetooth
 		bool						FOobPresent;
 
 	public:
-		CwclBluetoothMsIoCapRequestParams(const HANDLE Event);
+		CwclBluetoothMsIoCapRequestParams(CwclEvent* const Event);
 		
 		wclBluetoothMitmProtection GetMitm() const;
 		void SetMitm(const wclBluetoothMitmProtection value);
@@ -1025,7 +1025,7 @@ namespace wclBluetooth
 		wclBluetoothOobData FOobData;
 		
 	public:
-		CwclBluetoothMsOobDataRequestParams(const HANDLE Event);
+		CwclBluetoothMsOobDataRequestParams(CwclEvent* const Event);
 		
 		wclBluetoothOobData GetOobData() const;
 		void SetOobData(const wclBluetoothOobData& Value);

@@ -20,7 +20,7 @@
 
 #include <tchar.h>
 
-#include "..\Common\wclHelpers.h"
+#include "..\Common\wclSync.h"
 #include "..\Common\wclMessaging.h"
 #include "..\Communication\wclConnections.h"
 
@@ -31,6 +31,7 @@
 using namespace wclCommon;
 using namespace wclCommunication;
 using namespace wclDri;
+using namespace wclSync;
 
 namespace wclBluetooth
 {
@@ -3288,7 +3289,7 @@ namespace wclBluetooth
 		// This critical section used as synchronization object for
 		// the Radio members and the API manages local Radio settings.
 		// It is initialized in the constructor and releases in the destructor.
-		RTL_CRITICAL_SECTION		FCS;
+		CwclCriticalSection*		FCS;
 		// Discovering flag.
 		bool						FDiscovering;
 		// Indicates that discovering started message has been received.
@@ -3297,7 +3298,7 @@ namespace wclBluetooth
 		// a Radio object initialization. The mutex is unique per process. If other
 		// instance of the Radio class already exists the mutex creation fails and a
 		// Bluetooth driver supported by the Radio object will not be initialized.
-		HANDLE						FInstance;
+		CwclMutex*					FInstance;
 		// Indicates LE discovering.
 		bool						FLeDiscovering;
 		// The loaded flag set when a Bluetooth driver supported by the Radio
@@ -4811,9 +4812,9 @@ namespace wclBluetooth
 		typedef std::list<CwclBluetoothRadio*>	RADIOS;
 
 		bool						FActive;
-		RTL_CRITICAL_SECTION		FCS;
+		CwclCriticalSection*		FCS;
 		bool						FHandlePairing;
-		HANDLE						FInstance;
+		CwclMutex*					FInstance;
 		wclMessageProcessingMethod	FMessageProcessing;
 		RADIOS*						FRadios;
 		CwclMessageReceiver*		FReceiver;
@@ -5673,7 +5674,7 @@ namespace wclBluetooth
 		///   will not be called. </para>
 		///   <para> A derived class must always call inherited
 		///   method. </para> </remarks>
-		virtual int HalConnect(const HANDLE Event) override;
+		virtual int HalConnect(CwclEvent* const Event) override;
 		/// <summary> Implements a hardware-dependent code that disconnects from the
 		///   connected remote device. </summary>
 		/// <returns> If the function succeed the return value is
@@ -6313,16 +6314,19 @@ namespace wclBluetooth
 		DISABLE_COPY(CwclGattLocalAttribute);
 		
 	private:
-		RTL_CRITICAL_SECTION	FCS;
+		CwclCriticalSection*	FCS;
 		wclGattUuid				FUuid;
 
 	protected:
-		/// <summary> Enters the GATT local attribute protection critical
-		///   section. </summary>
-		void Enter() const;
-		/// <summary> Leaves the GATT local attribute protection critical
-		///   section. </summary>
-		void Leave() const;
+		/// <summary> Gets the critical section object. </summary>
+		/// <return> The critical section object. </return>
+		/// <seealso cref="CwclCriticalSection" />
+		CwclCriticalSection* GetCS() const;
+		/// <summary> Gets the critical section object. </summary>
+		/// <value> The critical section object. </value>
+		/// <seealso cref="CwclCriticalSection" />
+		__declspec(property(get = GetCS)) CwclCriticalSection* CS;
+		
 
 	public:
 		/// <summary> Creates new local GATT attribute. </summary>
@@ -7357,21 +7361,21 @@ namespace wclBluetooth
 		typedef std::list<CwclGattLocalService*> SERVICES;
 		typedef std::list<CwclGattServerClient*> CLIENTS;
 
-		CLIENTS*			FClients;
-		HANDLE				FMutex;
-		CwclBluetoothRadio*	FRadio;
-		SERVICES*			FServices;
+		CLIENTS*				FClients;
+		CwclMutex*				FMutex;
+		CwclBluetoothRadio*		FRadio;
+		SERVICES*				FServices;
 		
 		/* Communication thread management. */
 
 		// Communication thread.
-		HANDLE	FThread;
+		HANDLE					FThread;
 		// Thread initialization result.
-		int		FInitResult;
+		int						FInitResult;
 		// Thread initialization event.
-		HANDLE	FInitEvent;
+		CwclManualResetEvent*	FInitEvent;
 		// Thread termination event.
-		HANDLE	FTermEvent;
+		CwclManualResetEvent*	FTermEvent;
 		
 		static UINT __stdcall _ThreadProc(LPVOID Param);
 		void ThreadProc();
@@ -8816,15 +8820,17 @@ namespace wclBluetooth
 		DISABLE_COPY(CwclBluetoothLeAdvertisement);
 
 	private:
-		RTL_CRITICAL_SECTION	FCS;
+		CwclCriticalSection*	FCS;
 
 	protected:
-		/// <summary> Enters the advertisement data protection critical
-		///   section. </summary>
-		void Enter() const;
-		/// <summary> Leaves the advertisement data protection critical
-		///   section. </summary>
-		void Leave() const;
+		/// <summary> Gets the critical section object. </summary>
+		/// <return> The critical section object. </return>
+		/// <seealso cref="CwclCriticalSection" />
+		CwclCriticalSection* GetCS() const;
+		/// <summary> Gets the critical section object. </summary>
+		/// <value> The critical section object. </value>
+		/// <seealso cref="CwclCriticalSection" />
+		__declspec(property(get = GetCS)) CwclCriticalSection* CS;
 		
 	public:
 		/// <summary> Creates new Bluetooth LE advertisement object. </summary>
@@ -9768,9 +9774,9 @@ namespace wclBluetooth
 		
 		/* Event objects. */
 		
-		HANDLE	FDisconnectEvent;
-		HANDLE	FReadMemoryEvent;
-		HANDLE	FWriteMemoryEvent;
+		CwclEvent*				FDisconnectEvent;
+		CwclManualResetEvent*	FReadMemoryEvent;
+		CwclManualResetEvent*	FWriteMemoryEvent;
 		
 		/* Read memory buffers. */
 		
@@ -9803,7 +9809,7 @@ namespace wclBluetooth
 			const unsigned short Mid, const unsigned short Max) const;
 		unsigned char GetReportId(const bool Accel, const bool Ir, const bool Ext) const;
 		unsigned char GetRumbleBit() const;
-		int Wait(const HANDLE Event) const;
+		int Wait(CwclEvent* const Event) const;
 		
 		/* Read functions. */
 		
@@ -9903,7 +9909,7 @@ namespace wclBluetooth
 		///   will not be called. </para>
 		///   <para> A derived class must always call inherited
 		///   method. </para> </remarks>
-		virtual int HalConnect(const HANDLE Event) override;
+		virtual int HalConnect(CwclEvent* const Event) override;
 		/// <summary> Implements a hardware-dependent code that disconnects from the
 		///   connected remote device. </summary>
 		/// <returns> If the function succeed the return value is
@@ -9996,10 +10002,10 @@ namespace wclBluetooth
 		
 		/// <summary> Gets the disconnect event object. </summary>
 		/// <returns> The disconnect event object. </returns>
-		HANDLE GetDisconnectEvent() const;
+		CwclEvent* GetDisconnectEvent() const;
 		/// <summary> Gets the disconnect event object. </summary>
 		/// <value> The disconnect event object. </value>
-		__declspec(property(get = GetDisconnectEvent)) HANDLE DisconnectEvent;
+		__declspec(property(get = GetDisconnectEvent)) CwclEvent* DisconnectEvent;
 		
 	public:
 		/// <summary> Create new Wii Remote client connection. </summary>
@@ -10234,24 +10240,24 @@ namespace wclBluetooth
 		typedef std::list<tstring> WIIS;
 
 		// HID device handle.
-		HANDLE	FHandle;
+		HANDLE					FHandle;
 		// Overlapped communication (read) event.
-		HANDLE	FReadEvent;
+		CwclManualResetEvent*	FReadEvent;
 		// Overlapped write event.
-		HANDLE	FWriteEvent;
+		CwclManualResetEvent*	FWriteEvent;
 		// True of Wii Remote was paired by user.
-		bool	FWasInstalled;
+		bool					FWasInstalled;
 		
 		// Enumerates installed (paired) Wii Remote devices.
 		int EnumWiis(WIIS& Wiis);
 		// Return device path for the Wii Remote with given MAC.
 		int GetPath(tstring& Path);
 		// Install Wii Remote device as HID one.
-		int InstallDevice(const HANDLE Event, tstring& Path);
+		int InstallDevice(CwclEvent* const Event, tstring& Path);
 		// Removed Wii Remote device.
 		int UninstallDevice();
 		// Wait for timeout or disconnect.
-		int CheckTimeout(const HANDLE Event, const DWORD Ticks);
+		int CheckTimeout(CwclEvent* const Event, const DWORD Ticks);
 		
 		void TerminateIo(OVERLAPPED& Over);
 		
@@ -10268,7 +10274,7 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		virtual int HalConnect(const HANDLE Event) override;
+		virtual int HalConnect(CwclEvent* const Event) override;
 		/// <summary> Communicates with the Wii Remote as with HID
 		///   device. </summary>
 		/// <param name="Event"> The system even object handle (disconnect
@@ -10276,7 +10282,7 @@ namespace wclBluetooth
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
-		virtual int HalCommunicate(const HANDLE Event) override;
+		virtual int HalCommunicate(CwclEvent* const Event) override;
 		/// <summary> Disconnects from the Wii Remote as from HID device. </summary>
 		/// <returns> If the function succeed the return value is
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
@@ -10311,7 +10317,7 @@ namespace wclBluetooth
 
 	private:
 		CwclCustomConnection*	FCopy;
-		RTL_CRITICAL_SECTION	FCS;
+		CwclCriticalSection*	FCS;
 
 		void UnhookEvents();
 		void DeleteCopy();
@@ -10323,12 +10329,14 @@ namespace wclBluetooth
 		/// <seealso cref="CwclCustomConnection" />
 		void SetCopy(CwclCustomConnection* const NewConnection);
 		
-		/// <summary> Enters the Bluetooth component protection critical
-		///   section. </summary>
-		void Enter() const;
-		/// <summary> Leaves the Bluetooth component protection critical
-		///   section. </summary>
-		void Leave() const;
+		/// <summary> Gets the critical section object. </summary>
+		/// <return> The critical section object. </return>
+		/// <seealso cref="CwclCriticalSection" />
+		CwclCriticalSection* GetCS() const;
+		/// <summary> Gets the critical section object. </summary>
+		/// <value> The critical section object. </value>
+		/// <seealso cref="CwclCriticalSection" />
+		__declspec(property(get = GetCS)) CwclCriticalSection* CS;
 		
 	public:
 		/// <summary> Creates a new component. </summary>
@@ -13763,11 +13771,11 @@ namespace wclBluetooth
 	private:
 		unsigned char				FChannel;
 		tstring						FDevicePath;
-		HANDLE						FInitEvent;
+		CwclManualResetEvent*		FInitEvent;
 		int							FInitResult;
 		wclMessageProcessingMethod	FMessageProcessing;
 		CwclMessageReceiver*		FReceiver;
-		HANDLE						FTermEvent;
+		CwclManualResetEvent*		FTermEvent;
 		HANDLE						FThread;
 
 		tstring FindDevice();

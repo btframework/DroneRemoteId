@@ -28,14 +28,10 @@ namespace wclCommon
 			DISABLE_COPY(CwclWinUsbDevice);
 			
 		private:
-			RTL_CRITICAL_SECTION	FCS;
+			CwclCriticalSection*	FCS;
 			tstring					FDevicePath;
 			HANDLE					FDevHandle;
 			HANDLE					FUsbHandle;
-			
-		protected:
-			void Enter();
-			void Leave();
 			
 		public:
 			CwclWinUsbDevice();
