@@ -263,7 +263,10 @@ namespace wclSync
 	{
 		DISABLE_COPY(CwclMutex);
 
-	private:
+	protected:
+		/// <summary> Creates new mutex object. </summary>
+		/// <param name="Handle"> A system dependent synchronization object
+		///   handle. </param>
 		CwclMutex(const HANDLE Handle);
 		
 	public:
@@ -376,26 +379,26 @@ namespace wclSync
 		/// <see cref="CwclEvent" />
 		static CwclEvent* Create(const bool ManualReset);
 		/// <summary> Creates or opens a named event object. </summary>
-		/// <param name="Name"> The event name. </param>
 		/// <param name="ManualReset"> If this parameter is <c>true</c>, the
 		///   method creates a manual-reset event object, which requires the use of
 		///   the <c>ResetEvent</c> method to set the event state to nonsignaled.
 		///   If this parameter is <c>false</c>, the method creates an auto-reset
 		///   event object, and the system automatically resets the event state to
 		///   nonsignaled after a single waiting thread has been released. </param>
+		/// <param name="Name"> The event name. </param>
 		/// <returns> If the method completed with success the returning value is
 		///   a new <see cref="CwclEvent" /> object. If the method failed the
 		///   returning value is <c>NULL</c>. </returns>
 		/// <see cref="CwclEvent" />
-		static CwclEvent* Create(const tstring& Name, const bool ManualReset);
+		static CwclEvent* Create(const bool ManualReset, const tstring& Name);
 		/// <summary> Creates or opens a named event object. </summary>
-		/// <param name="Name"> The event name. </param>
 		/// <param name="ManualReset"> If this parameter is <c>true</c>, the
 		///   method creates a manual-reset event object, which requires the use of
 		///   the <c>ResetEvent</c> method to set the event state to nonsignaled.
 		///   If this parameter is <c>false</c>, the method creates an auto-reset
 		///   event object, and the system automatically resets the event state to
 		///   nonsignaled after a single waiting thread has been released. </param>
+		/// <param name="Name"> The event name. </param>
 		/// <param name="Exist"> If the method completed with success the parameter
 		///   indicates whether a named event object was just created or existing
 		///   was opened. <c>true</c> indicates that an event object was opened.
@@ -404,7 +407,7 @@ namespace wclSync
 		///   a new <see cref="CwclEvent" /> object. If the method failed the
 		///   returning value is <c>NULL</c>. </returns>
 		/// <see cref="CwclEvent" />
-		static CwclEvent* Create(const tstring& Name, const bool ManualReset,
+		static CwclEvent* Create(const bool ManualReset, const tstring& Name,
 			bool& Exist);
 		
 		/// <summary> Opens an existing named event object. </summary>

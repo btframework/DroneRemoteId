@@ -2606,12 +2606,12 @@ namespace wclCommon
 
 		// WinRT helper functions.
 
-		int wclWinRtCreateInstance(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
-		int wclWinRtActivateFactory(const TCHAR* ClassName, GUID ClsId, IInspectable** Intf);
+		int wclWinRtCreateInstance(const TCHAR* const ClassName, const GUID& ClsId, IInspectable** const Intf);
+		int wclWinRtActivateFactory(const TCHAR* const ClassName, const GUID& ClsId, IInspectable** const Intf);
 
-		int wclWinRtWaitAsync(IAsyncInfo* Async, CwclEvent* const Event, const DWORD Timeout);
-		int wclWinRtWaitAsync(IAsyncInfo* Async, CwclEvent* const Event);
-		int wclWinRtWaitAsync(IAsyncInfo* Async);
+		int wclWinRtWaitAsync(IAsyncInfo* const Async, CwclEvent* const Event, const DWORD Timeout);
+		int wclWinRtWaitAsync(IAsyncInfo* const Async, CwclEvent* const Event);
+		int wclWinRtWaitAsync(IAsyncInfo* const Async);
 
 		// ======================================================================
 		//  IUnknown helpers
