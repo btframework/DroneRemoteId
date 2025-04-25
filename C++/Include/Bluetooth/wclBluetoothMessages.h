@@ -566,12 +566,16 @@ namespace wclBluetooth
 		wclBluetoothAddressType				FAddressType;
 		char								FTxPower;
 		wclBluetoothLeExtendedFrameFlags	FFlags;
+		wclBluetoothLeAdvertisementPhy		FPrimaryPhy;
+		wclBluetoothLeAdvertisementPhy		FSecondaryPhy;
 		
 	public:
 		CwclBluetoothLeAdvertisementExtFrameInformationMessage(const wclBluetoothApi Api,
 			const __int64 Address, const __int64 Timestamp, const char Rssi,
 			const wclBluetoothAddressType AddressType, const char TxPower,
-			const wclBluetoothLeExtendedFrameFlags Flags);
+			const wclBluetoothLeExtendedFrameFlags Flags,
+			const wclBluetoothLeAdvertisementPhy PrimaryPhy,
+			const wclBluetoothLeAdvertisementPhy SecondaryPhy);
 		
 		wclBluetoothAddressType GetAddressType() const;
 		__declspec(property(get = GetAddressType)) wclBluetoothAddressType AddressType;
@@ -581,6 +585,12 @@ namespace wclBluetooth
 
 		wclBluetoothLeExtendedFrameFlags GetFlags() const;
 		__declspec(property(get = GetFlags)) wclBluetoothLeExtendedFrameFlags Flags;
+
+		wclBluetoothLeAdvertisementPhy GetPrimaryPhy() const;
+		__declspec(property(get = GetPrimaryPhy)) wclBluetoothLeAdvertisementPhy PrimaryPhy;
+		
+		wclBluetoothLeAdvertisementPhy GetSecondaryPhy() const;
+		__declspec(property(get = GetSecondaryPhy)) wclBluetoothLeAdvertisementPhy SecondaryPhy;
 	};
 
 	// -----------------------------------------------------------------------------------------

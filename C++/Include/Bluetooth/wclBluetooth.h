@@ -978,6 +978,19 @@ namespace wclBluetooth
 		/// <seealso cref="wclBluetoothLeConnectionPhyInfo" />
 		wclBluetoothLeConnectionPhyInfo Transmit;
 	} wclBluetoothLeConnectionPhy;
+	
+	/// <summary> Represents a LE advertisement PHY types. </summary>
+	typedef enum
+	{
+		/// <summary> Unknown or unspecified PHY. </summary>
+		phUnspecified,
+		/// <summary> Uncoded 1M PHY. </summary>
+		phUncoded1M,
+		/// <summary> Uncoded 2M PHY. </summary>
+		phUncoded2M,
+		/// <summary> Coded PHY. </summary>
+		phCoded
+	} wclBluetoothLeAdvertisementPhy;
 
 	/// <summary> The record contains basic information about Bluetooth LE
 	///   advertisement frame. </summary>

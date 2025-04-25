@@ -642,10 +642,13 @@ namespace wclCommon
 		typedef enum
 		{
 			DevicePairingKinds_None = 0,
-			DevicePairingKinds_ConfirmOnly = 0x1,
-			DevicePairingKinds_DisplayPin = 0x2,
-			DevicePairingKinds_ProvidePin = 0x4,
-			DevicePairingKinds_ConfirmPinMatch = 0x8
+			DevicePairingKinds_ConfirmOnly = 1,
+			DevicePairingKinds_DisplayPin = 2,
+			DevicePairingKinds_ProvidePin = 4,
+			DevicePairingKinds_ConfirmPinMatch = 8,
+			ProvidePasswordCredentia = 16,
+			ProvideAddress = 32,
+			All = 64
 		} DevicePairingKinds;
 
 		typedef enum
