@@ -299,6 +299,67 @@ namespace wclCommon
 	/// <summary> Unable to load Configuration Manager API. </summary>
 	const int WCL_E_CFGMGR_LOAD_FAILED = WCL_E_CFGMGR_BASE + 0x0000;
 
+	/* LAF error codes. */
+	
+	/// <summary> The base error code for Limited Access Feature
+	///   errors. </summary>
+	const int WCL_E_LAF_BASE = WCL_E_BASE + 0x8000;
+	/// <summary> The LAF ID was not found. </summary>
+	const int WCL_E_LAF_NOT_FOUND = WCL_E_LAF_BASE + 0x0000;
+	/// <summary> Unable to access the LAF key information. </summary>
+	const int WCL_E_LAF_OPEN_KEY_FAILED = WCL_E_LAF_BASE + 0x0001;
+	/// <summary> The LAF key was not found. </summary>
+	const int WCL_E_LAF_KEY_NOT_FOUND = WCL_E_LAF_BASE + 0x0002;
+	/// <summary> Unable to load encryption DLL. </summary>
+	const int WCL_E_LAF_DLL_LOAD_FAILED = WCL_E_LAF_BASE + 0x0003;
+	/// <summary> Encryption functions not found. </summary>
+	const int WCL_E_LAF_FUNC_NOT_FOUND = WCL_E_LAF_BASE + 0x0004;
+	/// <summary> Unable to acquire encryption context. </summary>
+	const int WCL_E_LAF_ACQUIRE_CONTEXT_FAILED = WCL_E_LAF_BASE + 0x0005;
+	/// <summary> Unable to build hash. </summary>
+	const int WCL_E_LAF_CREATE_HASH_FAILED = WCL_E_LAF_BASE + 0x0006;
+	/// <summary> Unable to crypt the hash. </summary>
+	const int WCL_E_LAF_CRYPT_HASH_FAILED = WCL_E_LAF_BASE + 0x0007;
+	/// <summary> Unable to get crypted hash. </summary>
+	const int WCL_E_LAF_GET_CRYPTED_HASH_FAILED = WCL_E_LAF_BASE + 0x0008;
+	/// <summary> An application file does not contain the identity
+	///   resource. </summary> 
+	const int WCL_E_LAF_IDENTITY_NOT_FOUND = WCL_E_LAF_BASE + 0x0009;
+	/// <summary> Unable to read the identity. </summary>
+	const int WCL_E_LAF_IDENTITY_READ_FAILED = WCL_E_LAF_BASE + 0x000A;
+	/// <summary> The identity has invalid format. </summary>
+	const int WCL_E_LAF_IDENTITY_INVALID = WCL_E_LAF_BASE + 0x000B;
+	/// <summary> The identity is empty. </summary>
+	const int WCL_E_LAF_IDENTITY_EMPTY = WCL_E_LAF_BASE + 0x000C;
+	/// <summary> The identity has invalid format. </summary>
+	const int WCL_E_LAF_IDENTITY_INVALID_FORMAT = WCL_E_LAF_BASE + 0x000D;
+	/// <summary> Request to unlock limited feature failed. </summary>
+	const int WCL_E_LAF_UNLOCK_REQUEST_FAILED = WCL_E_LAF_BASE + 0x000E;
+	/// <summary> Unable to get unlock request status. </summary>
+	const int WCL_E_LAF_GET_REQUEST_STATUS_FAILED = WCL_E_LAF_BASE + 0x000F;
+	/// <summary> The LAF is locked. </summary>
+	const int WCL_E_LAF_LOCKED = WCL_E_LAF_BASE + 0x0010;
+	/// <summary> The LAF unavailable because was not found. </summary>
+	const int WCL_E_LAF_UNAVAILABLE = WCL_E_LAF_BASE + 0x0011;
+	/// <summary> Unknown or undefined LAF status. </summary>
+	const int WCL_E_LAF_STATUS_UNKNOWN = WCL_E_LAF_BASE + 0x0012;
+	/// <summary> The LAF manager has already been opened. </summary>
+	const int WCL_E_LAF_MANAGER_OPENED = WCL_E_LAF_BASE + 0x0013;
+	/// <summary> The LAF manager was not opened. </summary>
+	const int WCL_E_LAF_MANAGER_NOT_OPENED = WCL_E_LAF_BASE + 0x0014;
+	/// <summary> The LAF manager is closed. </summary>
+	const int WCL_E_LAF_MANAGER_CLOSED = WCL_E_LAF_BASE + 0x0015;
+	/// <summary> Create LAF manager initialization event failed. </summary>
+	const int WCL_E_LAF_MANAGER_CREATE_INIT_EVENT_FAILED = WCL_E_LAF_BASE + 0x0016;
+	/// <summary> Create LAF manager termination event failed. </summary>
+	const int WCL_E_LAF_MANAGER_CREATE_TERM_EVENT_FAILED = WCL_E_LAF_BASE + 0x0017;
+	/// <summary> Unable to start the LAF manager working thread. </summary>
+	const int WCL_E_LAF_MANAGER_START_THREAD_FAILED = WCL_E_LAF_BASE + 0x0018;
+	/// <summary> The LAF feature is not supported on this platform. </summary>
+	const int WCL_E_LAF_MANAGER_FEATURE_NOT_SUPPORTED = WCL_E_LAF_BASE + 0x0019;
+	/// <summary> Unable to access the LAF list. </summary>
+	const int WCL_E_LAF_MANAGER_GET_LAF_LIST_FAILED = WCL_E_LAF_BASE + 0x001A;
+
 	/* Common WCL exceptions. */
 
 	/// <summary> The base WCL exceptions class. </summary>

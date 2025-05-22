@@ -7867,6 +7867,8 @@ namespace wclBluetooth
 			const char Rssi, const unsigned short Uuid,
 			const wclBluetoothLeAdvertisementFrameRawData& Data);
 
+		void ProcessAdvertisementMessage(const CwclMessage* const Message);
+
 	protected:
 		/* Internal methods. */
 		

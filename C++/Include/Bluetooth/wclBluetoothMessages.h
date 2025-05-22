@@ -60,23 +60,10 @@ namespace wclBluetooth
 
 	// Bluetooth LE advertisement watcher messages.
 	#define WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE						(WCL_MSG_ID_BLUETOOTH_BASE + 50)
-	#define WCL_MSG_ID_BLUETOOTH_LE_MANUFACTURER_RAW_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 0)
-	#define WCL_MSG_ID_BLUETOOTH_LE_ADVERTISEMENT_RAW_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 1)
-	#define WCL_MSG_ID_BLUETOOTH_LE_FRAME_INFORMATION					(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 2)
-	#define WCL_MSG_ID_BLUETOOTH_LE_UUID_FRAME							(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 3)
-	#define WCL_MSG_ID_BLUETOOTH_LE_EXT_FRAME_INFORMATION				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 4)
-	#define WCL_MSG_ID_BLUETOOTH_LE_SERVICE_16_DATA_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 5)
-	#define WCL_MSG_ID_BLUETOOTH_LE_SERVICE_32_DATA_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 6)
-	#define WCL_MSG_ID_BLUETOOTH_LE_SERVICE_128_DATA_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 7)
-	#define WCL_MSG_ID_BLUETOOTH_LE_SERVICE_SOL_16_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 8)
-	#define WCL_MSG_ID_BLUETOOTH_LE_SERVICE_SOL_32_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 9)
-	#define WCL_MSG_ID_BLUETOOTH_LE_SERVICE_SOL_128_FRAME				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 10)
-	#define WCL_MSG_ID_BLUETOOTH_LE_ADVERTISEMENT_RECEIVED				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 11)
-	#define WCL_MSG_ID_BLUETOOTH_LE_TX_POWER_FRAME						(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 12)
-	#define WCL_MSG_ID_BLUETOOTH_LE_APPEARANCE_FRAME					(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 13)
+	#define WCL_MSG_ID_BLUETOOTH_LE_WATCHER_ADVERTISEMENT				(WCL_MSG_ID_BLUETOOTH_LE_WATCHER_BASE + 0)
 
 	// GATT server messages.
-	#define WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_BASE					(WCL_MSG_ID_BLUETOOTH_BASE + 70)
+	#define WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_BASE					(WCL_MSG_ID_BLUETOOTH_BASE + 60)
 	#define WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_WRITE					(WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_BASE + 0)
 	#define WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_READ					(WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_BASE + 1)
 	#define WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_CLIENT_SUBSCRIBED		(WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_BASE + 2)
@@ -86,7 +73,7 @@ namespace wclBluetooth
 	#define WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_NOTIFY_SIZE_CHANGED		(WCL_MSG_ID_BLUETOOTH_LE_GATT_SERVER_BASE + 6)
 
 	// Microsoft BLE specific authentication messages IDs.
-	#define WCL_MSG_ID_BLUETOOTH_MS_BASE								(WCL_MSG_ID_BLUETOOTH_BASE + 80)
+	#define WCL_MSG_ID_BLUETOOTH_MS_BASE								(WCL_MSG_ID_BLUETOOTH_BASE + 70)
 	#define WCL_MSG_ID_BLUETOOTH_MS_BLE_AUTH_PIN_REQUEST				(WCL_MSG_ID_BLUETOOTH_MS_BASE + 0)
 	#define WCL_MSG_ID_BLUETOOTH_MS_BLE_AUTH_NUMERIC_COMPARISON			(WCL_MSG_ID_BLUETOOTH_MS_BASE + 1)
 	#define WCL_MSG_ID_BLUETOOTH_MS_BLE_AUTH_PASSKEY_REQUEST			(WCL_MSG_ID_BLUETOOTH_MS_BASE + 2)
@@ -96,11 +83,11 @@ namespace wclBluetooth
 	#define WCL_MSG_ID_BLUETOOTH_MS_AUTH_OOB_DATA						(WCL_MSG_ID_BLUETOOTH_MS_BASE + 6)
 
 	// Silicon Labs BLED112 message IDs.
-	#define WCL_MSG_ID_BLUETOOTH_BLED112_BASE							(WCL_MSG_ID_BLUETOOTH_BASE + 90)
+	#define WCL_MSG_ID_BLUETOOTH_BLED112_BASE							(WCL_MSG_ID_BLUETOOTH_BASE + 80)
 	#define WCL_MSG_ID_BLUETOOTH_BLED112_DISCONNECT						(WCL_MSG_ID_BLUETOOTH_BLED112_BASE + 0)
 
 	// BLE sniffer message IDs.
-	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE						(WCL_MSG_ID_BLUETOOTH_BASE + 100)
+	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE						(WCL_MSG_ID_BLUETOOTH_BASE + 90)
 	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_DEVICE_DISCONNECTED			(WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE + 0)
 	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_RAW_PACKET_RECEIVED			(WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE + 1)
 	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_ADV_IND_RECEIVED			(WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE + 2)
@@ -110,6 +97,23 @@ namespace wclBluetooth
 	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_SCAN_REQ_RECEIVED			(WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE + 6)
 	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_SCAN_RSP_RECEIVED			(WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE + 7)
 	#define WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_CONNECT_IND_RECEIVED		(WCL_MSG_ID_BLUETOOTH_LE_SNIFFER_BASE + 8)
+
+	/* Advertisement frame IDs. */
+
+	#define WCL_BLUETOOTH_LE_ADV_MANUFACTURER_RAW_FRAME		0
+	#define WCL_BLUETOOTH_LE_ADV_RAW_DATA_FRAME				1
+	#define WCL_BLUETOOTH_LE_ADV_INFORMATION_FRAME			2
+	#define WCL_BLUETOOTH_LE_ADV_UUID_FRAME					3
+	#define WCL_BLUETOOTH_LE_ADV_EXT_INFORMATION_FRAME		4
+	#define WCL_BLUETOOTH_LE_ADV_SERVICE_16_DATA_FRAME		5
+	#define WCL_BLUETOOTH_LE_ADV_SERVICE_32_DATA_FRAME		6
+	#define WCL_BLUETOOTH_LE_ADV_SERVICE_128_DATA_FRAME		7
+	#define WCL_BLUETOOTH_LE_ADV_SERVICE_SOL_16_FRAME		8
+	#define WCL_BLUETOOTH_LE_ADV_SERVICE_SOL_32_FRAME		9
+	#define WCL_BLUETOOTH_LE_ADV_SERVICE_SOL_128_FRAME		10
+	#define WCL_BLUETOOTH_LE_ADV_RAW_FRAME					11
+	#define WCL_BLUETOOTH_LE_ADV_TX_POWER_FRAME				12
+	#define WCL_BLUETOOTH_LE_ADV_APPEARANCE_FRAME			13
 
 	/* Wii Remote Message IDs. */
 		
@@ -436,19 +440,310 @@ namespace wclBluetooth
 	};
 
 	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementFrameMessage : public CwclBluetoothRemoteDeviceMessage
+	
+	class CwclBluetoothLeAdvFrame
 	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementFrameMessage);
+		DISABLE_COPY(CwclBluetoothLeAdvFrame);
+		
+	private:
+		unsigned char	FId;
+		
+	public:
+		CwclBluetoothLeAdvFrame(const unsigned char Id);
+		virtual ~CwclBluetoothLeAdvFrame();
+		
+		unsigned char GetId() const;
+		__declspec(property(get = GetId)) unsigned char Id;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvDataFrame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvDataFrame);
+		
+	private:
+		wclBluetoothLeAdvertisementFrameRawData	FData;
+		
+	public:
+		CwclBluetoothLeAdvDataFrame(const unsigned char Id,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		
+		wclBluetoothLeAdvertisementFrameRawData GetData() const;
+		__declspec(property(get = GetData)) wclBluetoothLeAdvertisementFrameRawData Data;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvManufacturerRawDataFrame : public CwclBluetoothLeAdvDataFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvManufacturerRawDataFrame);
+	
+	private:
+		unsigned short	FCompanyId;
+		
+	public:
+		CwclBluetoothLeAdvManufacturerRawDataFrame(const unsigned short CompanyId,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		
+		unsigned short GetCompanyId() const;
+		__declspec(property(get = GetCompanyId)) unsigned short CompanyId;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvRawDataFrame : public CwclBluetoothLeAdvDataFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvRawDataFrame);
+		
+	private:
+		unsigned char	FDataType;
+		
+	public:
+		CwclBluetoothLeAdvRawDataFrame(const unsigned char DataType,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		
+		unsigned char GetDataType() const;
+		__declspec(property(get = GetDataType)) unsigned char DataType;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvInformationFrame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvInformationFrame);
+		
+	private:
+		tstring								FName;
+		wclBluetoothLeAdvertisementType		FPacketType;
+		wclBluetoothLeAdvertisementFlags	FFlags;
+		
+	public:
+		CwclBluetoothLeAdvInformationFrame(const tstring& Name,
+			const wclBluetoothLeAdvertisementType PacketType,
+			const wclBluetoothLeAdvertisementFlags& Flags);
+		
+		tstring GetName() const;
+		wclBluetoothLeAdvertisementType GetPacketType() const;
+		wclBluetoothLeAdvertisementFlags GetFlags() const;
+
+		__declspec(property(get = GetName)) tstring Name;
+		__declspec(property(get = GetPacketType)) wclBluetoothLeAdvertisementType PacketType;
+		__declspec(property(get = GetFlags)) wclBluetoothLeAdvertisementFlags Flags;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvUuidFrame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvUuidFrame);
+		
+	private:
+		GUID	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvUuidFrame(const GUID& Uuid);
+
+		GUID GetUuid() const;
+		__declspec(property(get = GetUuid)) GUID Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvExtInformationFrame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvExtInformationFrame);
+		
+	private:
+		wclBluetoothAddressType				FAddressType;
+		char								FTxPower;
+		wclBluetoothLeExtendedFrameFlags	FFlags;
+		wclBluetoothLeAdvertisementPhy		FPrimaryPhy;
+		wclBluetoothLeAdvertisementPhy		FSecondaryPhy;
+		
+	public:
+		CwclBluetoothLeAdvExtInformationFrame(const wclBluetoothAddressType AddressType,
+			const char TxPower, const wclBluetoothLeExtendedFrameFlags& Flags,
+			const wclBluetoothLeAdvertisementPhy PrimaryPhy,
+			const wclBluetoothLeAdvertisementPhy SecondaryPhy);
+		
+		wclBluetoothAddressType GetAddressType() const;
+		char GetTxPower() const;
+		wclBluetoothLeExtendedFrameFlags GetFlags() const;
+		wclBluetoothLeAdvertisementPhy GetPrimaryPhy() const;
+		wclBluetoothLeAdvertisementPhy GetSecondaryPhy() const;
+		
+		__declspec(property(get = GetAddressType)) wclBluetoothAddressType AddressType;
+		__declspec(property(get = GetTxPower)) char TxPower;
+		__declspec(property(get = GetFlags)) wclBluetoothLeExtendedFrameFlags Flags;
+		__declspec(property(get = GetPrimaryPhy)) wclBluetoothLeAdvertisementPhy PrimaryPhy;
+		__declspec(property(get = GetSecondaryPhy)) wclBluetoothLeAdvertisementPhy SecondaryPhy;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvService16DataFrame : public CwclBluetoothLeAdvDataFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvService16DataFrame);
+		
+	private:
+		unsigned short	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvService16DataFrame(const unsigned short Uuid,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		
+		unsigned short GetUuid() const;
+		__declspec(property(get = GetUuid)) unsigned short Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvService32DataFrame : public CwclBluetoothLeAdvDataFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvService32DataFrame);
+		
+	private:
+		unsigned long	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvService32DataFrame(const unsigned long Uuid,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		
+		unsigned long GetUuid() const;
+		__declspec(property(get = GetUuid)) unsigned long Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvService128DataFrame : public CwclBluetoothLeAdvDataFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvService128DataFrame);
+		
+	private:
+		GUID	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvService128DataFrame(const GUID& Uuid,
+			const wclBluetoothLeAdvertisementFrameRawData& Data);
+		
+		GUID GetUuid() const;
+		__declspec(property(get = GetUuid)) GUID Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvServiceSol16Frame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvServiceSol16Frame);
+	
+	private:
+		unsigned short	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvServiceSol16Frame(const unsigned short Uuid);
+		
+		unsigned short GetUuid() const;
+		__declspec(property(get = GetUuid)) unsigned short Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvServiceSol32Frame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvServiceSol32Frame);
+	
+	private:
+		unsigned long	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvServiceSol32Frame(const unsigned long Uuid);
+		
+		unsigned long GetUuid() const;
+		__declspec(property(get = GetUuid)) unsigned long Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvServiceSol128Frame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvServiceSol128Frame);
+	
+	private:
+		GUID	FUuid;
+		
+	public:
+		CwclBluetoothLeAdvServiceSol128Frame(const GUID& Uuid);
+		
+		GUID GetUuid() const;
+		__declspec(property(get = GetUuid)) GUID Uuid;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvRawFrame : public CwclBluetoothLeAdvDataFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvRawFrame);
+		
+	public:
+		CwclBluetoothLeAdvRawFrame(const wclBluetoothLeAdvertisementFrameRawData& Data);
+	};
+	
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvTxPowerFrame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvTxPowerFrame);
 
 	private:
+		char	FTxPower;
+		
+	public:
+		CwclBluetoothLeAdvTxPowerFrame(const char TxPower);
+		
+		char GetTxPower() const;
+		__declspec(property(get = GetTxPower)) char TxPower;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvAppearanceFrame : public CwclBluetoothLeAdvFrame
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvAppearanceFrame);
+		
+	private:
+		unsigned short	FAppearance;
+		
+	public:
+		CwclBluetoothLeAdvAppearanceFrame(const unsigned short Appearance);
+		
+		unsigned short GetAppearance() const;
+		__declspec(property(get = GetAppearance)) unsigned short Appearance;
+	};
+
+	// -----------------------------------------------------------------------------------------
+
+	class CwclBluetoothLeAdvertisementMessage : public CwclBluetoothRemoteDeviceMessage
+	{
+		DISABLE_COPY(CwclBluetoothLeAdvertisementMessage);
+
+	public:
+		typedef std::list<CwclBluetoothLeAdvFrame*>	FRAMES;
+
+	private:
+		FRAMES*	FFrames;
 		__int64	FTimestamp;
 		char	FRssi;
 
 	public:
-		CwclBluetoothLeAdvertisementFrameMessage(const unsigned char Id,
-			const wclBluetoothApi Api, const __int64 Address,
-			const __int64 Timestamp, const char Rssi);
+		CwclBluetoothLeAdvertisementMessage(const wclBluetoothApi Api,
+			const __int64 Address, const __int64 Timestamp, const char Rssi);
+		virtual ~CwclBluetoothLeAdvertisementMessage();
+
+		void AddFrame(CwclBluetoothLeAdvFrame* const Frame);
+
+		FRAMES* GetFrames() const;
+		__declspec(property(get = GetFrames)) FRAMES* Frames;
 
 		__int64 GetTimestamp() const;
 		__declspec(property(get = GetTimestamp)) __int64 Timestamp;
@@ -458,295 +753,7 @@ namespace wclBluetooth
 	};
 
 	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementDataFrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementDataFrameMessage);
-		
-	private:
-		wclBluetoothLeAdvertisementFrameRawData	FData;
-		
-	public:
-		CwclBluetoothLeAdvertisementDataFrameMessage(const unsigned char Id,
-			const wclBluetoothApi Api, const __int64 Address, const __int64 Timestamp,
-			const char Rssi, const wclBluetoothLeAdvertisementFrameRawData& Data);
-		
-		wclBluetoothLeAdvertisementFrameRawData GetData() const;
-		__declspec(property(get = GetData)) wclBluetoothLeAdvertisementFrameRawData Data;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeManufacturerRawFrameMessage : public CwclBluetoothLeAdvertisementDataFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeManufacturerRawFrameMessage);
-
-	private:
-		unsigned short	FCompanyId;
-		
-	public:
-		CwclBluetoothLeManufacturerRawFrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const unsigned short CompanyId, const wclBluetoothLeAdvertisementFrameRawData& Data);
-		
-		unsigned short GetCompanyId() const;
-		__declspec(property(get = GetCompanyId)) unsigned short CompanyId;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementRawFrameMessage : public CwclBluetoothLeAdvertisementDataFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementRawFrameMessage);
-		
-	private:
-		unsigned char	FDataType;
-
-	public:
-		CwclBluetoothLeAdvertisementRawFrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const unsigned char DataType, const wclBluetoothLeAdvertisementFrameRawData& Data);
-
-		unsigned char GetDataType() const;
-		__declspec(property(get = GetDataType)) unsigned char DataType;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementFrameInformationMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementFrameInformationMessage);
-
-	private:
-		tstring								FName;
-		wclBluetoothLeAdvertisementType		FPacketType;
-		wclBluetoothLeAdvertisementFlags	FFlags;
-		
-	public:
-		CwclBluetoothLeAdvertisementFrameInformationMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const tstring& Name, const wclBluetoothLeAdvertisementType PacketType,
-			const wclBluetoothLeAdvertisementFlags Flags);
-		
-		tstring GetName() const;
-		__declspec(property(get = GetName)) tstring Name;
-
-		wclBluetoothLeAdvertisementType GetPacketType() const;
-		__declspec(property(get = GetPacketType)) wclBluetoothLeAdvertisementType PacketType;
-
-		wclBluetoothLeAdvertisementFlags GetFlags() const;
-		__declspec(property(get = GetFlags)) wclBluetoothLeAdvertisementFlags Flags;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementUuidFrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementUuidFrameMessage);
-
-	private:
-		GUID	FUuid;
-		
-	public:
-		CwclBluetoothLeAdvertisementUuidFrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const GUID& Uuid);
-		
-		GUID GetUuid() const;
-		__declspec(property(get = GetUuid)) GUID Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementExtFrameInformationMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementExtFrameInformationMessage);
-			
-	private:
-		wclBluetoothAddressType				FAddressType;
-		char								FTxPower;
-		wclBluetoothLeExtendedFrameFlags	FFlags;
-		wclBluetoothLeAdvertisementPhy		FPrimaryPhy;
-		wclBluetoothLeAdvertisementPhy		FSecondaryPhy;
-		
-	public:
-		CwclBluetoothLeAdvertisementExtFrameInformationMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const wclBluetoothAddressType AddressType, const char TxPower,
-			const wclBluetoothLeExtendedFrameFlags Flags,
-			const wclBluetoothLeAdvertisementPhy PrimaryPhy,
-			const wclBluetoothLeAdvertisementPhy SecondaryPhy);
-		
-		wclBluetoothAddressType GetAddressType() const;
-		__declspec(property(get = GetAddressType)) wclBluetoothAddressType AddressType;
-
-		char GetTxPower() const;
-		__declspec(property(get = GetTxPower)) char TxPower;
-
-		wclBluetoothLeExtendedFrameFlags GetFlags() const;
-		__declspec(property(get = GetFlags)) wclBluetoothLeExtendedFrameFlags Flags;
-
-		wclBluetoothLeAdvertisementPhy GetPrimaryPhy() const;
-		__declspec(property(get = GetPrimaryPhy)) wclBluetoothLeAdvertisementPhy PrimaryPhy;
-		
-		wclBluetoothLeAdvertisementPhy GetSecondaryPhy() const;
-		__declspec(property(get = GetSecondaryPhy)) wclBluetoothLeAdvertisementPhy SecondaryPhy;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeService16DataFrameMessage : public CwclBluetoothLeAdvertisementDataFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeService16DataFrameMessage);
-		
-	private:
-		unsigned short	FUuid;
-		
-	public:
-		CwclBluetoothLeService16DataFrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const unsigned short Uuid, const wclBluetoothLeAdvertisementFrameRawData& Data);
-		
-		unsigned short GetUuid() const;
-		__declspec(property(get = GetUuid)) unsigned short Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeService32DataFrameMessage : public CwclBluetoothLeAdvertisementDataFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeService32DataFrameMessage);
-		
-	private:
-		unsigned long	FUuid;
-		
-	public:
-		CwclBluetoothLeService32DataFrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const unsigned long Uuid, const wclBluetoothLeAdvertisementFrameRawData& Data);
-		
-		unsigned long GetUuid() const;
-		__declspec(property(get = GetUuid)) unsigned long Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeService128DataFrameMessage : public CwclBluetoothLeAdvertisementDataFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeService128DataFrameMessage);
-		
-	private:
-		GUID	FUuid;
-		
-	public:
-		CwclBluetoothLeService128DataFrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const GUID& Uuid, const wclBluetoothLeAdvertisementFrameRawData& Data);
-		
-		GUID GetUuid() const;
-		__declspec(property(get = GetUuid)) GUID Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeServiceSol16FrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeServiceSol16FrameMessage);
-
-	private:
-		unsigned short FUuid;
-		
-	public:
-		CwclBluetoothLeServiceSol16FrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const unsigned short Uuid);
-		
-		unsigned short GetUuid() const;
-		__declspec(property(get = GetUuid)) unsigned short Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeServiceSol32FrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeServiceSol32FrameMessage);
-		
-	private:
-		unsigned long	FUuid;
-		
-	public:
-		CwclBluetoothLeServiceSol32FrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const unsigned long Uuid);
-		
-		unsigned long GetUuid() const;
-		__declspec(property(get = GetUuid)) unsigned long Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeServiceSol128FrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeServiceSol128FrameMessage);
-		
-	private:
-		GUID	FUuid;
-		
-	public:
-		CwclBluetoothLeServiceSol128FrameMessage(const wclBluetoothApi Api,
-			const __int64 Address, const __int64 Timestamp, const char Rssi,
-			const GUID& Uuid);
-		
-		GUID GetUuid() const;
-		__declspec(property(get = GetUuid)) GUID Uuid;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAdvertisementReceived : public CwclBluetoothLeAdvertisementDataFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAdvertisementReceived);
-		
-	public:
-		CwclBluetoothLeAdvertisementReceived(const wclBluetoothApi Api, const __int64 Address,
-			const __int64 Timestamp, const char Rssi,
-			const wclBluetoothLeAdvertisementFrameRawData& Data);
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeTxPowerFrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeTxPowerFrameMessage);
-		
-	private:
-		char	FTxPower;
-		
-	public:
-		CwclBluetoothLeTxPowerFrameMessage(const wclBluetoothApi Api, const __int64 Address,
-			const __int64 Timestamp, const char Rssi, const char TxPower);
-		
-		char GetTxPower() const;
-		__declspec(property(get = GetTxPower)) char TxPower;
-	};
-
-	// -----------------------------------------------------------------------------------------
-
-	class CwclBluetoothLeAppearanceFrameMessage : public CwclBluetoothLeAdvertisementFrameMessage
-	{
-		DISABLE_COPY(CwclBluetoothLeAppearanceFrameMessage);
-
-	private:
-		unsigned short	FAppearance;
-		
-	public:
-		CwclBluetoothLeAppearanceFrameMessage(const wclBluetoothApi Api, const __int64 Address,
-			const __int64 Timestamp, const char Rssi, const unsigned short Appearance);
-		
-		unsigned short GetAppearance() const;
-		__declspec(property(get = GetAppearance)) unsigned short Appearance;
-	};
-
+	
 	/* GATT server messages. */
 
 	// The base class for the GATT server messages.

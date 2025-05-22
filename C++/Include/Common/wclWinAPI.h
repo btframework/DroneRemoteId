@@ -19,6 +19,7 @@
 #include <list>
 
 #include "wclHelpers.h"
+#include "wclSync.h"
 
 using namespace wclSync;
 
@@ -878,16 +879,25 @@ namespace wclCommon
 			UserPictureSize_Size1080x1080 = 3
 		} UserPictureSize;
 
+		typedef enum
+		{
+			LimitedAccessFeatureStatus_Unavailable = 0,
+			LimitedAccessFeatureStatus_Available = 1,
+			LimitedAccessFeatureStatus_AvailableWithoutToken = 2,
+			LimitedAccessFeatureStatus_Unknown = 3
+		} LimitedAccessFeatureStatus;
+
 		// WinRT interfaces.
 
-		#define DeviceInformationName (_T("Windows.Devices.Enumeration.DeviceInformation"))
-		#define RadioName (_T("Windows.Devices.Radios.Radio"))
-		#define DataWriterName (_T("Windows.Storage.Streams.DataWriter"))
-		#define StreamSocketListenerName (_T("Windows.Networking.Sockets.StreamSocketListener"))
-		#define UriRuntimeClassName (_T("Windows.Foundation.Uri"))
-		#define PasswordCredentialFactoryName (_T("Windows.Security.Credentials.CredentialFactory"))
-		#define PasswordCredentialName (_T("Windows.Security.Credentials.PasswordCredential"))
-		#define PropertyValueName	(_T("Windows.Foundation.PropertyValue"))
+		#define DeviceInformationName			_T("Windows.Devices.Enumeration.DeviceInformation")
+		#define RadioName						_T("Windows.Devices.Radios.Radio")
+		#define DataWriterName					_T("Windows.Storage.Streams.DataWriter")
+		#define StreamSocketListenerName		_T("Windows.Networking.Sockets.StreamSocketListener")
+		#define UriRuntimeClassName				_T("Windows.Foundation.Uri")
+		#define PasswordCredentialFactoryName	_T("Windows.Security.Credentials.CredentialFactory")
+		#define PasswordCredentialName			_T("Windows.Security.Credentials.PasswordCredential")
+		#define PropertyValueName				_T("Windows.Foundation.PropertyValue")
+		#define LimitedAccessFeaturesName		_T("Windows.ApplicationModel.LimitedAccessFeatures")
 
 		// Forward declarations.
 		typedef interface IInspectable IInspectable;
@@ -1030,6 +1040,8 @@ namespace wclCommon
 		typedef interface IRandomAccessStreamReferenceAsyncOperationCompletedHandler IRandomAccessStreamReferenceAsyncOperationCompletedHandler;
 		typedef interface IRandomAccessStreamReferenceAsyncOperation IRandomAccessStreamReferenceAsyncOperation;
 		typedef interface IUser IUser;
+		typedef interface ILimitedAccessFeatureRequestResult ILimitedAccessFeatureRequestResult;
+		typedef interface ILimitedAccessFeaturesStatics ILimitedAccessFeaturesStatics;
 
 		MIDL_INTERFACE("AF86E2E0-B12D-4c6a-9C5A-D7AA65101E90")
 		IInspectable : public  IUnknown
@@ -2596,6 +2608,23 @@ namespace wclCommon
 				IHostName** items, DWORD* actual) = 0;
 		};
 
+		MIDL_INTERFACE("d45156a6-1e24-5ddd-abb4-6188aba4d5bf")
+		ILimitedAccessFeatureRequestResult : public IInspectable
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE get_FeatureId(HSTRING* value) = 0;
+			virtual HRESULT STDMETHODCALLTYPE get_Status(LimitedAccessFeatureStatus* value) = 0;
+			virtual HRESULT STDMETHODCALLTYPE get_EstimatedRemovalDate(IDateTimeReference** value) = 0;
+		};
+		
+		MIDL_INTERFACE("8be612d4-302b-5fbf-a632-1a99e43e8925")
+		ILimitedAccessFeaturesStatics : public IInspectable
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE TryUnlockFeature(HSTRING featureId,
+				HSTRING token, HSTRING attestation, ILimitedAccessFeatureRequestResult** result) = 0;
+		};
+
 		// WinRT control functions.
 
 		int wclLoadWinRt();
@@ -2615,6 +2644,11 @@ namespace wclCommon
 		int wclWinRtWaitAsync(IAsyncInfo* const Async, CwclEvent* const Event, const DWORD Timeout);
 		int wclWinRtWaitAsync(IAsyncInfo* const Async, CwclEvent* const Event);
 		int wclWinRtWaitAsync(IAsyncInfo* const Async);
+
+		// WinRT LAF helper functions.
+
+		int wclWinRtLafReadPfn(tstring& Pfn, tstring& AppName, tstring& Publisher);
+		int wclWinRtLafUnlock(const tstring& Laf);
 
 		// ======================================================================
 		//  IUnknown helpers
