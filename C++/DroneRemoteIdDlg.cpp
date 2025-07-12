@@ -812,7 +812,7 @@ void CDroneRemoteIdDlg::ShowAsdBassicIdMessage(const CwclDriAsdBasicIdMessage* c
 	lvDetails.SetItemText(Item, 1, AsdIdTypeToText(Message->IdType));
 	Item++;
 
-	lvDetails.InsertItem(Item, _T("ID type"));
+	lvDetails.InsertItem(Item, _T("UAV type"));
 	lvDetails.SetItemText(Item, 1, AsdUavTypeToText(Message->UavType));
 }
 

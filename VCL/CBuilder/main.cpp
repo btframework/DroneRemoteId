@@ -764,7 +764,7 @@ void __fastcall TfmMain::ShowAsdBassicIdMessage(
 	Item->SubItems->Add(AsdIdTypeToText(Message->IdType));
 
 	Item = lvDetails->Items->Add();
-	Item->Caption = "ID type";
+	Item->Caption = "UAV type";
 	Item->SubItems->Add(AsdUavTypeToText(Message->UavType));
 }
 //---------------------------------------------------------------------------

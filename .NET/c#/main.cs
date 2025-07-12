@@ -590,7 +590,7 @@ namespace DroneRemoteIdCSharp
             Item = lvDetails.Items.Add("ID type");
             Item.SubItems.Add(AsdIdTypeToText(Message.IdType));
 
-            Item = lvDetails.Items.Add("ID type");
+            Item = lvDetails.Items.Add("UAV type");
             Item.SubItems.Add(AsdUavTypeToText(Message.UavType));
         }
 
