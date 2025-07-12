@@ -732,10 +732,6 @@ void __fastcall TfmMain::ShowAsdSystemMessage(
 	Item->SubItems->Add(AsdLatLonToText(Message->OperatorLatitude));
 
 	Item = lvDetails->Items->Add();
-	Item->Caption = "Operator latitude";
-	Item->SubItems->Add(AsdLatLonToText(Message->OperatorLatitude));
-
-	Item = lvDetails->Items->Add();
 	Item->Caption = "Operator longitude";
 	Item->SubItems->Add(AsdLatLonToText(Message->OperatorLongitude));
 

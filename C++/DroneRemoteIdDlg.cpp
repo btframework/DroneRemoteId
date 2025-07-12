@@ -781,10 +781,6 @@ void CDroneRemoteIdDlg::ShowAsdSystemMessage(const CwclDriAsdSystemMessage* cons
 	lvDetails.SetItemText(Item, 1, AsdLatLonToText(Message->OperatorLatitude));
 	Item++;
 
-	lvDetails.InsertItem(Item, _T("Operator latitude"));
-	lvDetails.SetItemText(Item, 1, AsdLatLonToText(Message->OperatorLatitude));
-	Item++;
-
 	lvDetails.InsertItem(Item, _T("Operator longitude"));
 	lvDetails.SetItemText(Item, 1, AsdLatLonToText(Message->OperatorLongitude));
 	Item++;

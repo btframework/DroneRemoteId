@@ -566,9 +566,6 @@ namespace DroneRemoteIdCSharp
             Item = lvDetails.Items.Add("Operator latitude");
             Item.SubItems.Add(AsdLatLonToText(Message.OperatorLatitude));
 
-            Item = lvDetails.Items.Add("Operator latitude");
-            Item.SubItems.Add(AsdLatLonToText(Message.OperatorLatitude));
-
             Item = lvDetails.Items.Add("Operator longitude");
             Item.SubItems.Add(AsdLatLonToText(Message.OperatorLongitude));
 
