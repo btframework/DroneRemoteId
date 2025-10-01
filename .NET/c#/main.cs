@@ -764,7 +764,7 @@ namespace DroneRemoteIdCSharp
                     else
                         Trace("WiFi scan started");
                 }
-
+                
                 Res = BluetoothManager.Open();
                 if (Res != wclErrors.WCL_E_SUCCESS)
                     Trace("Bluetooth manager open failed", Res);
@@ -791,7 +791,7 @@ namespace DroneRemoteIdCSharp
                     if (Res != wclErrors.WCL_E_SUCCESS)
                         BluetoothManager.Close();
                 }
-
+                
                 FScanActive = (BeaconWatcher.Monitoring || WiFiClient.Active);
                 if (FScanActive)
                 {
