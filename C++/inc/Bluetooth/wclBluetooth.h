@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -2509,13 +2509,20 @@ namespace wclBluetooth
 	///   "no value". </param>
 	/// <param name="Flags"> The Bluetooth LE advertisement extended frame
 	///   flags. </param>
+	/// <param name="PrimaryPhy"> The Bluetooth LE advertisement primary
+	///   PHY. </param>
+	/// <param name="SecondaryPhy"> The Bluetooth LE advertisement secondary
+	///   PHY. </param>
 	/// <seealso cref="wclBluetoothAddressType" />
 	/// <seealso cref="wclBluetoothLeExtendedFrameFlags" />
+	/// <seealso cref="wclBluetoothLeAdvertisementPhy" />
 	#define wclBluetoothLeAdvertisementExtFrameInformationEvent(_event_name_) \
 		__event void _event_name_( \
 			void* Sender, const __int64 Address, const __int64 Timestamp, \
 			const char Rssi, const wclBluetoothAddressType AddressType, const char TxPower, \
-			const wclBluetoothLeExtendedFrameFlags& Flags)
+			const wclBluetoothLeExtendedFrameFlags& Flags, \
+			const wclBluetoothLeAdvertisementPhy PrimaryPhy, \
+			const wclBluetoothLeAdvertisementPhy SecondaryPhy)
 	/// <summary> The <c>OnAdvertisementRawFrame</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -8032,11 +8039,17 @@ namespace wclBluetooth
 		///   "no value". </param>
 		/// <param name="Flags"> The Bluetooth LE advertisement extended frame
 		///   flags. </param>
+		/// <param name="PrimaryPhy"> The Bluetooth LE advertisement primary
+		///   PHY. </param>
+		/// <param name="SecondaryPhy"> The Bluetooth LE advertisement secondary
+		///   PHY. </param>
 		/// <seealso cref="wclBluetoothAddressType" />
 		/// <seealso cref="wclBluetoothLeExtendedFrameFlags" />
+		/// <seealso cref="wclBluetoothLeAdvertisementPhy" />
 		virtual void DoAdvertisementExtFrameInformation(const __int64 Address, const __int64 Timestamp,
 			const char Rssi, const wclBluetoothAddressType AddressType, const char TxPower,
-			const wclBluetoothLeExtendedFrameFlags& Flags);
+			const wclBluetoothLeExtendedFrameFlags& Flags, const wclBluetoothLeAdvertisementPhy PrimaryPhy,
+			const wclBluetoothLeAdvertisementPhy SecondaryPhy);
 		/// <summary> Fires the <c>OnAdvertisementRawFrame</c> event. </summary>
 		/// <param name="Address"> The Bluetooth LE advertiser's MAC
 		///   address. </param>
@@ -8572,6 +8585,10 @@ namespace wclBluetooth
 		///   "no value". </param>
 		/// <param name="Flags"> The Bluetooth LE advertisement extended frame
 		///   flags. </param>
+		/// <param name="PrimaryPhy"> The Bluetooth LE advertisement primary
+		///   PHY. </param>
+		/// <param name="SecondaryPhy"> The Bluetooth LE advertisement secondary
+		///   PHY. </param>
 		/// <seealso cref="wclBluetoothAddressType" />
 		/// <seealso cref="wclBluetoothLeExtendedFrameFlags" />
 		wclBluetoothLeAdvertisementExtFrameInformationEvent(OnAdvertisementExtFrameInformation);
@@ -12269,7 +12286,9 @@ namespace wclBluetooth
 			const wclBluetoothLeAdvertisementFlags& Flags);
 		void WatcherAdvertisementExtFrameInformation(void* Sender, const __int64 Address,
 			const __int64 Timestamp, const char Rssi, const wclBluetoothAddressType AddressType,
-			const char TxPower, const wclBluetoothLeExtendedFrameFlags& Flags);
+			const char TxPower, const wclBluetoothLeExtendedFrameFlags& Flags,
+			const wclBluetoothLeAdvertisementPhy PrimaryPhy,
+			const wclBluetoothLeAdvertisementPhy SecondaryPhy);
 		void WatcherAdvertisementRawFrame(void* Sender, const __int64 Address, const __int64 Timestamp,
 			const char Rssi, const unsigned char DataType,
 			const wclBluetoothLeAdvertisementFrameRawData& Data);
@@ -12401,11 +12420,18 @@ namespace wclBluetooth
 		///   "no value". </param>
 		/// <param name="Flags"> The Bluetooth LE advertisement extended frame
 		///   flags. </param>
+		/// <param name="PrimaryPhy"> The Bluetooth LE advertisement primary
+		///   PHY. </param>
+		/// <param name="SecondaryPhy"> The Bluetooth LE advertisement secondary
+		///   PHY. </param>
 		/// <seealso cref="wclBluetoothAddressType" />
 		/// <seealso cref="wclBluetoothLeExtendedFrameFlags" />
+		/// <seealso cref="wclBluetoothLeAdvertisementPhy" />
 		virtual void DoAdvertisementExtFrameInformation(const __int64 Address,
 			const __int64 Timestamp, const char Rssi, const wclBluetoothAddressType AddressType,
-			const char TxPower, const wclBluetoothLeExtendedFrameFlags& Flags);
+			const char TxPower, const wclBluetoothLeExtendedFrameFlags& Flags,
+			const wclBluetoothLeAdvertisementPhy PrimaryPhy,
+			const wclBluetoothLeAdvertisementPhy SecondaryPhy);
 		/// <summary> Fires the <c>OnAdvertisementRawFrame</c> event. </summary>
 		/// <param name="Address"> The Bluetooth LE advertiser's MAC
 		///   address. </param>
@@ -12965,6 +12991,10 @@ namespace wclBluetooth
 		///   "no value". </param>
 		/// <param name="Flags"> The Bluetooth LE advertisement extended frame
 		///   flags. </param>
+		/// <param name="PrimaryPhy"> The Bluetooth LE advertisement primary
+		///   PHY. </param>
+		/// <param name="SecondaryPhy"> The Bluetooth LE advertisement secondary
+		///   PHY. </param>
 		/// <seealso cref="wclBluetoothAddressType" />
 		/// <seealso cref="wclBluetoothLeExtendedFrameFlags" />
 		wclBluetoothLeAdvertisementExtFrameInformationEvent(OnAdvertisementExtFrameInformation);

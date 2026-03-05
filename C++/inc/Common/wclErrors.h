@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -30,7 +30,7 @@ namespace wclCommon
 		/// <summary> The error code. </summary>
 		int Error;
 		/// <summary> The framework name that the error relates to. </summary>
-		tstring Framework;
+		tstring	Framework;
 		/// <summary> The error category. </summary>
 		tstring Category;
 		/// <summary> The error constant name. </summary>
@@ -109,7 +109,7 @@ namespace wclCommon
 	};
 
 	/* Common error codes. */
-	
+
 	/// <summary> Operation completed with success. </summary>
 	const int WCL_E_SUCCESS = 0x00000000;
 	
@@ -122,7 +122,7 @@ namespace wclCommon
 	const int WCL_E_OUT_OF_MEMORY = WCL_E_BASE + 0x0001;
 	
 	/* Message receiver error codes. */
-	
+
 	/// <summary> The base error code for the message receiver. </summary>
 	const int WCL_E_MR_BASE = WCL_E_BASE + 0x1000;
 	/// <summary> A message receiver has already been closed or not opened. </summary>
@@ -149,7 +149,7 @@ namespace wclCommon
 	const int WCL_E_MR_UNABLE_CREATE_TERM_EVENT = WCL_E_MR_BASE + 0x0008;
 	/// <summary> Invalid or unsupported message processing method. </summary>
 	const int WCL_E_MR_INVALID_MESSAGE_PROCESSING_METHOD = WCL_E_MR_BASE + 0x0009;
-
+	
 	/* Message broadcaster error codes. */
 
 	/// <summary> The base error code for the message broadcaster. </summary>
@@ -187,9 +187,9 @@ namespace wclCommon
 	const int WCL_E_MB_WAIT_FAILED = WCL_E_MB_BASE + 0x000C;
 	/// <summary> A message receiver with given ID was not found. </summary>
 	const int WCL_E_MB_RECEIVER_NOT_FOUND = WCL_E_MB_BASE + 0x000D;
-
+	
 	/* WinRT subsystem error codes. */
-	  
+
 	/// <summary> The base WinRT subsystem error code. </summary>
 	const int WCL_E_WINRT_BASE = WCL_E_BASE + 0x3000;
 	/// <summary> Unable to create synchronization mutex for WinRT
@@ -217,7 +217,7 @@ namespace wclCommon
 	const int WCL_E_WINRT_DETACH_BUFFER_FAILED = WCL_E_WINRT_BASE + 0x000A;
 	/// <summary> An asynchronous operation timed out. </summary>
 	const int WCL_E_WINRT_ASYNC_OPERATION_TIMEOUT = WCL_E_WINRT_BASE + 0x000B;
-
+	
 	/* WinUSB subsystem error codes. */
 
 	/// <summary> The base error code for all WinUSB subsystem errors. </summary>
@@ -244,7 +244,7 @@ namespace wclCommon
 	const int WCL_E_WINUSB_CONTROL_TRANSFER_FAILED = WCL_E_WINUSB_BASE + 0x0009;
 	/// <summary> Read data from pipe (endpoint) failed. </summary>
 	const int WCL_E_WINUSB_READ_PIPE_FAILED = WCL_E_WINUSB_BASE + 0x000A;
-
+	
 	/* Power monitoring error codes. */
 
 	/// <summary> The base error code for Power Events monitor error codes. </summary>
@@ -265,16 +265,16 @@ namespace wclCommon
 	const int WCL_E_PEM_CREATE_WND_THREAD_FAILED = WCL_E_PEM_BASE + 0x0005;
 	/// <summary> Unable to create Power Events Window. </summary>
 	const int WCL_E_PEM_CREATE_WND_FAILED = WCL_E_PEM_BASE + 0x0006;
-
-	/* Configuration Manager API error codes */
+	
+	/* Configuration Manager API error codes. */
 
 	/// <summary> The base error code for Configuration Manager error codes. </summary>
 	const int WCL_E_CFGMGR_BASE = WCL_E_BASE + 0x6000;
 	/// <summary> Unable to load Configuration Manager API. </summary>
 	const int WCL_E_CFGMGR_LOAD_FAILED = WCL_E_CFGMGR_BASE + 0x0000;
-
-	/* LAF error codes. */
 	
+	/* LAF error codes. */
+
 	/// <summary> The base error code for Limited Access Feature
 	///   errors. </summary>
 	const int WCL_E_LAF_BASE = WCL_E_BASE + 0x7000;
@@ -333,7 +333,7 @@ namespace wclCommon
 	const int WCL_E_LAF_MANAGER_FEATURE_NOT_SUPPORTED = WCL_E_LAF_BASE + 0x0019;
 	/// <summary> Unable to access the LAF list. </summary>
 	const int WCL_E_LAF_MANAGER_GET_LAF_LIST_FAILED = WCL_E_LAF_BASE + 0x001A;
-
+	
 	/* Common WCL exceptions. */
 
 	/// <summary> The base WCL exceptions class. </summary>

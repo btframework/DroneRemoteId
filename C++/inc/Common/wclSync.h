@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //

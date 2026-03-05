@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -214,6 +214,16 @@ namespace wclAudio
 			AudioSessionStateActive = 1,
 			AudioSessionStateExpired = 2
 		} AudioSessionState;
+
+		typedef enum
+		{
+			DisconnectReasonDeviceRemoval = 0,
+			DisconnectReasonServerShutdown = DisconnectReasonDeviceRemoval + 1,
+			DisconnectReasonFormatChanged = DisconnectReasonServerShutdown + 1,
+			DisconnectReasonSessionLogoff = DisconnectReasonFormatChanged + 1,
+			DisconnectReasonSessionDisconnected = DisconnectReasonSessionLogoff + 1,
+			DisconnectReasonExclusiveModeOverride = DisconnectReasonSessionDisconnected + 1
+		} AudioSessionDisconnectReason;
 
 		typedef enum
 		{
@@ -858,6 +868,105 @@ namespace wclAudio
 				LPCWSTR endpointId) = 0;
 		};
 
+		MIDL_INTERFACE("24918ACC-64B3-37C1-8CA9-74A66E9957A8")
+		IAudioSessionEvents : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE OnDisplayNameChanged(LPCWSTR NewDisplayName,
+				LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnIconPathChanged(LPCWSTR NewIconPath,
+				LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnSimpleVolumeChanged(FLOAT NewVolume, BOOL NewMute,
+				LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnChannelVolumeChanged(DWORD ChannelCount,
+				FLOAT* NewChannelVolumeArray, DWORD ChangedChannel, LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnGroupingParamChanged(LPGUID NewGroupingParam,
+				LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnStateChanged(AudioSessionState NewState) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnSessionDisconnected(
+				AudioSessionDisconnectReason DisconnectReason) = 0;
+		};
+
+		MIDL_INTERFACE("F4B1A599-7266-4319-A8CA-E70ACB11E8CD")
+		IAudioSessionControl : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE GetState(AudioSessionState* pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetDisplayName(LPWSTR* pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE SetDisplayName(LPCWSTR Value, LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetIconPath(LPWSTR* pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE SetIconPath(LPCWSTR Value, LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetGroupingParam(LPGUID pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE SetGroupingParam(LPGUID Override, LPGUID EventContext) = 0;
+			virtual HRESULT STDMETHODCALLTYPE RegisterAudioSessionNotification(
+				IAudioSessionEvents** NewNotifications) = 0;
+			virtual HRESULT STDMETHODCALLTYPE UnregisterAudioSessionNotification(
+				IAudioSessionEvents** NewNotifications) = 0;
+		};
+
+		MIDL_INTERFACE("bfb7ff88-7239-4fc9-8fa2-07c950be9c6d")
+		IAudioSessionControl2 : public IAudioSessionControl
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE GetSessionIdentifier(LPWSTR* pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetSessionInstanceIdentifier(LPWSTR* pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetProcessId(DWORD* pRetVal) = 0;
+			virtual HRESULT STDMETHODCALLTYPE IsSystemSoundsSession() = 0;
+			virtual HRESULT STDMETHODCALLTYPE SetDuckingPreference(BOOL optOut) = 0;
+		};
+
+		MIDL_INTERFACE("E2F5BB11-0570-40CA-ACDD-3AA01277DEE8")
+		IAudioSessionEnumerator : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE GetCount(int* SessionCount) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetSession(int SessionCount,
+				IAudioSessionControl** Session) = 0;
+		};
+
+		MIDL_INTERFACE("641DD20B-4D41-49CC-ABA3-174B9477BB08")
+		IAudioSessionNotification : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE OnSessionCreated(
+				IAudioSessionControl* NewSession) = 0;
+		};
+
+		MIDL_INTERFACE("C3B284D4-6D39-4359-B3CF-B56DDB3BB39C")
+		IAudioVolumeDuckNotification : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE OnVolumeDuckNotification(LPCWSTR sessionID,
+				UINT32 countCommunicationSessions) = 0;
+			virtual HRESULT STDMETHODCALLTYPE OnVolumeUnduckNotification(LPCWSTR sessionID) = 0;
+		};
+
+		MIDL_INTERFACE("BFA971F1-4D5E-40BB-935E-967039BFBEE4")
+		IAudioSessionManager : public IUnknown
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE GetAudioSessionControl(LPGUID AudioSessionGuid,
+				DWORD StreamFlags, IAudioSessionControl** SessionControl) = 0;
+			virtual HRESULT STDMETHODCALLTYPE GetSimpleAudioVolume(LPGUID AudioSessionGuid,
+				DWORD StreamFlags, ISimpleAudioVolume** AudioVolume) = 0;
+		};
+
+		MIDL_INTERFACE("77AA99A0-1BD6-484F-8BC7-2C654C9A9B6F")
+		IAudioSessionManager2 : public IAudioSessionManager
+		{
+		public:
+			virtual HRESULT STDMETHODCALLTYPE GetSessionEnumerator(
+				IAudioSessionEnumerator** SessionEnum) = 0;
+			virtual HRESULT STDMETHODCALLTYPE RegisterSessionNotification(
+				IAudioSessionNotification* SessionNotification) = 0;
+			virtual HRESULT STDMETHODCALLTYPE UnregisterSessionNotification(
+				IAudioSessionNotification* SessionNotification) = 0;
+			virtual HRESULT STDMETHODCALLTYPE RegisterDuckNotification(LPCWSTR sessionID,
+				IAudioVolumeDuckNotification* duckNotification) = 0;
+			virtual HRESULT STDMETHODCALLTYPE UnregisterDuckNotification(
+				IAudioVolumeDuckNotification* duckNotification) = 0;
+		};
+
 		/* WinRT Audio API */
 
 		#define AudioPlaybackConnectionName	_T("Windows.Media.Audio.AudioPlaybackConnection")
@@ -945,8 +1054,7 @@ namespace wclAudio
 			virtual HRESULT STDMETHODCALLTYPE GetDeviceSelector(
 				wclCommon::WinApi::HSTRING* result) = 0;
 			virtual HRESULT STDMETHODCALLTYPE TryCreateFromId(
-				wclCommon::WinApi::HSTRING id,
-				IAudioPlaybackConnection** result) = 0;
+				wclCommon::WinApi::HSTRING id, IAudioPlaybackConnection** result) = 0;
 		};
 	}
 }

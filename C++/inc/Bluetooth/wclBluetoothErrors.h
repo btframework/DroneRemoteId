@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -898,7 +898,7 @@ namespace wclBluetooth
 	const int WCL_E_BLUETOOTH_LE_SET_CONNECTION_PARAMS_FAILED = WCL_E_BLUETOOTH_LE_BASE + 0x00C1;
 	/// <summary> The extended advertisement properties are not supported.
 	///   Set the <c>UseExtendedAdvertisement</c> property of the
-	///   <c>wclBluetoothLeAdvertiser</c> component to <c>False</c> and
+	///   <c>wclBluetoothLeAdvertiser</c> class to <c>False</c> and
 	///   try to restart the advertisement. </summary>
 	const int WCL_E_BLUETOOTH_LE_EXT_ADV_NOT_SUPPORTED = WCL_E_BLUETOOTH_LE_BASE + 0x00C2;
 	/// <summary> Set extended advertisement properties failed. </summary>

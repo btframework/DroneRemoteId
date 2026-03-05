@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -873,6 +873,10 @@ namespace wclWiFi
 	const int WCL_E_NLM_ACCESS_DENIED = WCL_E_NLM_BASE + 0x001D;
 	/// <summary> Unexpected or unknown error. </summary>
 	const int WCL_E_NLM_UNEXPECTED = WCL_E_NLM_BASE + 0x001E;
+	/// <summary> Unable to get list of the network adapters. </summary>
+	const int WCL_E_NLM_UNABLE_GET_ADAPTERS_LIST = WCL_E_NLM_BASE + 0x001F;
+	/// <summary> A network adapter with the specified ID was not found. </summary>
+	const int WCL_E_NLM_ADAPTER_NOT_FOUND = WCL_E_NLM_BASE + 0x0020;
 
 	/* WiFi sniffer error codes. */
 
@@ -910,9 +914,7 @@ namespace wclWiFi
 	const int WCL_E_WIFI_SNIFF_NOT_SUPPORTED = WCL_E_WIFI_SNIFF_BASE + 0x000D;
 	/// <summary> The upper limit of a resource has been reached. This may
 	///   indicate that a handle limit has been reached. Sometimes this is an
-	///   indication that handles are being leaked. These resources can be read
-	///   with the NmGetApiConfiguration function and set with the NmApiInitialize
-	///   function. </summary>
+	///   indication that handles are being leaked. </summary>
 	const int WCL_E_WIFI_SNIFF_PARAMETER_QUOTA_EXCEEDED = WCL_E_WIFI_SNIFF_BASE + 0x000E;
 	/// <summary> The field is a container, so the content is not available. </summary>
 	const int WCL_E_WIFI_SNIFF_RESOURCE_NOT_AVAILABLE = WCL_E_WIFI_SNIFF_BASE + 0x000F;
@@ -1136,7 +1138,7 @@ namespace wclWiFi
 	/// <summary> Mobile HotSpot is already running on PC. </summary>
 	const int WCL_E_WIFI_DIRECT_ADVERTISER_HOTSPOT_RUNNING = WCL_E_WIFI_DIRECT_ADVERTISER_BASE + 0x0014;
 	/// <summary> This error returned when your run x32 application on x64
-	///   platform and Autonomous Group Owner enabled in WiFiDirectAdvertiser and
+	///   platform and Autonomous Group Owner enabled in wclWiFiDirectAdvertiser and
 	///   the Advertiser runs not in Legacy mode. </summary>
 	/// <remarks> Windows API has some bug when pairing always failed if you
 	///   run WiFi Direct Advertiser in Autonomous Group Owner mode in x32
@@ -1192,7 +1194,7 @@ namespace wclWiFi
 	const int WCL_E_WIFI_DIRECT_DEVICE_WATCHER_START_ENUM_PAIRED_DEVICES_THREAD_FAILED = WCL_E_WIFI_DIRECT_DEVICE_WATCHER_BASE + 0x0014;
 	/// <summary> Unable to enumerate available devices. </summary>
 	const int WCL_E_WIFI_DIRECT_DEVICE_WATCHER_ENUMERATE_DEVICES_FAILED = WCL_E_WIFI_DIRECT_DEVICE_WATCHER_BASE + 0x0015;
-	/// <summary> IAsyncInfor interface not supported. </summary>
+	/// <summary> IAsyncInfo interface not supported. </summary>
 	const int WCL_E_WIFI_DIRECT_DEVICE_WATCHER_QUERY_ASYNC_INFO_FAILED = WCL_E_WIFI_DIRECT_DEVICE_WATCHER_BASE + 0x0016;
 	/// <summary> Get devices enumeration result failed. </summary>
 	const int WCL_E_WIFI_DIRECT_DEVICE_WATCHER_GET_ENUM_RESULT_FAILED = WCL_E_WIFI_DIRECT_DEVICE_WATCHER_BASE + 0x0017;
@@ -1279,7 +1281,7 @@ namespace wclWiFi
 	const int WCL_E_WIFI_HOTSPOT_STARTED = WCL_E_WIFI_HOTSPOT_BASE + 0x000C;
 	/// <summary> Unable to start Mobile HotSpot. </summary>
 	const int WCL_E_WIFI_HOTSPOT_START_FAILED = WCL_E_WIFI_HOTSPOT_BASE + 0x000D;
-	/// <summary> IAsyncInfor interface not supported. </summary>
+	/// <summary> IAsyncInfo interface not supported. </summary>
 	const int WCL_E_WIFI_HOTSPOT_QUERY_ASYNC_INFO_FAILED = WCL_E_WIFI_HOTSPOT_BASE + 0x000E;
 	/// <summary> Unable to get operation result. </summary>
 	const int WCL_E_WIFI_HOTSPOT_GET_OPERATION_RESULT_FAILED = WCL_E_WIFI_HOTSPOT_BASE + 0x000F;

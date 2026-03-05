@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -2674,6 +2674,8 @@ namespace wclCommon
 
 		// ----------------------------------------------------------------------
 
+		// For all "internal" COM classes we always call QueryInterface
+		// right after creating the object. So the RefCounter must be set to 0.
 		#define _WCL_UKNOWN_CTR_DTR_(_class_)						\
 			_class_()												\
 			{														\

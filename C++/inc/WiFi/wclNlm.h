@@ -2,7 +2,7 @@
 //                                                                            //
 //   Wireless Communication Library 7                                         //
 //                                                                            //
-//   Copyright (C) 2006-2025 Mike Petrichenko                                 //
+//   Copyright (C) 2006-2026 Mike Petrichenko                                 //
 //                           Soft Service Company                             //
 //                           All Rights Reserved                              //
 //                                                                            //
@@ -388,6 +388,103 @@ namespace wclWiFi
 		nlmEnumAll
 	} wclNlmEnumNetwork;
 
+	/// <summary> A network adapter setting flags. </summary>
+	typedef enum
+	{
+		/// <summary> Dynamic DNS is enabled on this adapter. </summary>
+		afDdnsEnabled,
+		/// <summary> Register the DNS suffix for this adapter. </summary>
+		afRegisterSuffix,
+		/// <summary> The Dynamic Host Configuration Protocol (DHCP) is enabled on
+		///   an adapter. </summary>
+		afDhcpEnabled,
+		/// <summary> The adapter is a receive-only adapter. </summary>
+		afReceiveOnly,
+		/// <summary> The adapter is not a multicast recipient. </summary>
+		afNoMulticast,
+		/// <summary> The adapter contains other IPv6-specific stateful
+		///   configuration information. </summary>
+		afIpv6OtherStatefulConfig,
+		/// <summary> The adapter is enabled for NetBIOS over TCP/IP. </summary>
+		afNetbiosOverTcpIpEnabled,
+		/// <summary> The adapter is enabled for IPv4. </summary>
+		afIpv4Enabled,
+		/// <summary> The adapter is enabled for IPv6. </summary>
+		afIpv6Enabled,
+		/// <summary> The adapter is enabled for IPv6 managed address
+		///   configuration. </summary>
+		afIpv6ManageAddressConfig
+	} wclNetworkAdapterFlag;
+	/// <summary> A set of flags specifying various settings for an
+	///   adapter. </summary>
+	/// <seealso cref="TwclNetworkAdapterFlag" />
+	typedef std::set<wclNetworkAdapterFlag> wclNetworkAdapterFlags;
+
+	/// <summary> The network interface status. </summary>
+	typedef enum
+	{
+		/// <summary> The interface is up and operational. The interface is able to
+		///   pass packets. </summary>
+		isUp,
+		/// <summary> The interface is not down and not operational. The interface
+		///   is unable to pass packets. </summary>
+		isDown,
+		/// <summary> The interface is being tested. </summary>
+		isTesting,
+		/// <summary> The interface status is unknown. </summary>
+		isUnknown,
+		/// <summary> The interface is not in a condition to pass packets. The
+		///   interface is not up, but is in a pending state, waiting for some
+		///   external event. This state identifies the situation where the
+		///   interface is waiting for events to place it in the up
+		///   state. </summary>
+		isDormant,
+		/// <summary> This state is a refinement on the down state which indicates
+		///   that the interface is down specifically because some component (for
+		///   example, a hardware component) is not present in the
+		///   system. </summary>
+		isNotPresent,
+		/// <summary> This state is a refinement on the down state. The interface is
+		///   operational, but a networking layer below the interface is not
+		///   operational. </summary>
+		isLowerLayerDown
+	} wclNetworkInterfaceStatus;
+
+	/// <summary> The record contains information about a local network
+	///   adapter. </summary>
+	typedef struct
+	{
+		/// <summary> The adapter's ID. </summary>
+		tstring Id;
+		/// <summary> A user-friendly name for the adapter. This name appears in
+		///   contexts such as the ipconfig command line program and the Connection
+		///   folder. </summary>
+		tstring FriendlyName;
+		/// <summary> A description for the adapter. </summary>
+		tstring Description;
+		/// <summary> The Media Access Control (MAC) address for the
+		///   adapter. </summary>
+		tstring Mac;
+		/// <summary> Array of IP addresses assigned to the network
+		///   adapter. </summary>
+		std::vector<tstring> IPs;
+		/// <summary> The Domain Name System (DNS) suffix associated with this
+		///   adapter. </summary>
+		tstring DnsSuffix;
+		/// <summary> The maximum transmission unit (MTU) size, in bytes. </summary>
+		unsigned long Mtu;
+		/// <summary> A set of flags specifying various settings for the
+		///   adapter. </summary>
+		/// <seealso cref="wclNetworkAdapterFlags" />
+		wclNetworkAdapterFlags Flags;
+		/// <summary> The operational status for the interface. </summary>
+		/// <seealso cref="wclNetworkInterfaceStatus" />
+		wclNetworkInterfaceStatus Status;
+	} wclNetworkAdapter;
+	/// <summary> The network adapters array. </summary>
+	/// <seealso cref="wclNetworkAdapter" />
+	typedef std::vector<wclNetworkAdapter> wclNetworkAdapters;
+
 	/// <summary> The <c>OnConnectivityChanged</c> event handler
 	///   prototype. </summary>
 	/// <param name="Sender"> The object initiates the event. </param>
@@ -622,6 +719,24 @@ namespace wclWiFi
 		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
 		///   the WCL error codes. </returns>
 		int DeleteNetwork(const GUID& NetworkId);
+
+		/// <summary> Enumerates the installed network adapters. </summary>
+		/// <param name="Adapters"> If the method completed with success the
+		///   parameter will contain the found NDIS adapters array. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		/// <seealso cref="wclNetworkAdapters" />
+		int EnumAdapters(wclNetworkAdapters& Adapters);
+		/// <summary> Gets the network adapter by its ID. </summary>
+		/// <param name="Id"> The adapter's ID. </param>
+		/// <param name="Adapter"> If the method completed with success the
+		///   parameter will contain the found NDIS adapter details. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		/// <seealso cref="wclNetworkAdapter" />
+		int GetAdapter(const tstring& Id, wclNetworkAdapter& Adapter);
 
 		/// <summary> Gets the Network List Manager status. </summary>
 		/// <returns> <c>True</c> if the NLM was opened. <c>False</c>
