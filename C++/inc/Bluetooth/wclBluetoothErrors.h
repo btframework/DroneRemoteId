@@ -983,6 +983,8 @@ namespace wclBluetooth
 	const int WCL_E_BLUETOOTH_LE_RELIABLE_WRITE_ALREADY_STARTED = WCL_E_BLUETOOTH_LE_BASE + 0x00E8;
 	/// <summary> The reliable write operation is not supported. </summary>
 	const int WCL_E_BLUETOOTH_LE_RELIABLE_WRITE_NOT_SUPPORTED = WCL_E_BLUETOOTH_LE_BASE + 0x00E9;
+	/// <summary> A device does not support the Long Write operation. </summary>
+	const int WCL_E_BLUETOOTH_LE_LONG_WRITE_NOT_SUPPORTED = WCL_E_BLUETOOTH_LE_BASE + 0x00EA;
 	
 	/* Wii Remote error codes. */
 

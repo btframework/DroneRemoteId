@@ -15,8 +15,6 @@
 
 #pragma once
 
-#pragma comment(lib, "version.lib")
-
 #ifndef VC_EXTRALEAN
 	#define VC_EXTRALEAN
 #endif

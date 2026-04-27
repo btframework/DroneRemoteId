@@ -570,6 +570,12 @@ namespace wclBluetooth
 		///   <see cref="WCL_E_BLUETOOTH_LE_WRITE_WITHOUT_RESPONSE_NOT_SUPPORTED" />
 		///   error returned. </summary>
 		wkWithoutResponse,
+		/// <summary> Use this mode if you need to write long characteristic value
+		///   to a device that does not support Long Write operation. The Bluetooth
+		///   Framework will automatically split characteristic value to fit the
+		///   maximum payload size and execute as many write operations as
+		///   needed to send all the value. </summary>
+		wkAutoSplit,
 		/// <summary> Automatic detection of write operation mode. If a
 		///   characteristic supports Write Without Response then this method will
 		///   be used. Otherwise the Write With Response operation
@@ -6310,6 +6316,14 @@ namespace wclBluetooth
 		/// <remarks> The PDU size includes header and payload. For example if
 		///   PDU size is 23 bytes the allowed payload is 20 bytes. </remarks>
 		int GetMaxPduSize(unsigned short& Size);
+		/// <summary> Reads the maximum payload size for the current
+		///   connection. </summary>
+		/// <param name="Size"> If the method completed with success on output
+		///   contains the maximum payload size. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int GetMaxPayloadSize(unsigned short& Size);
 		
 		/// <summary> Reads the Bluetooth LE physical layer (PHY)
 		///   information. </summary>
@@ -7399,6 +7413,14 @@ namespace wclBluetooth
 		/// <remarks> The PDU size includes header and payload. For example if
 		///   PDU size is 23 bytes the allowed payload is 20 bytes. </remarks>
 		int GetMaxPduSize(unsigned short& Size);
+		/// <summary> Reads the maximum payload size for the current
+		///   connection. </summary>
+		/// <param name="Size"> If the method completed with success on output
+		///   contains the maximum payload size. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int GetMaxPayloadSize(unsigned short& Size);
 
 		/// <summary> Reads the Bluetooth LE physical layer (PHY)
 		///   information. </summary>
@@ -11734,6 +11756,14 @@ namespace wclBluetooth
 		/// <remarks> The PDU size includes header and payload. For example if
 		///   PDU size is 23 bytes the allowed payload is 20 bytes. </remarks>
 		int GetMaxPduSize(unsigned short& Size);
+		/// <summary> Reads the maximum payload size for the current
+		///   connection. </summary>
+		/// <param name="Size"> If the method completed with success on output
+		///   contains the maximum payload size. </param>
+		/// <returns> If the function succeed the return value is
+		///   <see cref="WCL_E_SUCCESS" />. Otherwise the method returns one of
+		///   the WCL error codes. </returns>
+		int GetMaxPayloadSize(unsigned short& Size);
 
 		/// <summary> Reads the Bluetooth LE physical layer (PHY)
 		///   information. </summary>
